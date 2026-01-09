@@ -393,9 +393,6 @@ const App: React.FC = () => {
         />
       )}
 
-      {/* Interactive Chat with Gus */}
-      {view === 'MENU' && <ChatGus />}
-
     </div>
   );
 };

@@ -1,37 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import { CartItem } from '../types';
+import { CartItem, PaidItem, TableUser } from '../types';
 
 interface PaymentScreenProps {
   confirmedItems: CartItem[];
   onBack: () => void;
   onCompletePayment: (paidItems: { id: string; quantity: number }[]) => void;
+  paidItems?: PaidItem[];
+  tableUsers?: TableUser[];
 }
 
 type PaymentMethod = 'CARD' | 'SINPE' | 'CASH';
 
-const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, onCompletePayment }) => {
-  const [flatItems, setFlatItems] = useState<{ uniqueId: string, originalItem: CartItem }[]>([]);
+const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, onCompletePayment, paidItems = [], tableUsers = [] }) => {
+  const [flatItems, setFlatItems] = useState<{ uniqueId: string, originalItem: CartItem, isPaid: boolean, paidBy?: string }[]>([]);
   const [selectedUniqueIds, setSelectedUniqueIds] = useState<Set<string>>(new Set());
   const [tipPercentage, setTipPercentage] = useState<number>(10); // Default 10%
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CARD');
 
+  const getPaidCount = (itemId: string) => {
+    return paidItems.filter(p => p.itemId === itemId).reduce((sum, p) => sum + p.quantity, 0);
+  };
+
+  const getUserName = (userId?: string) => {
+    if (!userId) return null;
+    return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
+  };
+
   useEffect(() => {
     // Flatten items: If quantity is 2, create 2 entries so they can be paid individually
-    const flat: { uniqueId: string, originalItem: CartItem }[] = [];
+    const flat: { uniqueId: string, originalItem: CartItem, isPaid: boolean, paidBy?: string }[] = [];
     confirmedItems.forEach((item, index) => {
+      const paidCount = getPaidCount(item.id);
+      const paidItemsForThis = paidItems.filter(p => p.itemId === item.id);
+      let paidIndex = 0;
+      
       for (let i = 0; i < item.quantity; i++) {
+        const isPaid = i < paidCount;
+        const paidBy = isPaid && paidItemsForThis[paidIndex] ? paidItemsForThis[paidIndex].paidBy : undefined;
+        if (isPaid && paidItemsForThis[paidIndex] && i >= paidItemsForThis[paidIndex].quantity) {
+          paidIndex++;
+        }
+        
         flat.push({
           uniqueId: `${item.id}-${index}-${i}`,
-          originalItem: { ...item, quantity: 1 } // Treat as single unit
+          originalItem: { ...item, quantity: 1 }, // Treat as single unit
+          isPaid,
+          paidBy,
         });
       }
     });
     setFlatItems(flat);
-    // Default select all
-    setSelectedUniqueIds(new Set(flat.map(i => i.uniqueId)));
-  }, [confirmedItems]);
+    // Default select all unpaid items
+    setSelectedUniqueIds(new Set(flat.filter(i => !i.isPaid).map(i => i.uniqueId)));
+  }, [confirmedItems, paidItems]);
 
   const toggleItem = (uniqueId: string) => {
+    const item = flatItems.find(i => i.uniqueId === uniqueId);
+    if (item?.isPaid) return; // Don't allow toggling paid items
+    
     const newSet = new Set(selectedUniqueIds);
     if (newSet.has(uniqueId)) {
       newSet.delete(uniqueId);
@@ -42,10 +68,11 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
   };
 
   const toggleAll = () => {
-    if (selectedUniqueIds.size === flatItems.length) {
+    const unpaidItems = flatItems.filter(i => !i.isPaid);
+    if (selectedUniqueIds.size === unpaidItems.length) {
       setSelectedUniqueIds(new Set());
     } else {
-      setSelectedUniqueIds(new Set(flatItems.map(i => i.uniqueId)));
+      setSelectedUniqueIds(new Set(unpaidItems.map(i => i.uniqueId)));
     }
   };
 
@@ -103,34 +130,70 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
         <div className="p-5">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-sm font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Selecciona los artículos</h2>
-            <button 
-              onClick={toggleAll}
-              className="text-primary text-sm font-bold hover:underline"
-            >
-              {selectedUniqueIds.size === flatItems.length ? 'Deseleccionar todo' : 'Seleccionar todo'}
-            </button>
+            {flatItems.filter(i => !i.isPaid).length > 0 && (
+              <button 
+                onClick={toggleAll}
+                className="text-primary text-sm font-bold hover:underline"
+              >
+                {selectedUniqueIds.size === flatItems.filter(i => !i.isPaid).length ? 'Deseleccionar todo' : 'Seleccionar todo'}
+              </button>
+            )}
           </div>
 
           <div className="flex flex-col gap-3">
             {flatItems.map((item) => {
               const isSelected = selectedUniqueIds.has(item.uniqueId);
+              const paidByName = item.isPaid ? getUserName(item.paidBy) : null;
+              
               return (
                 <div 
                   key={item.uniqueId}
-                  onClick={() => toggleItem(item.uniqueId)}
-                  className={`p-3 rounded-2xl border transition-all duration-200 cursor-pointer flex items-center gap-4 ${isSelected ? 'bg-primary/5 border-primary/30' : 'bg-surface-light dark:bg-surface-dark border-transparent shadow-sm'}`}
+                  onClick={() => !item.isPaid && toggleItem(item.uniqueId)}
+                  className={`p-3 rounded-2xl border transition-all duration-200 flex items-center gap-4 ${
+                    item.isPaid 
+                      ? 'bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 opacity-60 cursor-not-allowed' 
+                      : isSelected 
+                        ? 'bg-primary/5 border-primary/30 cursor-pointer' 
+                        : 'bg-surface-light dark:bg-surface-dark border-transparent shadow-sm cursor-pointer'
+                  }`}
                 >
-                  <div className={`size-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-primary border-primary' : 'border-slate-300 dark:border-slate-600'}`}>
-                    {isSelected && <span className="material-symbols-outlined text-white text-[16px] font-bold">check</span>}
+                  <div className={`size-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                    item.isPaid 
+                      ? 'bg-slate-300 dark:bg-slate-600 border-slate-400 dark:border-slate-500' 
+                      : isSelected 
+                        ? 'bg-primary border-primary' 
+                        : 'border-slate-300 dark:border-slate-600'
+                  }`}>
+                    {item.isPaid ? (
+                      <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 text-[16px]">check_circle</span>
+                    ) : isSelected ? (
+                      <span className="material-symbols-outlined text-white text-[16px] font-bold">check</span>
+                    ) : null}
                   </div>
                   
                   <div className="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
-                    <img src={item.originalItem.image} alt="" className="w-full h-full object-cover" />
+                    <img 
+                      src={item.originalItem.image} 
+                      alt="" 
+                      className={`w-full h-full object-cover ${item.isPaid ? 'grayscale' : ''}`} 
+                    />
                   </div>
                   
                   <div className="flex-1">
-                    <p className={`font-bold text-sm ${isSelected ? 'text-primary' : 'text-text-light dark:text-text-dark'}`}>{item.originalItem.name}</p>
-                    <p className="text-xs text-text-muted dark:text-text-muted-dark">₡{item.originalItem.price.toLocaleString()}</p>
+                    <p className={`font-bold text-sm ${
+                      item.isPaid 
+                        ? 'text-slate-400 dark:text-slate-500 line-through' 
+                        : isSelected 
+                          ? 'text-primary' 
+                          : 'text-text-light dark:text-text-dark'
+                    }`}>
+                      {item.originalItem.name}
+                    </p>
+                    {item.isPaid && paidByName ? (
+                      <p className="text-xs text-green-600 dark:text-green-400 font-semibold">Pagado por {paidByName}</p>
+                    ) : (
+                      <p className="text-xs text-text-muted dark:text-text-muted-dark">₡{item.originalItem.price.toLocaleString()}</p>
+                    )}
                   </div>
                 </div>
               );
@@ -203,7 +266,7 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
                  </div>
                  <div className="flex-1">
                     <p className="font-bold text-sm text-text-light dark:text-text-dark">SINPE Móvil</p>
-                    <p className="text-xs text-text-muted dark:text-text-muted-dark">8888-8888 • Restaurante El Patio</p>
+                    <p className="text-xs text-text-muted dark:text-text-muted-dark">88446496 • Restaurante El Patio</p>
                  </div>
                  <div className={`size-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'SINPE' ? 'border-primary' : 'border-slate-300 dark:border-slate-600'}`}>
                     {paymentMethod === 'SINPE' && <div className="size-2.5 rounded-full bg-primary"></div>}

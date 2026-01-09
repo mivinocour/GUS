@@ -1,41 +1,57 @@
 import React from 'react';
-import { CartItem } from '../types';
-import { RECOMMENDATIONS } from '../data';
+import { CartItem, MenuItem, PaidItem, TableUser } from '../types';
 
 interface OrderSummaryProps {
   isOpen: boolean;
   onClose: () => void;
   cart: CartItem[];
   confirmedItems: CartItem[];
+  recommendations: MenuItem[];
   onUpdateQuantity: (id: string, delta: number) => void;
   onConfirm: () => void;
   onAddRecommendation: (item: any) => void;
   onGoToPayment: () => void;
+  paidItems?: PaidItem[];
+  tableUsers?: TableUser[];
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ 
   isOpen, 
   onClose, 
   cart,
-  confirmedItems, 
+  confirmedItems,
+  recommendations,
   onUpdateQuantity, 
   onConfirm,
   onAddRecommendation,
-  onGoToPayment
+  onGoToPayment,
+  paidItems = [],
+  tableUsers = []
 }) => {
   if (!isOpen) return null;
 
-  // Calculate Subtotals for Everything
-  const allItems = [...confirmedItems, ...cart];
-  const subtotal = allItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.13;
-  const service = subtotal * 0.10;
-  const total = subtotal + tax + service;
+  const getPaidCount = (itemId: string) => {
+    return paidItems.filter(p => p.itemId === itemId).reduce((sum, p) => sum + p.quantity, 0);
+  };
+
+  const getUserName = (userId?: string) => {
+    if (!userId) return null;
+    return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
+  };
 
   // Mode check
   const isOrderingMode = cart.length > 0;
   const isBillMode = cart.length === 0 && confirmedItems.length > 0;
   const isEmpty = cart.length === 0 && confirmedItems.length === 0;
+
+  // Calculate totals based on mode
+  // When ordering: only show cart total
+  // When viewing bill: show all confirmed items total
+  const itemsForCalculation = isOrderingMode ? cart : confirmedItems;
+  const subtotal = itemsForCalculation.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const tax = subtotal * 0.13;
+  const service = subtotal * 0.10;
+  const total = subtotal + tax + service;
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
@@ -82,21 +98,64 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   </p>
                 </div>
                 <div className={`space-y-4 pl-2 border-l-2 ${isBillMode ? 'border-primary/20' : 'border-green-500/20'}`}>
-                  {confirmedItems.map((item) => (
-                    <div key={`confirmed-${item.id}`} className="flex items-start justify-between gap-4">
-                        <div className="flex gap-4 flex-1">
-                            <div className="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
-                                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                            </div>
-                            <div className="flex-1 min-w-0 pt-0.5">
-                                <p className="text-text-light dark:text-text-dark text-sm font-bold leading-tight truncate">{item.name}</p>
-                                <div className="mt-1 text-text-muted dark:text-text-muted-dark font-medium text-xs">
-                                  {item.quantity}x <span className="mx-1">•</span> ₡{(item.price * item.quantity).toLocaleString()}
+                  {confirmedItems.map((item) => {
+                    const paidCount = getPaidCount(item.id);
+                    const remainingQty = item.quantity - paidCount;
+                    const isFullyPaid = remainingQty <= 0;
+                    const paidItemsForThis = paidItems.filter(p => p.itemId === item.id);
+                    
+                    return (
+                      <div key={`confirmed-${item.id}`} className={`flex flex-col gap-2 ${isFullyPaid ? 'opacity-50' : ''}`}>
+                        <div className="flex items-start justify-between gap-4">
+                            <div className="flex gap-4 flex-1">
+                                <div className="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
+                                    <img 
+                                      src={item.image} 
+                                      alt={item.name} 
+                                      className={`w-full h-full object-cover ${isFullyPaid ? 'grayscale' : ''}`} 
+                                    />
+                                </div>
+                                <div className="flex-1 min-w-0 pt-0.5">
+                                    <p className={`text-sm font-bold leading-tight truncate ${
+                                      isFullyPaid 
+                                        ? 'text-slate-400 dark:text-slate-500 line-through' 
+                                        : 'text-text-light dark:text-text-dark'
+                                    }`}>
+                                      {item.name}
+                                    </p>
+                                    <div className="mt-1 text-text-muted dark:text-text-muted-dark font-medium text-xs">
+                                      {item.quantity}x <span className="mx-1">•</span> ₡{(item.price * item.quantity).toLocaleString()}
+                                      {item.orderedBy && tableUsers.length > 1 && (
+                                        <span className="ml-2">• por {getUserName(item.orderedBy)}</span>
+                                      )}
+                                    </div>
+                                    {paidCount > 0 && (
+                                      <div className="mt-1 text-xs">
+                                        <span className="text-green-600 dark:text-green-400 font-semibold">
+                                          {paidCount} pagado{paidCount > 1 ? 's' : ''}
+                                        </span>
+                                        {remainingQty > 0 && (
+                                          <span className="text-text-muted dark:text-text-muted-dark ml-2">
+                                            • {remainingQty} pendiente{remainingQty > 1 ? 's' : ''}
+                                          </span>
+                                        )}
+                                      </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                  ))}
+                        {paidItemsForThis.length > 0 && (
+                          <div className="ml-16 text-xs text-green-600 dark:text-green-400 space-y-1">
+                            {paidItemsForThis.map((paid, idx) => (
+                              <div key={idx}>
+                                {paid.quantity}x pagado{paid.quantity > 1 ? 's' : ''} por {getUserName(paid.paidBy)}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -153,7 +212,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             ) : null}
 
             {/* Price Breakdown */}
-            {allItems.length > 0 && (
+            {itemsForCalculation.length > 0 && (
               <div className="mt-8 pt-6 pb-2 border-t border-dashed border-border-light dark:border-border-dark space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-text-muted dark:text-text-muted-dark text-sm font-medium">Subtotal</span>
@@ -174,7 +233,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           {/* Footer Area */}
           <div className="px-6 pt-4 pb-8 bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark z-10 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.02)]">
             <div className="flex justify-between items-end mb-6">
-              <span className="text-text-light dark:text-text-dark font-bold text-xl">Total Global</span>
+              <span className="text-text-light dark:text-text-dark font-bold text-xl">
+                {isOrderingMode ? 'Total de Nueva Orden' : 'Total Global'}
+              </span>
               <div className="flex flex-col items-end">
                  <span className="text-primary text-3xl font-extrabold tracking-tight leading-none">₡{total.toLocaleString()}</span>
                  <span className="text-xs text-text-muted dark:text-text-muted-dark font-medium mt-1">Incluye impuestos</span>
@@ -189,10 +250,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   <p className="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Te podría gustar</p>
                 </div>
                 <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-6 px-6 pb-2 snap-x">
-                  {RECOMMENDATIONS.map((rec) => (
+                  {recommendations.map((rec) => (
                     <div key={rec.id} className="snap-start flex-shrink-0 w-64 p-3 rounded-2xl bg-white dark:bg-slate-800 border border-border-light dark:border-border-dark flex items-center gap-3 shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95" onClick={() => onAddRecommendation(rec)}>
-                      <div className={`size-12 rounded-xl ${rec.colorClass} flex items-center justify-center shrink-0`}>
-                        <span className="material-symbols-outlined">{rec.icon}</span>
+                      <div className="size-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center shrink-0 overflow-hidden">
+                        <img src={rec.image} alt={rec.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-bold text-sm text-text-light dark:text-text-dark truncate">{rec.name}</p>

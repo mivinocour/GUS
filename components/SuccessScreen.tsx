@@ -1,16 +1,22 @@
 import React from 'react';
-import { CartItem } from '../types';
+import { CartItem, TableUser } from '../types';
 
 interface SuccessScreenProps {
   onKeepOrdering: () => void;
   onPay: () => void;
   orderItems: CartItem[];
+  confirmedItems: CartItem[];
   grandTotal: number;
+  tableUsers: TableUser[];
 }
 
-const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, orderItems, grandTotal }) => {
-  // Calculate total for the specific receipt (Last Order)
-  const subtotal = orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, orderItems, confirmedItems, grandTotal, tableUsers }) => {
+  const getUserName = (userId?: string) => {
+    if (!userId) return null;
+    return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
+  };
+  // Calculate total for all confirmed items (Recibo Actual)
+  const subtotal = confirmedItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const tax = subtotal * 0.13;
   const service = subtotal * 0.10;
   const total = subtotal + tax + service;
@@ -43,15 +49,27 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, or
                 </div>
 
                 <div className="space-y-4 mb-6">
-                    {orderItems.map((item) => (
+                    {confirmedItems.map((item) => {
+                      const orderedBy = getUserName(item.orderedBy);
+                      return (
                         <div key={item.id} className="flex justify-between items-start text-sm">
-                            <div className="flex gap-3">
-                                <span className="font-bold text-text-light dark:text-text-dark w-5">{item.quantity}x</span>
-                                <span className="text-slate-600 dark:text-slate-300">{item.name}</span>
+                            <div className="flex-1">
+                                <div className="flex gap-3 items-start">
+                                    <span className="font-bold text-text-light dark:text-text-dark w-5">{item.quantity}x</span>
+                                    <div className="flex-1">
+                                        <span className="text-slate-600 dark:text-slate-300">{item.name}</span>
+                                        {orderedBy && tableUsers.length > 1 && (
+                                            <p className="text-xs text-text-muted dark:text-text-muted-dark mt-0.5">
+                                                por {orderedBy}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                            <span className="font-medium text-text-light dark:text-text-dark">₡{(item.price * item.quantity).toLocaleString()}</span>
+                            <span className="font-medium text-text-light dark:text-text-dark ml-2">₡{(item.price * item.quantity).toLocaleString()}</span>
                         </div>
-                    ))}
+                      );
+                    })}
                 </div>
 
                 <div className="pt-4 border-t border-dashed border-slate-200 dark:border-slate-700 space-y-2">
@@ -68,7 +86,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, or
                         <span>₡{service.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between text-base font-bold text-text-light dark:text-text-dark pt-2 mt-2 border-t border-slate-100 dark:border-slate-700">
-                        <span>Total de esta orden</span>
+                        <span>Total</span>
                         <span>₡{total.toLocaleString()}</span>
                     </div>
                 </div>

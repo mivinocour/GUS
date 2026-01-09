@@ -9,6 +9,7 @@ export interface MenuItem {
 
 export interface CartItem extends MenuItem {
   quantity: number;
+  orderedBy?: string; // User ID who ordered this item
 }
 
 export interface Category {
@@ -18,3 +19,15 @@ export interface Category {
 }
 
 export type ViewState = 'MENU' | 'SUCCESS' | 'PAYMENT' | 'PAYMENT_SUCCESS';
+
+export interface TableUser {
+  id: string;
+  name: string;
+  joinedAt: number;
+}
+
+export interface PaidItem {
+  itemId: string;
+  quantity: number;
+  paidBy: string; // User ID
+}

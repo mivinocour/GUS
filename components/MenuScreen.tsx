@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { MENU_DATA } from '../data';
-import { MenuItem } from '../types';
+import { RestaurantData } from '../data';
+import { Category, MenuItem } from '../types';
 
 interface MenuScreenProps {
+  restaurant: RestaurantData;
   onItemSelect: (item: MenuItem) => void;
   grandTotal: number;
   cartCount: number;
@@ -13,6 +14,7 @@ interface MenuScreenProps {
 }
 
 const MenuScreen: React.FC<MenuScreenProps> = ({ 
+  restaurant,
   onItemSelect, 
   grandTotal, 
   cartCount, 
@@ -23,33 +25,35 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
 }) => {
   const showFloatingButton = cartCount > 0 || hasConfirmedItems;
 
-  // Flatten items to find favorites
-  const favoriteItems = useMemo(() => {
-    const allItems: MenuItem[] = [];
-    MENU_DATA.forEach(cat => allItems.push(...cat.items));
-    return allItems.filter(item => favorites.has(item.id));
-  }, [favorites]);
+    // Flatten items to find favorites
+    const favoriteItems = useMemo(() => {
+      const allItems: MenuItem[] = [];
+      restaurant.menu.forEach((cat: Category) => allItems.push(...cat.items));
+      return allItems.filter(item => favorites.has(item.id));
+    }, [favorites, restaurant]);
 
   return (
     <div className="flex-1 flex flex-col w-full animate-fade-in">
       {/* Featured Banner (Optional, using first recommendation) */}
       <div className="px-5 pt-2 pb-6">
-         <div className="w-full h-48 rounded-3xl overflow-hidden relative shadow-lg group cursor-pointer" onClick={() => onItemSelect(MENU_DATA[0].items[0])}>
-            <img 
-              src={MENU_DATA[0].items[0].image} 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              alt="Featured"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-5 w-full">
-               <span className="inline-block px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded-lg mb-2 shadow-glow">Recomendado</span>
-               <h3 className="text-white font-bold text-xl mb-1">{MENU_DATA[0].items[0].name}</h3>
-               <div className="flex justify-between items-end">
-                  <p className="text-white/80 text-sm line-clamp-1 max-w-[70%]">{MENU_DATA[0].items[0].description}</p>
-                  <span className="text-white font-bold text-lg">₡{MENU_DATA[0].items[0].price.toLocaleString()}</span>
-               </div>
-            </div>
-         </div>
+         {restaurant.recommendations && restaurant.recommendations.length > 0 && (
+           <div className="w-full h-48 rounded-3xl overflow-hidden relative shadow-lg group cursor-pointer" onClick={() => onItemSelect(restaurant.recommendations[0])}>
+              <img 
+                src={restaurant.recommendations[0].image} 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                alt="Featured"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 p-5 w-full">
+                 <span className="inline-block px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded-lg mb-2 shadow-glow">Recomendado</span>
+                 <h3 className="text-white font-bold text-xl mb-1">{restaurant.recommendations[0].name}</h3>
+                 <div className="flex justify-between items-end">
+                    <p className="text-white/80 text-sm line-clamp-1 max-w-[70%]">{restaurant.recommendations[0].description}</p>
+                    <span className="text-white font-bold text-lg">₡{restaurant.recommendations[0].price.toLocaleString()}</span>
+                 </div>
+              </div>
+           </div>
+         )}
       </div>
 
       <div className="flex flex-col gap-8 pb-8">
@@ -77,7 +81,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
           </section>
         )}
 
-        {MENU_DATA.map((section) => (
+        {restaurant.menu.map((section: any) => (
           <section key={section.id} className="scroll-mt-20" id={section.id}>
             {/* Sticky Header */}
             <div className="sticky top-[72px] z-30 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-5 py-3 border-b border-border-light/50 dark:border-border-dark/50 mb-2">

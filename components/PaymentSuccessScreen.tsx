@@ -56,7 +56,7 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
                 </div>
                 <div className="text-left">
                   <p className="font-bold text-sm text-text-light dark:text-text-dark">{emailSent ? 'Enviado' : 'Correo Electrónico'}</p>
-                  <p className="text-xs text-text-muted dark:text-text-muted-dark">usuario@ejemplo.com</p>
+                  <p className="text-xs text-text-muted dark:text-text-muted-dark">mvinocour@outlook.com</p>
                 </div>
               </div>
               {emailSent && <span className="material-symbols-outlined text-green-500">check_circle</span>}
@@ -73,7 +73,7 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
                 </div>
                 <div className="text-left">
                   <p className="font-bold text-sm text-text-light dark:text-text-dark">{smsSent ? 'Enviado' : 'Mensaje de Texto'}</p>
-                  <p className="text-xs text-text-muted dark:text-text-muted-dark">8888-8888</p>
+                  <p className="text-xs text-text-muted dark:text-text-muted-dark">88667341</p>
                 </div>
               </div>
               {smsSent && <span className="material-symbols-outlined text-green-500">check_circle</span>}

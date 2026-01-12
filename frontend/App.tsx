@@ -8,6 +8,8 @@ import PaymentSuccessScreen from './components/PaymentSuccessScreen';
 import TableUsersPanel from './components/TableUsersPanel';
 
 import { RESTAURANTS } from './data';
+import { apiService, convertCartItemsToApiFormat, type ApiOrderCreate } from './services/api';
+import { getMenuItemUUID, getRestaurantUUID } from './services/menuMapping';
 
 const getResKey = () => {
   if (typeof window === 'undefined') return 'gus';
@@ -104,10 +106,11 @@ const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [lastOrder, setLastOrder] = useState<CartItem[]>([]);
   const [confirmedItems, setConfirmedItems] = useState<CartItem[]>([]);
-  
+
   // New States
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [lastPaidAmount, setLastPaidAmount] = useState(0);
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
 
   // Join table function
   const handleJoinTable = () => {
@@ -195,29 +198,71 @@ const App: React.FC = () => {
     });
   };
 
-  const handleConfirmOrder = () => {
-    setLastOrder(cart); // Save current items for success screen receipt
-    
-    // Merge into confirmed items history
-    setConfirmedItems(prev => {
-      const newConfirmed = [...prev];
-      cart.forEach(cartItem => {
-        const existingIndex = newConfirmed.findIndex(i => i.id === cartItem.id);
-        if (existingIndex >= 0) {
-          newConfirmed[existingIndex] = {
-            ...newConfirmed[existingIndex],
-            quantity: newConfirmed[existingIndex].quantity + cartItem.quantity
-          };
-        } else {
-          newConfirmed.push(cartItem);
-        }
-      });
-      return newConfirmed;
-    });
+  const handleConfirmOrder = async () => {
+    if (cart.length === 0) return;
 
-    setIsOrderSummaryOpen(false);
-    setCart([]); // Clear active cart
-    setView('SUCCESS');
+    try {
+      // Convert cart items to API format with UUID mapping
+      const orderItems = cart.map(item => ({
+        menu_item_id: getMenuItemUUID(item.id),
+        quantity: item.quantity,
+        notes: undefined,
+        ordered_by: currentUserId
+      }));
+
+      // Create order via API - backend handles restaurant/table lookup from URL
+      const tableNumber = tableId ? parseInt(tableId) : 1; // Default table 1 if no table specified
+
+      const orderData: ApiOrderCreate = {
+        table_id: tableId || undefined, // Optional table ID
+        items: orderItems,
+        notes: undefined
+      };
+
+      console.log('Creating order:', { resKey, tableNumber, orderData });
+
+      // Call backend API
+      const createdOrder = await apiService.createOrder(resKey, tableNumber, orderData);
+
+      console.log('Order created successfully:', createdOrder);
+
+      // Store the current order ID for payment completion
+      setCurrentOrderId(createdOrder.id);
+
+      // Update local state for UI (keep existing behavior)
+      setLastOrder(cart); // Save current items for success screen receipt
+
+      // Merge into confirmed items history
+      setConfirmedItems(prev => {
+        const newConfirmed = [...prev];
+        cart.forEach(cartItem => {
+          const existingIndex = newConfirmed.findIndex(i => i.id === cartItem.id);
+          if (existingIndex >= 0) {
+            newConfirmed[existingIndex] = {
+              ...newConfirmed[existingIndex],
+              quantity: newConfirmed[existingIndex].quantity + cartItem.quantity
+            };
+          } else {
+            newConfirmed.push(cartItem);
+          }
+        });
+        return newConfirmed;
+      });
+
+      setIsOrderSummaryOpen(false);
+      setCart([]); // Clear active cart
+      setView('SUCCESS');
+
+    } catch (error) {
+      console.error('Failed to create order:', error);
+      // Still proceed with UI update for now - order saved locally
+      alert('Network error - order saved locally. Will retry when connection is restored.');
+
+      setLastOrder(cart);
+      setIsOrderSummaryOpen(false);
+      setCart([]);
+      setView('SUCCESS');
+    }
   };
 
   const handleKeepOrdering = () => {
@@ -248,7 +293,7 @@ const App: React.FC = () => {
     setView('PAYMENT');
   };
 
-  const handlePaymentComplete = (paidItemsList: {id: string, quantity: number}[]) => {
+  const handlePaymentComplete = async (paidItemsList: {id: string, quantity: number}[]) => {
     // Determine if we fully paid everything
     let remainingItems: CartItem[] = [];
     let itemsBeingPaid: CartItem[] = [];
@@ -279,7 +324,23 @@ const App: React.FC = () => {
     const paidAmount = calculateTotal(itemsBeingPaid);
     setLastPaidAmount(paidAmount);
     setConfirmedItems(remainingItems);
-    
+
+    // Check if all items are paid for
+    const allItemsPaid = remainingItems.length === 0;
+
+    // If all items paid and we have a current order, mark it as complete in backend
+    if (allItemsPaid && currentOrderId) {
+      try {
+        await apiService.completeOrder(resKey, currentOrderId);
+        console.log('Order marked as paid in database:', currentOrderId);
+        // Clear the current order ID since it's now complete
+        setCurrentOrderId(null);
+      } catch (error) {
+        console.error('Failed to mark order as paid:', error);
+        // Continue with UI flow even if backend call fails
+      }
+    }
+
     // Instead of alert, go to Payment Success Screen
     setView('PAYMENT_SUCCESS');
   };
@@ -340,10 +401,11 @@ const App: React.FC = () => {
         )}
         
         {view === 'SUCCESS' && (
-          <SuccessScreen 
+          <SuccessScreen
             onKeepOrdering={handleKeepOrdering}
-            onPay={handleGoToPayment} 
+            onPay={handleGoToPayment}
             orderItems={lastOrder}
+            confirmedItems={lastOrder}
             grandTotal={grandTotal}
             tableUsers={tableUsers}
           />

@@ -15,7 +15,12 @@ app = FastAPI(
 # CORS configuration for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure this for production
+    allow_origins=[
+        "https://gus-production.up.railway.app",  # Backend URL
+        "https://*.railway.app",  # Allow any Railway frontend domain
+        "http://localhost:3000",  # Local development
+        "http://localhost:5173",  # Vite dev server
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

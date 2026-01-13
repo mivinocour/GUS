@@ -4,7 +4,7 @@ import { CartItem, PaidItem, TableUser } from '../types';
 interface PaymentScreenProps {
   confirmedItems: CartItem[];
   onBack: () => void;
-  onCompletePayment: (paidItems: { id: string; quantity: number }[]) => void;
+  onCompletePayment: (paidItems: { id: string; quantity: number }[], totalAmount: number) => void;
   paidItems?: PaidItem[];
   tableUsers?: TableUser[];
 }
@@ -99,7 +99,8 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
     });
 
     const paidPayload = Array.from(paymentMap.entries()).map(([id, qty]) => ({ id, quantity: qty }));
-    onCompletePayment(paidPayload);
+    // Pass the total amount (including tax, service, and tip) to the callback
+    onCompletePayment(paidPayload, total);
   };
 
   const getButtonText = () => {

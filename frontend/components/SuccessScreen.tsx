@@ -16,7 +16,9 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, or
     return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
   };
   // Calculate total for all confirmed items (Recibo Actual)
-  const subtotal = confirmedItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  // Use confirmedItems if available, otherwise fall back to orderItems (items just confirmed)
+  const itemsToCalculate = confirmedItems.length > 0 ? confirmedItems : orderItems;
+  const subtotal = itemsToCalculate.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const tax = subtotal * 0.13;
   const service = subtotal * 0.10;
   const total = subtotal + tax + service;
@@ -49,7 +51,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, or
                 </div>
 
                 <div className="space-y-4 mb-6">
-                    {confirmedItems.map((item) => {
+                    {itemsToCalculate.map((item) => {
                       const orderedBy = getUserName(item.orderedBy);
                       return (
                         <div key={item.id} className="flex justify-between items-start text-sm">
@@ -102,7 +104,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, or
                 className="w-full bg-primary text-white font-bold h-14 rounded-xl shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 hover:bg-blue-600"
             >
                 <span className="material-symbols-outlined">credit_card</span>
-                <span>Pagar Total (₡{grandTotal.toLocaleString()})</span>
+                <span>Pagar Total (₡{total.toLocaleString()})</span>
             </button>
             <button 
                 onClick={onKeepOrdering}

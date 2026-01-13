@@ -16,6 +16,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "https://frontend-production-c331.up.railway.app",  # Frontend URL
         "https://gus-production.up.railway.app",  # Backend URL
         "https://*.railway.app",  # Allow any Railway frontend domain
         "http://localhost:3000",  # Local development

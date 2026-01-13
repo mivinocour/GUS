@@ -213,7 +213,9 @@ async def create_order(
     order_items = items_result.scalars().all()
 
     # Calculate total with taxes and service charges for display
-    payment_calc = PaymentCalculation.calculate(order.total_amount)
+    # Convert total_amount to int (it may be Decimal from database)
+    subtotal_cents = int(order.total_amount) if order.total_amount else 0
+    payment_calc = PaymentCalculation.calculate(subtotal_cents)
     total_with_taxes = payment_calc.total
 
     # Build the response manually since SQLAlchemy relationship loading can be problematic with async

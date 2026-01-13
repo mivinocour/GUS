@@ -102,15 +102,31 @@ const App: React.FC = () => {
   }, [currentUserId, currentUserName]);
 
   const [view, setView] = useState<ViewState>('MENU');
+  const [pendingPaymentItems, setPendingPaymentItems] = useState<CartItem[]>([]);
   const [isOrderSummaryOpen, setIsOrderSummaryOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [lastOrder, setLastOrder] = useState<CartItem[]>([]);
   const [confirmedItems, setConfirmedItems] = useState<CartItem[]>([]);
-
+  
   // New States
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [lastPaidAmount, setLastPaidAmount] = useState(0);
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
+  
+  // Helper to get items for payment (ensures we always have items even if state is stale)
+  const getItemsForPayment = (): CartItem[] => {
+    // Priority: confirmedItems > lastOrder (items just confirmed) > pendingPaymentItems
+    if (confirmedItems.length > 0) {
+      return confirmedItems;
+    }
+    if (lastOrder.length > 0) {
+      return lastOrder;
+    }
+    if (pendingPaymentItems.length > 0) {
+      return pendingPaymentItems;
+    }
+    return [];
+  };
 
   // Join table function
   const handleJoinTable = () => {
@@ -230,12 +246,16 @@ const App: React.FC = () => {
       setCurrentOrderId(createdOrder.id);
 
       // Update local state for UI (keep existing behavior)
-      setLastOrder(cart); // Save current items for success screen receipt
+      // IMPORTANT: Store items BEFORE clearing cart to ensure they're available for payment screen
+      const itemsToConfirm = [...cart]; // Copy cart items before clearing
+      
+      setLastOrder(itemsToConfirm); // Save current items for success screen receipt
+      setPendingPaymentItems(itemsToConfirm); // Store items for payment screen
 
-      // Merge into confirmed items history
+      // Merge into confirmed items history (use the copy, not cart which will be cleared)
       setConfirmedItems(prev => {
         const newConfirmed = [...prev];
-        cart.forEach(cartItem => {
+        itemsToConfirm.forEach(cartItem => {
           const existingIndex = newConfirmed.findIndex(i => i.id === cartItem.id);
           if (existingIndex >= 0) {
             newConfirmed[existingIndex] = {
@@ -251,6 +271,7 @@ const App: React.FC = () => {
 
       setIsOrderSummaryOpen(false);
       setCart([]); // Clear active cart
+      
       setView('SUCCESS');
 
     } catch (error) {
@@ -258,7 +279,9 @@ const App: React.FC = () => {
       // Still proceed with UI update for now - order saved locally
       alert('Network error - order saved locally. Will retry when connection is restored.');
 
-      setLastOrder(cart);
+      const itemsToConfirm = [...cart]; // Copy before clearing
+      setLastOrder(itemsToConfirm);
+      setPendingPaymentItems(itemsToConfirm); // Store items for payment screen
       setIsOrderSummaryOpen(false);
       setCart([]);
       setView('SUCCESS');
@@ -289,11 +312,12 @@ const App: React.FC = () => {
       });
       setCart([]); // clear active cart now that it is part of confirmed items
     }
+    
     setIsOrderSummaryOpen(false);
     setView('PAYMENT');
   };
 
-  const handlePaymentComplete = async (paidItemsList: {id: string, quantity: number}[]) => {
+  const handlePaymentComplete = async (paidItemsList: {id: string, quantity: number}[], totalAmount: number) => {
     // Determine if we fully paid everything
     let remainingItems: CartItem[] = [];
     let itemsBeingPaid: CartItem[] = [];
@@ -321,8 +345,8 @@ const App: React.FC = () => {
         }
     });
 
-    const paidAmount = calculateTotal(itemsBeingPaid);
-    setLastPaidAmount(paidAmount);
+    // Use the total amount passed from PaymentScreen (includes tax, service, and tip)
+    setLastPaidAmount(totalAmount);
     setConfirmedItems(remainingItems);
 
     // Check if all items are paid for
@@ -413,7 +437,7 @@ const App: React.FC = () => {
 
         {view === 'PAYMENT' && (
           <PaymentScreen 
-            confirmedItems={confirmedItems}
+            confirmedItems={getItemsForPayment()}
             onBack={() => setView('MENU')}
             onCompletePayment={handlePaymentComplete}
             paidItems={paidItems}

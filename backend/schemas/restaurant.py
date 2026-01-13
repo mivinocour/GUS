@@ -343,6 +343,18 @@ class PaymentCalculation(BaseModel):
 
     @classmethod
     def calculate(cls, subtotal_cents: int, tip_cents: int = 0):
+        # Convert to int if it's a Decimal (from database) or float
+        if isinstance(subtotal_cents, Decimal):
+            subtotal_cents = int(subtotal_cents)
+        elif isinstance(subtotal_cents, float):
+            subtotal_cents = int(subtotal_cents)
+        
+        # Ensure tip_cents is also an int
+        if isinstance(tip_cents, Decimal):
+            tip_cents = int(tip_cents)
+        elif isinstance(tip_cents, float):
+            tip_cents = int(tip_cents)
+        
         tax = int(subtotal_cents * 0.13)  # 13% IVA
         service = int(subtotal_cents * 0.10)  # 10% service
         total = subtotal_cents + tax + service + tip_cents

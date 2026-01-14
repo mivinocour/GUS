@@ -412,7 +412,7 @@ const App: React.FC = () => {
       {/* Main Content */}
       <main className={`flex-1 flex flex-col w-full max-w-lg mx-auto relative ${view === 'MENU' ? 'pb-28' : ''}`}>
         {view === 'MENU' && (
-          <MenuScreen 
+          <MenuScreen
             restaurant={restaurant}
             onItemSelect={handleItemSelect}
             grandTotal={grandTotal}
@@ -421,6 +421,9 @@ const App: React.FC = () => {
             onViewOrder={() => setIsOrderSummaryOpen(true)}
             favorites={favorites}
             onToggleFavorite={handleToggleFavorite}
+            cart={cart}
+            onUpdateQuantity={handleUpdateQuantity}
+            currentUserId={currentUserId}
           />
         )}
         

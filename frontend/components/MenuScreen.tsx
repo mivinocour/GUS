@@ -11,17 +11,23 @@ interface MenuScreenProps {
   onViewOrder: () => void;
   favorites: Set<string>;
   onToggleFavorite: (id: string) => void;
+  cart?: Array<{id: string, quantity: number, orderedBy: string}>;
+  onUpdateQuantity: (id: string, delta: number) => void;
+  currentUserId: string;
 }
 
-const MenuScreen: React.FC<MenuScreenProps> = ({ 
+const MenuScreen: React.FC<MenuScreenProps> = ({
   restaurant,
-  onItemSelect, 
-  grandTotal, 
-  cartCount, 
-  hasConfirmedItems, 
+  onItemSelect,
+  grandTotal,
+  cartCount,
+  hasConfirmedItems,
   onViewOrder,
   favorites,
-  onToggleFavorite
+  onToggleFavorite,
+  cart = [],
+  onUpdateQuantity,
+  currentUserId
 }) => {
   const showFloatingButton = cartCount > 0 || hasConfirmedItems;
   
@@ -60,6 +66,13 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
       }
       return newSet;
     });
+  };
+
+  // Get quantity of item in cart for current user
+  const getCartQuantity = (itemId: string): number => {
+    if (!cart || !Array.isArray(cart)) return 0;
+    const cartItem = cart.find(item => item.id === itemId && item.orderedBy === currentUserId);
+    return cartItem ? cartItem.quantity : 0;
   };
 
     // Flatten items to find favorites
@@ -101,45 +114,21 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
                    Recomendado {currentRecommendationIndex + 1}/{restaurant.recommendations.length}
                  </span>
 
-                 <div className="relative overflow-hidden h-7 mb-1">
-                   <div
-                     className="transition-transform duration-500 ease-in-out"
-                     style={{ transform: `translateY(-${currentRecommendationIndex * 100}%)` }}
-                   >
-                     {restaurant.recommendations.map((rec) => (
-                       <h3 key={rec.id} className="text-white font-bold text-xl h-7 flex items-center">
-                         {rec.name}
-                       </h3>
-                     ))}
-                   </div>
-                 </div>
+                 {/* Title */}
+                 <h3 className="text-white font-bold text-xl mb-1">
+                   {restaurant.recommendations[currentRecommendationIndex].name}
+                 </h3>
 
                  <div className="flex justify-between items-end">
-                    <div className="relative overflow-hidden max-w-[70%] h-5">
-                      <div
-                        className="transition-transform duration-500 ease-in-out"
-                        style={{ transform: `translateY(-${currentRecommendationIndex * 100}%)` }}
-                      >
-                        {restaurant.recommendations.map((rec) => (
-                          <p key={rec.id} className="text-white/80 text-sm line-clamp-1 h-5 flex items-center">
-                            {rec.description}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
+                    {/* Description */}
+                    <p className="text-white/80 text-sm line-clamp-1 max-w-[70%]">
+                      {restaurant.recommendations[currentRecommendationIndex].description}
+                    </p>
 
-                    <div className="relative overflow-hidden h-6">
-                      <div
-                        className="transition-transform duration-500 ease-in-out"
-                        style={{ transform: `translateY(-${currentRecommendationIndex * 100}%)` }}
-                      >
-                        {restaurant.recommendations.map((rec) => (
-                          <span key={rec.id} className="text-white font-bold text-lg h-6 flex items-center">
-                            ₡{rec.price.toLocaleString()}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                    {/* Price */}
+                    <span className="text-white font-bold text-lg">
+                      ₡{restaurant.recommendations[currentRecommendationIndex].price.toLocaleString()}
+                    </span>
                  </div>
 
                  {/* Dots Indicator */}
@@ -179,12 +168,14 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
             </div>
             <div className="flex flex-col gap-4 px-5">
               {favoriteItems.map((item) => (
-                <MenuItemCard 
-                  key={`fav-${item.id}`} 
-                  item={item} 
-                  onSelect={onItemSelect} 
+                <MenuItemCard
+                  key={`fav-${item.id}`}
+                  item={item}
+                  onSelect={onItemSelect}
                   isFavorite={true}
                   onToggleFavorite={() => onToggleFavorite(item.id)}
+                  cartQuantity={getCartQuantity(item.id)}
+                  onUpdateQuantity={onUpdateQuantity}
                 />
               ))}
             </div>
@@ -215,12 +206,14 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
               {isExpanded && (
                 <div className="flex flex-col gap-4 px-5 animate-fade-in">
                   {section.items.map((item) => (
-                    <MenuItemCard 
-                      key={item.id} 
-                      item={item} 
-                      onSelect={onItemSelect} 
+                    <MenuItemCard
+                      key={item.id}
+                      item={item}
+                      onSelect={onItemSelect}
                       isFavorite={favorites.has(item.id)}
                       onToggleFavorite={() => onToggleFavorite(item.id)}
+                      cartQuantity={getCartQuantity(item.id)}
+                      onUpdateQuantity={onUpdateQuantity}
                     />
                   ))}
                 </div>
@@ -265,12 +258,14 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
   );
 };
 
-const MenuItemCard: React.FC<{ 
-  item: MenuItem; 
-  onSelect: (item: MenuItem) => void; 
+const MenuItemCard: React.FC<{
+  item: MenuItem;
+  onSelect: (item: MenuItem) => void;
   isFavorite: boolean;
   onToggleFavorite: () => void;
-}> = ({ item, onSelect, isFavorite, onToggleFavorite }) => {
+  cartQuantity: number;
+  onUpdateQuantity: (id: string, delta: number) => void;
+}> = ({ item, onSelect, isFavorite, onToggleFavorite, cartQuantity, onUpdateQuantity }) => {
   return (
     <div 
       onClick={() => onSelect(item)}
@@ -285,6 +280,13 @@ const MenuItemCard: React.FC<{
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
             loading="lazy"
           />
+          {/* Quantity Badge */}
+          {cartQuantity > 0 && (
+            <div className="absolute top-1.5 left-1.5 size-7 rounded-full bg-primary text-white flex items-center justify-center shadow-sm z-20 text-xs font-bold">
+              {cartQuantity}
+            </div>
+          )}
+
           {/* Favorite Button Overlay */}
           <button
             onClick={(e) => {
@@ -308,16 +310,47 @@ const MenuItemCard: React.FC<{
           
           <div className="flex items-center justify-between mt-3">
             <span className="font-bold text-text-light dark:text-text-dark text-base">₡{item.price.toLocaleString()}</span>
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onSelect(item);
-              }}
-              className="h-8 px-3 rounded-full bg-slate-100 dark:bg-slate-800 text-text-light dark:text-text-dark font-semibold text-xs flex items-center gap-1 transition-colors hover:bg-primary hover:text-white group-active:bg-primary group-active:text-white"
-            >
-              Add
-              <span className="material-symbols-outlined text-[16px]">add</span>
-            </button>
+
+            {cartQuantity === 0 ? (
+              // Add button when no items in cart
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelect(item);
+                }}
+                className="h-8 px-3 rounded-full bg-slate-100 dark:bg-slate-800 text-text-light dark:text-text-dark font-semibold text-xs flex items-center gap-1 transition-colors hover:bg-primary hover:text-white group-active:bg-primary group-active:text-white"
+              >
+                Add
+                <span className="material-symbols-outlined text-[16px]">add</span>
+              </button>
+            ) : (
+              // Quantity controls when items in cart
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onUpdateQuantity(item.id, -1);
+                  }}
+                  className="size-8 rounded-full bg-slate-100 dark:bg-slate-800 text-text-light dark:text-text-dark flex items-center justify-center transition-colors hover:bg-red-500 hover:text-white active:scale-90"
+                >
+                  <span className="material-symbols-outlined text-[16px]">remove</span>
+                </button>
+
+                <span className="font-bold text-text-light dark:text-text-dark text-sm min-w-[1.5rem] text-center">
+                  {cartQuantity}
+                </span>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onUpdateQuantity(item.id, 1);
+                  }}
+                  className="size-8 rounded-full bg-slate-100 dark:bg-slate-800 text-text-light dark:text-text-dark flex items-center justify-center transition-colors hover:bg-primary hover:text-white active:scale-90"
+                >
+                  <span className="material-symbols-outlined text-[16px]">add</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

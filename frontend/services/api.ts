@@ -95,7 +95,17 @@ class ApiService {
       const response = await fetch(url, config);
 
       if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        // Try to get error details from response body
+        let errorMessage = `API Error: ${response.status} ${response.statusText}`;
+        try {
+          const errorBody = await response.json();
+          if (errorBody.detail) {
+            errorMessage += ` - ${JSON.stringify(errorBody.detail)}`;
+          }
+        } catch (e) {
+          // If response is not JSON, use status text
+        }
+        throw new Error(errorMessage);
       }
 
       return await response.json();

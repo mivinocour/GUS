@@ -230,12 +230,30 @@ const App: React.FC = () => {
       const tableNumber = tableId ? parseInt(tableId) : 1; // Default table 1 if no table specified
 
       const orderData: ApiOrderCreate = {
-        table_id: tableId || undefined, // Optional table ID
+        // Don't send table_id in body - backend gets it from URL path parameter
+        // table_id: undefined, // Backend gets table from URL path, not body
         items: orderItems,
         notes: undefined
       };
 
-      console.log('Creating order:', { resKey, tableNumber, orderData });
+      console.log('Creating order:', { resKey, tableNumber, orderData, currentUserId });
+
+      // Validate data before sending
+      if (!currentUserId || currentUserId.trim() === '') {
+        throw new Error('User ID is required. Please set your name in the table panel.');
+      }
+
+      // Validate menu item IDs are UUIDs
+      const invalidItems = orderItems.filter(item => {
+        // Check if menu_item_id is a valid UUID format
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        return !uuidRegex.test(item.menu_item_id);
+      });
+
+      if (invalidItems.length > 0) {
+        console.error('Invalid menu item IDs (not UUIDs):', invalidItems);
+        throw new Error(`Some menu items are not available. Please refresh and try again.`);
+      }
 
       // Call backend API
       const createdOrder = await apiService.createOrder(resKey, tableNumber, orderData);
@@ -274,9 +292,21 @@ const App: React.FC = () => {
       
       setView('SUCCESS');
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to create order:', error);
-      // Still proceed with UI update for now - order saved locally
+      
+      // Check for validation errors (422)
+      if (error?.message?.includes('422')) {
+        const errorMsg = error.message.includes('Table') || error.message.includes('not found')
+          ? `Table ${tableNumber} not found for ${resKey}. Please create the table in the database first.`
+          : error.message.includes('Menu item') || error.message.includes('not available')
+          ? 'Some menu items are not available. Make sure Olive Garden menu is populated in the database.'
+          : `Validation error: ${error.message}`;
+        alert(`Error creating order:\n\n${errorMsg}\n\nPlease check:\n1. Table exists in database\n2. Menu items are populated\n3. Restaurant slug is correct`);
+        return; // Don't proceed with UI update on validation errors
+      }
+      
+      // Network error - order saved locally
       alert('Network error - order saved locally. Will retry when connection is restored.');
 
       const itemsToConfirm = [...cart]; // Copy before clearing
@@ -401,13 +431,6 @@ const App: React.FC = () => {
         </header>
       )}
 
-      {(view === 'SUCCESS' || view === 'PAYMENT_SUCCESS') && (
-        <header className="flex items-center bg-transparent p-6 pb-2 justify-center sticky top-0 z-30 pt-8">
-           <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-             <span className="material-symbols-outlined text-primary text-2xl">smart_toy</span>
-           </div>
-        </header>
-      )}
 
       {/* Main Content */}
       <main className={`flex-1 flex flex-col w-full max-w-lg mx-auto relative ${view === 'MENU' ? 'pb-28' : ''}`}>
@@ -432,9 +455,12 @@ const App: React.FC = () => {
             onKeepOrdering={handleKeepOrdering}
             onPay={handleGoToPayment}
             orderItems={lastOrder}
-            confirmedItems={lastOrder}
+            confirmedItems={confirmedItems}
             grandTotal={grandTotal}
             tableUsers={tableUsers}
+            currentOrderId={currentOrderId}
+            restaurantSlug={resKey}
+            tableNumber={tableId ? parseInt(tableId) : undefined}
           />
         )}
 

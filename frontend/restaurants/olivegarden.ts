@@ -23,7 +23,7 @@ const olivegarden: RestaurantData = {
       description: "Grilled chicken slices and our famous Alfredo sauce...",
       price: 12900,
       category: "Amazing Alfredos",
-      image: "/images/olive-garden/ChickenAlfredo_Dinner.jpg.webp"
+      image: "https://github.com/user-attachments/assets/5ff9a695-3b84-4de5-b3d4-39b0ed4760cb"
     },
     {
       id: "classic-lasagna",
@@ -44,7 +44,7 @@ const olivegarden: RestaurantData = {
           name: "Fried Mozzarella",
           description: "Crispy, golden mozzarella cheese served with marinara sauce.",
           price: 5900,
-          image: "/images/olive-garden/friedmozzarella.jpg..webp",
+          image: "https://github.com/user-attachments/assets/286d474e-c3f4-42b1-99e7-f6b3b468ce4f",
           category: "Appetizers"
         },
         {
@@ -92,7 +92,7 @@ const olivegarden: RestaurantData = {
           name: "Meatballs Parmigiana",
           description: "Hearty meatballs baked in homemade marinara, topped with...",
           price: 8900,
-          image: "/images/olive-garden/meatballs.png",
+          image: "https://github.com/user-attachments/assets/d603d75b-23b6-4e42-a0c2-b03a55c2cf78",
           category: "Appetizers"
         }
       ]
@@ -106,7 +106,7 @@ const olivegarden: RestaurantData = {
           name: "Chicken & Gnocchi",
           description: "A creamy soup made with roasted chicken, traditional...",
           price: 4900,
-          image: "/images/olive-garden/gnochi.png.webp",
+          image: "https://github.com/user-attachments/assets/37c05391-ff8b-4ae0-afcb-54563a19dffd",
           category: "Soups and Salads"
         },
         {
@@ -114,7 +114,7 @@ const olivegarden: RestaurantData = {
           name: "Minestrone",
           description: "Fresh vegetables, beans and pasta in a light...",
           price: 4900,
-          image: "/images/olive-garden/minestrone.png.webp",
+          image: "https://github.com/user-attachments/assets/42a3ebad-6bae-4a73-92ae-e7ac9fc532b2",
           category: "Soups and Salads"
         },
         {
@@ -130,7 +130,7 @@ const olivegarden: RestaurantData = {
           name: "House salad",
           description: "Our famous salad prepared with mixed greens, black...",
           price: 4900,
-          image: "/images/olive-garden/salad.jpg.webp",
+          image: "https://github.com/user-attachments/assets/3d6e8df7-6723-4d86-8858-61aac7e056bb",
           category: "Soups and Salads"
         },
         {
@@ -152,7 +152,7 @@ const olivegarden: RestaurantData = {
           name: "Herb-Grilled Salmon",
           description: "Filet grilled to perfection and topped with garlic...",
           price: 14900,
-          image: "/images/olive-garden/HerbGrilledSalmon_v1.jpg.webp",
+          image: "https://github.com/user-attachments/assets/948a7334-b179-49ad-aa36-44244240c052",
           category: "Favorite Classics"
         },
         {
@@ -254,7 +254,7 @@ const olivegarden: RestaurantData = {
           name: "Chicken Alfredo",
           description: "Grilled chicken slices and our famous Alfredo sauce...",
           price: 12900,
-          image: "/images/olive-garden/ChickenAlfredo_Dinner.jpg.webp",
+          image: "https://github.com/user-attachments/assets/5ff9a695-3b84-4de5-b3d4-39b0ed4760cb",
           category: "Amazing Alfredos"
         },
         {
@@ -262,7 +262,7 @@ const olivegarden: RestaurantData = {
           name: "Fettuccine Alfredo",
           description: "Our sauce is prepared daily, every morning, with...",
           price: 8900,
-          image: "/images/olive-garden/feralfredo.png.webp",
+          image: "https://github.com/user-attachments/assets/2064bb89-9b13-44d0-83e7-9f3e5a5aa709",
           category: "Amazing Alfredos"
         },
         {
@@ -354,7 +354,7 @@ const olivegarden: RestaurantData = {
           name: "Chocolate Lasagna",
           description: "Layers of cake and creamy chocolate mousse sandwiched...",
           price: 5900,
-          image: "/images/olive-garden/ChocolateLasagna_102623_v1.jpg.webp",
+          image: "https://github.com/user-attachments/assets/233d57f0-dd1a-4a71-bc5e-6f8896e5c703",
           category: "Desserts"
         },
         {
@@ -362,7 +362,7 @@ const olivegarden: RestaurantData = {
           name: "Ice cream cup",
           description: "Vanilla ice cream cup",
           price: 1900,
-          image: "/images/olive-garden/helado.png.webp",
+          image: "https://github.com/user-attachments/assets/0dfaf82b-1684-4edf-8761-b670719f4a81",
           category: "Desserts"
         },
         {
@@ -370,7 +370,7 @@ const olivegarden: RestaurantData = {
           name: "Strawberry Cream Cake",
           description: "Vanilla sponge cake topped with sweet vanilla cream...",
           price: 5900,
-          image: "/images/olive-garden/strawberry_cream_cake.jpg.webp",
+          image: "https://github.com/user-attachments/assets/b220e3a9-122d-4fe8-a56b-ce772e92afc9",
           category: "Desserts"
         },
         {
@@ -378,7 +378,7 @@ const olivegarden: RestaurantData = {
           name: "Black Tie Mousse Cake",
           description: "Chocolate cake, dark chocolate cheesecake and cream with...",
           price: 5900,
-          image: "/images/olive-garden/blacktie.png.webp",
+          image: "https://github.com/user-attachments/assets/fea13c5e-6951-47be-824a-b60fd0cb4117",
           category: "Desserts"
         },
         {
@@ -386,7 +386,7 @@ const olivegarden: RestaurantData = {
           name: "Sicilian Cheesecake",
           description: "Ricotta cheesecake with butter cookie dough, topped with...",
           price: 5900,
-          image: "/images/olive-garden/cheesecake.jpg.webp",
+          image: "https://github.com/user-attachments/assets/b2cc7983-06eb-46c0-9622-c56f58875bea",
           category: "Desserts"
         },
         {
@@ -394,7 +394,7 @@ const olivegarden: RestaurantData = {
           name: "Tiramisu",
           description: "An Italian classic, for coffee lovers",
           price: 5900,
-          image: "/images/olive-garden/tiramisutest.png.webp",
+          image: "https://github.com/user-attachments/assets/d43aa0fe-bed1-473e-ae78-f6f9d8fc04f6",
           category: "Desserts"
         }
       ]
@@ -416,7 +416,7 @@ const olivegarden: RestaurantData = {
           name: "Ice Cream Cup (Kids Menu)",
           description: "Vanilla ice cream with chocolate syrup, whipped cream...",
           price: 1900,
-          image: "/images/olive-garden/helado.png.webp",
+          image: "https://github.com/user-attachments/assets/0dfaf82b-1684-4edf-8761-b670719f4a81",
           category: "Children's Menu"
         },
         {
@@ -478,15 +478,31 @@ const olivegarden: RestaurantData = {
           name: "Gallon of Iced Tea",
           description: "House-made iced tea, available with or without sugar",
           price: 2500,
-          image: "/images/olive-garden/IcedTeaArray_04.png.webp",
+          image: "https://github.com/user-attachments/assets/e42d8fee-63fa-474f-8b0d-c8b1835591f0",
           category: "Drinks"
         },
         {
           id: "alcoholic-beverages",
           name: "Alcoholic Beverages",
-          description: "Choose from Spiked Strawberry Lemonade, Mojito, Blue Hawaiian,...",
+          description: "Choose from Spiked Strawberry Lemonade, Mojito, Blue Hawaiian...",
           price: 4900,
           image: "/images/olive-garden/bebidasalcoholicas.png.webp",
+          category: "Drinks"
+        },
+        {
+          id: "sangria-pitcher",
+          name: "Sangria Pitcher",
+          description: "Refreshing sangria served in a pitcher",
+          price: 4900,
+          image: "https://github.com/user-attachments/assets/f98902a9-4ee1-4563-a70e-170ede3f5e03",
+          category: "Drinks"
+        },
+        {
+          id: "red-wine",
+          name: "Red Wine",
+          description: "Selection of red wines",
+          price: 4900,
+          image: "https://github.com/user-attachments/assets/e2a34be0-9784-4c7b-a98c-801cc7c2683c",
           category: "Drinks"
         },
         {
@@ -510,7 +526,7 @@ const olivegarden: RestaurantData = {
           name: "Beers",
           description: "Choose between Imperial, Imperial Silver, Imperial Light, Bavaria...",
           price: 2500,
-          image: "/images/olive-garden/beer.jpg.webp",
+          image: "https://github.com/user-attachments/assets/b114d40d-1891-47b3-a6d5-b0077618f6eb",
           category: "Drinks"
         },
         {
@@ -518,7 +534,7 @@ const olivegarden: RestaurantData = {
           name: "Hot Drinks",
           description: "Choose between Espresso, Café Latte, Café Mocha, Cappuccino,...",
           price: 1500,
-          image: "/images/olive-garden/bebidascalientes.png.webp",
+          image: "https://github.com/user-attachments/assets/6e3771cf-162e-45e8-bf17-e50583b2707b",
           category: "Drinks"
         },
         {
@@ -526,7 +542,7 @@ const olivegarden: RestaurantData = {
           name: "Bottled water",
           description: "Choose between Acqua Panna Spring (500 ml), Pellegrino...",
           price: 1500,
-          image: "/images/olive-garden/bottledwater.jpg.jxl",
+          image: "https://github.com/user-attachments/assets/cec4684e-7f72-416b-96c2-32063e5dc844",
           category: "Drinks"
         }
       ]

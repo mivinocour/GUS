@@ -1,5 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CartItem, TableUser } from '../types';
+import { apiService } from '../services/api';
+import { RESTAURANTS } from '../data';
+
+interface OrderItemStatus {
+  id: string;
+  menu_item_id: string;
+  menu_item_name?: string;
+  menu_item_image?: string;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+  notes?: string;
+  ordered_by: string;
+  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'served' | 'cancelled';
+  created_at: string;
+}
+
+interface ApiOrderResponse {
+  id: string;
+  restaurant_id: string;
+  table_id?: string;
+  order_number: number;
+  total_amount: number;
+  notes?: string;
+  created_at: string;
+  items: OrderItemStatus[];
+}
 
 interface SuccessScreenProps {
   onKeepOrdering: () => void;
@@ -8,111 +35,284 @@ interface SuccessScreenProps {
   confirmedItems: CartItem[];
   grandTotal: number;
   tableUsers: TableUser[];
+  currentOrderId?: string | null;
+  restaurantSlug?: string;
+  tableNumber?: number;
 }
 
-const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, orderItems, confirmedItems, grandTotal, tableUsers }) => {
+const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, orderItems, confirmedItems, grandTotal, tableUsers, currentOrderId, restaurantSlug, tableNumber }) => {
+  const [realOrderItems, setRealOrderItems] = useState<OrderItemStatus[]>([]);
+  const [isLoadingOrder, setIsLoadingOrder] = useState(false);
+
+  // Get current restaurant and table info from URL if not provided
+  const getResKey = () => {
+    if (typeof window === 'undefined') return 'gus';
+    const params = new URLSearchParams(window.location.search);
+    return params.get('res')?.toLowerCase() || 'gus';
+  };
+
+  const getTableNumber = () => {
+    if (typeof window === 'undefined') return 1;
+    const params = new URLSearchParams(window.location.search);
+    return parseInt(params.get('table') || '1');
+  };
+
+  const resKey = restaurantSlug || getResKey();
+  const tableNum = tableNumber || getTableNumber();
+  const restaurant = RESTAURANTS[resKey] || RESTAURANTS.gus;
+
+  // Helper function to get menu item details from the restaurant data
+  const getMenuItemDetails = (menuItemId: string) => {
+    for (const category of restaurant.menu) {
+      const item = category.items.find(item => item.id === menuItemId);
+      if (item) {
+        return {
+          name: item.name,
+          image: item.image,
+          price: item.price
+        };
+      }
+    }
+    return {
+      name: 'Unknown Item',
+      image: '/placeholder.jpg',
+      price: 0
+    };
+  };
+
+  // Fetch current order data from database
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      if (!resKey || !tableNum) return;
+
+      setIsLoadingOrder(true);
+      try {
+        // Fetch the current active order for this table
+        const orderData = await apiService.getTableOrder(resKey, tableNum);
+        if (orderData && orderData.items) {
+          setRealOrderItems(orderData.items);
+        }
+      } catch (error) {
+        console.error('Failed to fetch order data:', error);
+      } finally {
+        setIsLoadingOrder(false);
+      }
+    };
+
+    fetchOrderData();
+  }, [resKey, tableNum, currentOrderId]);
+
   const getUserName = (userId?: string) => {
     if (!userId) return null;
     return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
   };
-  // Calculate total for all confirmed items (Recibo Actual)
-  // Use confirmedItems if available, otherwise fall back to orderItems (items just confirmed)
-  const itemsToCalculate = confirmedItems.length > 0 ? confirmedItems : orderItems;
-  const subtotal = itemsToCalculate.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  // Group items: previously confirmed vs current order (similar to OrderSummary logic)
+  const getGroupedItems = () => {
+    const currentOrderIds = new Set(orderItems.map(item => item.id));
+    
+    // Previously confirmed items (not in current order)
+    const previouslyConfirmed = confirmedItems.filter(item => !currentOrderIds.has(item.id));
+    
+    // Current order items
+    const currentOrder = orderItems.length > 0 ? orderItems : [];
+
+    return {
+      previouslyConfirmed: previouslyConfirmed.map(item => ({
+        id: `prev-${item.id}`,
+        menu_item_id: item.id,
+        menu_item_name: item.name,
+        menu_item_image: item.image,
+        quantity: item.quantity,
+        unit_price: item.price,
+        total_price: item.price * item.quantity,
+        notes: item.notes,
+        ordered_by: item.orderedBy || 'current',
+        status: 'confirmed' as const,
+        created_at: new Date().toISOString(),
+        isNewlyOrdered: false
+      })),
+      currentOrder: currentOrder.map(item => ({
+        id: `new-${item.id}`,
+        menu_item_id: item.id,
+        menu_item_name: item.name,
+        menu_item_image: item.image,
+        quantity: item.quantity,
+        unit_price: item.price,
+        total_price: item.price * item.quantity,
+        notes: item.notes,
+        ordered_by: item.orderedBy || 'current',
+        status: 'confirmed' as const,
+        created_at: new Date().toISOString(),
+        isNewlyOrdered: true
+      }))
+    };
+  };
+
+  const { previouslyConfirmed, currentOrder } = getGroupedItems();
+  const allDisplayItems = [...previouslyConfirmed, ...currentOrder];
+
+  // Calculate total for all items
+  const subtotal = allDisplayItems.reduce((acc, item) => acc + (item.total_price), 0);
   const tax = subtotal * 0.13;
   const service = subtotal * 0.10;
   const total = subtotal + tax + service;
 
-  return (
-    <div className="flex-1 flex flex-col items-center w-full max-w-md mx-auto h-full pb-8 px-4 overflow-y-auto no-scrollbar">
-      <div className="flex flex-col items-center gap-6 w-full animate-fade-in-up pt-8">
-        {/* Animated Checkmark */}
-        <div className="relative flex items-center justify-center animate-pop">
-          <div className="absolute inset-0 bg-primary/20 dark:bg-primary/30 rounded-full blur-xl transform scale-150"></div>
-          <div className="relative bg-primary text-white w-24 h-24 rounded-full flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-white dark:ring-background-dark">
-             <span className="material-symbols-outlined text-[48px]">check</span>
-          </div>
-        </div>
+  const getStatusDisplay = (status: string) => {
+    const statusMap = {
+      pending: { text: 'Pendiente', color: 'bg-slate-100 text-slate-600 border-slate-200' },
+      confirmed: { text: 'Confirmado', color: 'bg-blue-100 text-blue-700 border-blue-200' },
+      preparing: { text: 'Preparando', color: 'bg-amber-100 text-amber-700 border-amber-200' },
+      ready: { text: 'Listo', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
+      served: { text: 'Entregado', color: 'bg-slate-100 text-slate-500 border-slate-200' },
+      cancelled: { text: 'Cancelado', color: 'bg-red-100 text-red-700 border-red-200' }
+    };
+    return statusMap[status as keyof typeof statusMap] || statusMap.pending;
+  };
 
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold text-text-light dark:text-text-dark">¡Orden Confirmada!</h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-[250px] mx-auto">
-            La cocina ha recibido tu pedido y comenzará a prepararlo pronto.
+  return (
+    <div className="flex-1 flex flex-col w-full max-w-md mx-auto h-full pb-8 px-5 overflow-y-auto no-scrollbar bg-white dark:bg-background-dark">
+      <div className="flex flex-col gap-6 w-full animate-fade-in-up pt-8">
+        {/* Header - Clean Style */}
+        <div className="text-center space-y-4">
+          {/* Simple Cooking Animation */}
+          <div className="relative flex items-center justify-center mb-4">
+            <div className="text-6xl animate-pulse">🍳</div>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">¡Orden Confirmada!</h2>
+          <p className="text-gray-600 dark:text-gray-400 max-w-[280px] mx-auto">
+            La cocina está trabajando en tu pedido
           </p>
         </div>
 
-        {/* Receipt Card */}
-        <div className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-border-light dark:border-border-dark overflow-hidden mt-4 relative">
-            
-            <div className="p-6">
-                <div className="flex justify-between items-center mb-6 border-b border-dashed border-slate-200 dark:border-slate-700 pb-4">
-                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Recibo Actual</span>
-                    <span className="text-xs font-medium text-slate-400">#{Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</span>
-                </div>
+        {/* Loading State */}
+        {isLoadingOrder && (
+          <div className="text-center py-8">
+            <div className="text-gray-500">Cargando detalles de la orden...</div>
+          </div>
+        )}
 
-                <div className="space-y-4 mb-6">
-                    {itemsToCalculate.map((item) => {
-                      const orderedBy = getUserName(item.orderedBy);
-                      return (
-                        <div key={item.id} className="flex justify-between items-start text-sm">
-                            <div className="flex-1">
-                                <div className="flex gap-3 items-start">
-                                    <span className="font-bold text-text-light dark:text-text-dark w-5">{item.quantity}x</span>
-                                    <div className="flex-1">
-                                        <span className="text-slate-600 dark:text-slate-300">{item.name}</span>
-                                        {orderedBy && tableUsers.length > 1 && (
-                                            <p className="text-xs text-text-muted dark:text-text-muted-dark mt-0.5">
-                                                por {orderedBy}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            <span className="font-medium text-text-light dark:text-text-dark ml-2">₡{(item.price * item.quantity).toLocaleString()}</span>
-                        </div>
-                      );
-                    })}
-                </div>
-
-                <div className="pt-4 border-t border-dashed border-slate-200 dark:border-slate-700 space-y-2">
-                    <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-                        <span>Subtotal</span>
-                        <span>₡{subtotal.toLocaleString()}</span>
+        {/* Items List - Grouped like OrderSummary */}
+        <div className="space-y-6">
+          {/* Previously Confirmed Items Section */}
+          {previouslyConfirmed.length > 0 && (
+            <div className="opacity-75">
+              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
+                <span className="material-symbols-outlined text-[20px] text-green-600">
+                  check_circle
+                </span>
+                <p className="text-xs font-bold uppercase tracking-wider text-green-700 dark:text-green-400">
+                  En preparación
+                </p>
+              </div>
+              <div className="space-y-4 pl-2 border-l-2 border-green-500/20">
+                {previouslyConfirmed.map((item) => {
+                  const orderedBy = getUserName(item.ordered_by);
+                  return (
+                    <div key={item.id} className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                      <img
+                        src={item.menu_item_image}
+                        alt={item.menu_item_name}
+                        className="w-12 h-12 object-cover rounded-lg"
+                      />
+                      <div className="flex-1">
+                        <h3 className="text-sm font-bold text-gray-900 dark:text-white">{item.menu_item_name}</h3>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {item.quantity}x • ₡{item.total_price.toLocaleString()}
+                        </p>
+                        {orderedBy && tableUsers.length > 1 && (
+                          <p className="text-xs text-gray-400">por {orderedBy}</p>
+                        )}
+                      </div>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                        Confirmado
+                      </span>
                     </div>
-                    <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-                        <span>IVA (13%)</span>
-                        <span>₡{tax.toLocaleString()}</span>
-                    </div>
-                     <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-                        <span>Servicio (10%)</span>
-                        <span>₡{service.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-base font-bold text-text-light dark:text-text-dark pt-2 mt-2 border-t border-slate-100 dark:border-slate-700">
-                        <span>Total</span>
-                        <span>₡{total.toLocaleString()}</span>
-                    </div>
-                </div>
+                  );
+                })}
+              </div>
             </div>
-            
-             {/* Sawtooth border effect bottom for receipt look */}
-             <div className="h-4 bg-background-light dark:bg-background-dark w-full relative -mb-2" style={{clipPath: 'polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%)'}}></div>
+          )}
+
+          {/* Current Order Items Section */}
+          {currentOrder.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
+                <span className="material-symbols-outlined text-[20px] text-primary">
+                  shopping_cart
+                </span>
+                <p className="text-xs font-bold uppercase tracking-wider text-primary">
+                  Nueva Orden
+                </p>
+              </div>
+              <div className="space-y-4 pl-2 border-l-2 border-primary/20">
+                {currentOrder.map((item) => {
+                  const orderedBy = getUserName(item.ordered_by);
+                  return (
+                    <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                      <img
+                        src={item.menu_item_image}
+                        alt={item.menu_item_name}
+                        className="w-16 h-16 object-cover rounded-xl"
+                      />
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-900 dark:text-white">{item.menu_item_name}</h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {item.quantity}x • ₡{item.total_price.toLocaleString()}
+                        </p>
+                        {orderedBy && tableUsers.length > 1 && (
+                          <p className="text-xs text-gray-400">por {orderedBy}</p>
+                        )}
+                      </div>
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                        Confirmado
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="flex flex-col w-full gap-3 mt-4 mb-8">
-            <button 
-                onClick={onPay}
-                className="w-full bg-primary text-white font-bold h-14 rounded-xl shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 hover:bg-blue-600"
-            >
-                <span className="material-symbols-outlined">credit_card</span>
-                <span>Pagar Total (₡{total.toLocaleString()})</span>
-            </button>
-            <button 
-                onClick={onKeepOrdering}
-                className="w-full bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-bold h-14 rounded-xl shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700"
-            >
-                <span className="material-symbols-outlined">add_circle</span>
-                <span>Agregar a la orden</span>
-            </button>
+        {/* Total Summary */}
+        <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6">
+          <div className="space-y-3">
+            <div className="flex justify-between text-gray-600 dark:text-gray-400">
+              <span>Subtotal</span>
+              <span>₡{subtotal.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-gray-600 dark:text-gray-400">
+              <span>IVA (13%)</span>
+              <span>₡{tax.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-gray-600 dark:text-gray-400">
+              <span>Servicio (10%)</span>
+              <span>₡{service.toLocaleString()}</span>
+            </div>
+            <div className="border-t border-gray-200 dark:border-gray-600 pt-3">
+              <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white">
+                <span>Total</span>
+                <span>₡{total.toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col w-full gap-3 mt-6 mb-8">
+          <button
+            onClick={onPay}
+            className="w-full bg-blue-600 text-white font-bold h-14 rounded-2xl shadow-lg active:scale-[0.98] transition-all hover:bg-blue-700"
+          >
+            <span>Pagar Total (₡{total.toLocaleString()})</span>
+          </button>
+          <button
+            onClick={onKeepOrdering}
+            className="w-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-bold h-14 rounded-2xl active:scale-[0.98] transition-all hover:bg-gray-200"
+          >
+            <span>Agregar más</span>
+          </button>
         </div>
       </div>
     </div>

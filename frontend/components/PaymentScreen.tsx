@@ -117,7 +117,7 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
     <div className="flex flex-col h-full w-full bg-background-light dark:bg-background-dark animate-fade-in">
       {/* Header */}
       <div className="sticky top-0 z-10 glass border-b border-border-light dark:border-border-dark px-5 py-4 flex items-center gap-4">
-        <button 
+        <button
           onClick={onBack}
           className="size-10 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95"
         >

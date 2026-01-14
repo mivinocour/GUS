@@ -10,6 +10,8 @@ interface PaymentSuccessScreenProps {
 const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, totalPaid, paidItems = [] }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [smsSent, setSmsSent] = useState(false);
+  const [rating, setRating] = useState<number>(0);
+  const [hoveredRating, setHoveredRating] = useState<number>(0);
 
   const handleSendEmail = () => {
     setEmailSent(true);
@@ -23,9 +25,10 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
     setTimeout(() => setSmsSent(true), 500);
   };
 
+
   return (
-    <div className="flex-1 flex flex-col items-center justify-center w-full h-full px-6 animate-fade-in bg-background-light dark:bg-background-dark">
-      <div className="w-full max-w-sm mx-auto flex flex-col items-center gap-6">
+    <div className="flex-1 flex flex-col items-center justify-center w-full min-h-screen px-6 py-8 animate-fade-in bg-background-light dark:bg-background-dark">
+      <div className="w-full max-w-md mx-auto flex flex-col items-center gap-6">
         
         {/* Success Icon */}
         <div className="relative">
@@ -35,9 +38,9 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
           </div>
         </div>
 
-        <div className="text-center space-y-1">
+        <div className="text-center space-y-2 w-full">
           <h2 className="text-2xl font-extrabold text-text-light dark:text-text-dark">¡Pago Exitoso!</h2>
-          <p className="text-text-muted dark:text-text-muted-dark">
+          <p className="text-text-muted dark:text-text-muted-dark text-sm">
             Tu pago de <span className="font-bold text-text-light dark:text-text-dark">₡{totalPaid.toLocaleString()}</span> ha sido procesado correctamente.
           </p>
         </div>
@@ -45,7 +48,7 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
         {/* Items Paid For */}
         {paidItems.length > 0 && (
           <div className="w-full bg-surface-light dark:bg-surface-dark p-5 rounded-2xl shadow-card border border-border-light dark:border-border-dark">
-            <h3 className="font-bold text-sm uppercase tracking-wider text-text-muted dark:text-text-muted-dark mb-4">
+            <h3 className="font-bold text-sm uppercase tracking-wider text-text-muted dark:text-text-muted-dark mb-4 text-center">
               Lo que pagaste
             </h3>
             
@@ -90,8 +93,52 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
           </div>
         )}
 
+        {/* Rating Section */}
+        <div className="w-full bg-surface-light dark:bg-surface-dark p-6 rounded-3xl shadow-card border border-border-light dark:border-border-dark">
+          <h3 className="font-bold text-sm uppercase tracking-wider text-text-muted dark:text-text-muted-dark mb-4 text-center">
+            ¿Cómo fue tu experiencia?
+          </h3>
+          
+          <div className="flex flex-col items-center gap-4">
+            {/* Star Rating */}
+            <div className="flex items-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHoveredRating(star)}
+                  onMouseLeave={() => setHoveredRating(0)}
+                  className="focus:outline-none transition-transform active:scale-90"
+                >
+                  <span
+                    className={`material-symbols-outlined text-[40px] transition-colors ${
+                      star <= (hoveredRating || rating)
+                        ? 'text-yellow-400 material-symbols-filled'
+                        : 'text-slate-300 dark:text-slate-600'
+                    }`}
+                  >
+                    star
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {/* Rating Text */}
+            {rating > 0 && (
+              <p className="text-sm text-text-muted dark:text-text-muted-dark text-center">
+                {rating === 5 && '¡Excelente! 🎉'}
+                {rating === 4 && 'Muy bueno 👍'}
+                {rating === 3 && 'Bueno 😊'}
+                {rating === 2 && 'Regular 😐'}
+                {rating === 1 && 'Necesita mejorar 😔'}
+              </p>
+            )}
+          </div>
+        </div>
+
         {/* Receipt Options Card */}
-        <div className="w-full bg-surface-light dark:bg-surface-dark p-6 rounded-3xl shadow-card border border-border-light dark:border-border-dark mt-4">
+        <div className="w-full bg-surface-light dark:bg-surface-dark p-6 rounded-3xl shadow-card border border-border-light dark:border-border-dark">
           <h3 className="font-bold text-sm uppercase tracking-wider text-text-muted dark:text-text-muted-dark mb-4 text-center">Enviar Recibo</h3>
           
           <div className="space-y-3">
@@ -133,7 +180,7 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
 
         <button 
           onClick={onDone}
-          className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold h-14 rounded-2xl shadow-lg active:scale-95 transition-all mt-4"
+          className="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold h-14 rounded-2xl shadow-lg active:scale-95 transition-all"
         >
           Listo, volver al inicio
         </button>

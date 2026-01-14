@@ -31,7 +31,8 @@ interface ApiOrderResponse {
 interface SuccessScreenProps {
   onKeepOrdering: () => void;
   onPay: () => void;
-  orderItems: CartItem[];
+  orderItems: CartItem[]; // Current order items (just confirmed)
+  confirmedItems: CartItem[]; // All confirmed items from the session
   grandTotal: number;
 }
 
@@ -39,11 +40,16 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
   onKeepOrdering,
   onPay,
   orderItems,
+  confirmedItems,
   grandTotal
 }) => {
 
-  // Simple calculation based on order items
-  const total = orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  // Calculate total from ALL confirmed items (not just current order)
+  const total = confirmedItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  
+  // Separate current order items from previously confirmed items
+  const currentOrderIds = new Set(orderItems.map(item => item.id));
+  const previouslyConfirmed = confirmedItems.filter(item => !currentOrderIds.has(item.id));
 
   const getStatusDisplay = (status: string) => {
     const statusMap = {
@@ -74,36 +80,73 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
 
         {/* Items List */}
         <div className="space-y-6">
-          <div>
-            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
-              <span className="material-symbols-outlined text-[20px] text-primary">
-                shopping_cart
-              </span>
-              <p className="text-xs font-bold uppercase tracking-wider text-primary">
-                Tu Orden
-              </p>
-            </div>
-            <div className="space-y-4 pl-2 border-l-2 border-primary/20">
-              {orderItems.map((item: CartItem) => (
-                <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-16 h-16 object-cover rounded-xl"
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {item.quantity}x • ₡{(item.price * item.quantity).toLocaleString()}
-                    </p>
+          {/* Current Order Items (Just Confirmed) */}
+          {orderItems.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
+                <span className="material-symbols-outlined text-[20px] text-primary">
+                  shopping_cart
+                </span>
+                <p className="text-xs font-bold uppercase tracking-wider text-primary">
+                  Nueva Orden
+                </p>
+              </div>
+              <div className="space-y-4 pl-2 border-l-2 border-primary/20">
+                {orderItems.map((item: CartItem) => (
+                  <div key={`new-${item.id}`} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-16 h-16 object-cover rounded-xl"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {item.quantity}x • ₡{(item.price * item.quantity).toLocaleString()}
+                      </p>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                      Confirmado
+                    </span>
                   </div>
-                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
-                    Confirmado
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Previously Confirmed Items */}
+          {previouslyConfirmed.length > 0 && (
+            <div className="opacity-75">
+              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
+                <span className="material-symbols-outlined text-[20px] text-green-600 dark:text-green-400">
+                  check_circle
+                </span>
+                <p className="text-xs font-bold uppercase tracking-wider text-green-700 dark:text-green-400">
+                  En Preparación
+                </p>
+              </div>
+              <div className="space-y-4 pl-2 border-l-2 border-green-500/20">
+                {previouslyConfirmed.map((item: CartItem) => (
+                  <div key={`prev-${item.id}`} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-16 h-16 object-cover rounded-xl"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {item.quantity}x • ₡{(item.price * item.quantity).toLocaleString()}
+                      </p>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
+                      En Preparación
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Total Summary */}

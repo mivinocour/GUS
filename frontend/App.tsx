@@ -311,6 +311,7 @@ const App: React.FC = () => {
             onKeepOrdering={handleKeepOrdering}
             onPay={handleGoToPayment}
             orderItems={lastOrder}
+            confirmedItems={confirmedItems}
             grandTotal={grandTotal}
           />
         )}

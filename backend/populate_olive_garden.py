@@ -16,7 +16,7 @@ RESTAURANT_DATA = {
     "description": "When you're here, you're family.",
     "address": "123 Italian Way, Costa Rica",
     "phone": "+506 2222-6666",
-    "logo": "/images/olive-garden/logo.png",
+    "logo": "https://images.unsplash.com/photo-1554679665-f5537cf9b5ff?auto=format&fit=crop&q=80&w=200",
     "colors": {
         "primary": "#006633",    # Olive Garden green
         "secondary": "#CC9900",  # Gold
@@ -36,7 +36,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Breadsticks",
                 "description": "Warm, garlic breadsticks served with marinara sauce.",
                 "price": 3500,  # ¢3,500
-                "image": "/images/olive-garden/breadsticks.jpg",
+                "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             },
             {
@@ -44,7 +44,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Calamari",
                 "description": "Hand-breaded, lightly fried and served with marinara and spicy ranch.",
                 "price": 7200,
-                "image": "/images/olive-garden/calamari.jpg",
+                "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": False
             },
             {
@@ -52,7 +52,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Stuffed Mushrooms",
                 "description": "Mushrooms stuffed with clams, shrimp, herb breadcrumbs and parmesan.",
                 "price": 6800,
-                "image": "/images/olive-garden/stuffed-mushrooms.jpg",
+                "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": False
             }
         ]
@@ -67,7 +67,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Fettuccine Alfredo",
                 "description": "Rich parmesan cream sauce with a hint of roasted garlic over fettuccine.",
                 "price": 12500,
-                "image": "/images/olive-garden/fettuccine-alfredo.jpg",
+                "image": "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             },
             {
@@ -75,7 +75,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Spaghetti & Meatballs",
                 "description": "Traditional meat sauce and meatballs over spaghetti.",
                 "price": 11800,
-                "image": "/images/olive-garden/spaghetti-meatballs.jpg",
+                "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             },
             {
@@ -83,7 +83,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Chicken Parmigiana",
                 "description": "Crispy, tender chicken breast topped with marinara and melted mozzarella.",
                 "price": 14200,
-                "image": "/images/olive-garden/chicken-parmigiana.jpg",
+                "image": "https://images.unsplash.com/photo-1565299585323-38174c364c3d?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             },
             {
@@ -91,7 +91,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Lasagna Classico",
                 "description": "Layers of pasta, meat sauce and cheese, baked until bubbly.",
                 "price": 13900,
-                "image": "/images/olive-garden/lasagna.jpg",
+                "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             }
         ]
@@ -106,7 +106,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Chicken Scampi",
                 "description": "Tender chicken with bell peppers and onions in a creamy scampi sauce.",
                 "price": 15600,
-                "image": "/images/olive-garden/chicken-scampi.jpg",
+                "image": "https://images.unsplash.com/photo-1612392061787-2766c4cf8de8?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             },
             {
@@ -114,7 +114,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Tour of Italy",
                 "description": "Three classics: chicken parmigiana, lasagna classico and fettuccine alfredo.",
                 "price": 18500,
-                "image": "/images/olive-garden/tour-italy.jpg",
+                "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             }
         ]
@@ -129,7 +129,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Tiramisu",
                 "description": "The classic Italian dessert with ladyfingers, mascarpone and cocoa.",
                 "price": 5200,
-                "image": "/images/olive-garden/tiramisu.jpg",
+                "image": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": True
             },
             {
@@ -137,7 +137,7 @@ OLIVE_GARDEN_MENU_DATA = [
                 "name": "Chocolate Brownie Lasagna",
                 "description": "Rich chocolate brownie layered with chocolate mousse.",
                 "price": 4800,
-                "image": "/images/olive-garden/brownie-lasagna.jpg",
+                "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&q=80&w=600",
                 "is_recommended": False
             }
         ]
@@ -205,7 +205,22 @@ async def create_olive_garden():
 
                 print(f"   ✅ Added: {item['name']} (₡{item['price']})")
 
-        print(f"\n🎉 Successfully created Olive Garden with {len([item for cat in OLIVE_GARDEN_MENU_DATA for item in cat['items']])} menu items!")
+        # Create tables for the restaurant
+        print(f"\n🪑 Creating tables for Olive Garden...")
+        for table_num in range(1, 21):  # Create tables 1-20
+            await conn.execute("""
+                INSERT INTO tables (restaurant_id, table_number, capacity, is_active)
+                VALUES ($1, $2, $3, $4)
+            """,
+            restaurant_id,
+            table_num,
+            4,  # Default capacity of 4
+            True  # is_active
+            )
+
+        print(f"✅ Created 20 tables for Olive Garden")
+
+        print(f"\n🎉 Successfully created Olive Garden with {len([item for cat in OLIVE_GARDEN_MENU_DATA for item in cat['items']])} menu items and 20 tables!")
 
     except Exception as e:
         print(f"❌ Error: {e}")

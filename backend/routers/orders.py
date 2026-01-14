@@ -190,7 +190,7 @@ async def create_order(
             total_price=total_price,
             notes=item_data.notes,
             ordered_by=item_data.ordered_by,
-            status="pending"
+            status="confirmed"
         )
 
         db.add(order_item)
@@ -393,3 +393,5 @@ async def complete_order(
     return SuccessResponse(
         message=f"Order {order.order_number} marked as paid"
     )
+
+

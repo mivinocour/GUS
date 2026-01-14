@@ -23,24 +23,31 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
 
   const getUserName = (userId?: string) => {
     if (!userId) return null;
-    return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
+    return tableUsers.find(u => u.id === userId)?.name || null;
   };
 
   useEffect(() => {
+    console.log('PaymentScreen: paidItems:', paidItems);
+    console.log('PaymentScreen: confirmedItems:', confirmedItems);
+
     // Flatten items: If quantity is 2, create 2 entries so they can be paid individually
     const flat: { uniqueId: string, originalItem: CartItem, isPaid: boolean, paidBy?: string }[] = [];
     confirmedItems.forEach((item, index) => {
       const paidCount = getPaidCount(item.id);
       const paidItemsForThis = paidItems.filter(p => p.itemId === item.id);
       let paidIndex = 0;
-      
+
+      console.log(`Item ${item.id}: paidCount=${paidCount}, totalQuantity=${item.quantity}`);
+
       for (let i = 0; i < item.quantity; i++) {
         const isPaid = i < paidCount;
         const paidBy = isPaid && paidItemsForThis[paidIndex] ? paidItemsForThis[paidIndex].paidBy : undefined;
         if (isPaid && paidItemsForThis[paidIndex] && i >= paidItemsForThis[paidIndex].quantity) {
           paidIndex++;
         }
-        
+
+        console.log(`  Item ${item.id}[${i}]: isPaid=${isPaid}, paidBy=${paidBy}`);
+
         flat.push({
           uniqueId: `${item.id}-${index}-${i}`,
           originalItem: { ...item, quantity: 1 }, // Treat as single unit
@@ -190,8 +197,10 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
                     }`}>
                       {item.originalItem.name}
                     </p>
-                    {item.isPaid && paidByName ? (
-                      <p className="text-xs text-green-600 dark:text-green-400 font-semibold">Pagado por {paidByName}</p>
+                    {item.isPaid ? (
+                      <p className="text-xs text-green-600 dark:text-green-400 font-semibold">
+                        {paidByName ? `Pagado por ${paidByName}` : 'Pagado'}
+                      </p>
                     ) : (
                       <p className="text-xs text-text-muted dark:text-text-muted-dark">₡{item.originalItem.price.toLocaleString()}</p>
                     )}

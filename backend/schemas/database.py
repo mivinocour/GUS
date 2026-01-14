@@ -43,13 +43,14 @@ class DatabaseManager:
             pool_recycle=-1,  # Disable pool recycling
             connect_args={
                 "statement_cache_size": 0,  # Disable asyncpg statement cache
-                "prepared_statement_name_func": unique_prepared_statement_name,  # Unique names
+                "prepared_statement_cache_size": 0,  # Also disable this
                 "ssl": "require"
             },
-            # Disable prepared statements and caching at SQLAlchemy level
+            # Disable ALL statement caching at SQLAlchemy level
             execution_options={
-                "compiled_cache": {},
-                "autocommit": False
+                "compiled_cache": {},  # Disable compiled statement cache
+                "autocommit": False,
+                "isolation_level": "AUTOCOMMIT"  # Try autocommit mode
             },
             future=True  # Use future mode for better compatibility
         )

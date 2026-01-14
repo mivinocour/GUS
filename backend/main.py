@@ -27,6 +27,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Debug middleware
+@app.middleware("http")
+async def log_requests(request, call_next):
+    print(f"🔄 {request.method} {request.url}")
+    try:
+        response = await call_next(request)
+        print(f"✅ {request.method} {request.url} -> {response.status_code}")
+        return response
+    except Exception as e:
+        print(f"❌ {request.method} {request.url} -> ERROR: {e}")
+        raise
+
 # Include routers
 app.include_router(restaurants.router)
 app.include_router(tables.router)

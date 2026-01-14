@@ -69,6 +69,25 @@ export interface ApiOrderResponse {
   }>;
 }
 
+export interface TableUser {
+  id: string;
+  name: string;
+  joined_at: string;
+  is_active: boolean;
+}
+
+export interface SessionCreate {
+  user_name: string;
+}
+
+export interface SessionResponse {
+  id: string;
+  user_name: string;
+  session_token: string;
+  joined_at: string;
+  is_active: boolean;
+}
+
 class ApiService {
   private baseUrl: string;
 
@@ -160,6 +179,64 @@ class ApiService {
       restaurantId: restaurantSlug, // Backend accepts slug in URL and does lookup
       tableId: tableNumber ? `table-${tableNumber}` : null // Simple ID format for now
     };
+  }
+
+  // Session endpoints
+  async createTableSession(
+    restaurantSlug: string,
+    tableNumber: number,
+    userName: string
+  ): Promise<SessionResponse> {
+    return this.request<SessionResponse>(
+      `/api/restaurants/${restaurantSlug}/tables/${tableNumber}/sessions`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ user_name: userName }),
+      }
+    );
+  }
+
+  async getTableSessions(
+    restaurantSlug: string,
+    tableNumber: number
+  ): Promise<TableUser[]> {
+    return this.request<TableUser[]>(
+      `/api/restaurants/${restaurantSlug}/tables/${tableNumber}/sessions`
+    );
+  }
+
+  async updateSessionHeartbeat(sessionId: string): Promise<{ success: boolean }> {
+    return this.request<{ success: boolean }>(`/api/sessions/${sessionId}/heartbeat`, {
+      method: 'PUT',
+    });
+  }
+
+  async leaveTableSession(sessionId: string): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(`/api/sessions/${sessionId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Table-wide order tracking
+  async getAllTableOrders(
+    restaurantSlug: string,
+    tableNumber: number
+  ): Promise<any[]> {
+    return this.request<any[]>(
+      `/api/restaurants/${restaurantSlug}/tables/${tableNumber}/all-orders`
+    );
+  }
+
+  async restartTable(
+    restaurantSlug: string,
+    tableNumber: number
+  ): Promise<{ success: boolean; message: string }> {
+    return this.request<{ success: boolean; message: string }>(
+      `/api/restaurants/${restaurantSlug}/tables/${tableNumber}/restart`,
+      {
+        method: 'PUT',
+      }
+    );
   }
 
   // Health check

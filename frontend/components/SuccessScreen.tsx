@@ -32,128 +32,18 @@ interface SuccessScreenProps {
   onKeepOrdering: () => void;
   onPay: () => void;
   orderItems: CartItem[];
-  confirmedItems: CartItem[];
   grandTotal: number;
-  tableUsers: TableUser[];
-  currentOrderId?: string | null;
-  restaurantSlug?: string;
-  tableNumber?: number;
 }
 
-const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, orderItems, confirmedItems, grandTotal, tableUsers, currentOrderId, restaurantSlug, tableNumber }) => {
-  const [realOrderItems, setRealOrderItems] = useState<OrderItemStatus[]>([]);
-  const [isLoadingOrder, setIsLoadingOrder] = useState(false);
+const SuccessScreen: React.FC<SuccessScreenProps> = ({
+  onKeepOrdering,
+  onPay,
+  orderItems,
+  grandTotal
+}) => {
 
-  // Get current restaurant and table info from URL if not provided
-  const getResKey = () => {
-    if (typeof window === 'undefined') return 'gus';
-    const params = new URLSearchParams(window.location.search);
-    return params.get('res')?.toLowerCase() || 'gus';
-  };
-
-  const getTableNumber = () => {
-    if (typeof window === 'undefined') return 1;
-    const params = new URLSearchParams(window.location.search);
-    return parseInt(params.get('table') || '1');
-  };
-
-  const resKey = restaurantSlug || getResKey();
-  const tableNum = tableNumber || getTableNumber();
-  const restaurant = RESTAURANTS[resKey] || RESTAURANTS.gus;
-
-  // Helper function to get menu item details from the restaurant data
-  const getMenuItemDetails = (menuItemId: string) => {
-    for (const category of restaurant.menu) {
-      const item = category.items.find(item => item.id === menuItemId);
-      if (item) {
-        return {
-          name: item.name,
-          image: item.image,
-          price: item.price
-        };
-      }
-    }
-    return {
-      name: 'Unknown Item',
-      image: '/placeholder.jpg',
-      price: 0
-    };
-  };
-
-  // Fetch current order data from database
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      if (!resKey || !tableNum) return;
-
-      setIsLoadingOrder(true);
-      try {
-        // Fetch the current active order for this table
-        const orderData = await apiService.getTableOrder(resKey, tableNum);
-        if (orderData && orderData.items) {
-          setRealOrderItems(orderData.items);
-        }
-      } catch (error) {
-        console.error('Failed to fetch order data:', error);
-      } finally {
-        setIsLoadingOrder(false);
-      }
-    };
-
-    fetchOrderData();
-  }, [resKey, tableNum, currentOrderId]);
-
-  const getUserName = (userId?: string) => {
-    if (!userId) return null;
-    return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
-  };
-
-  // Group items: previously confirmed vs current order (similar to OrderSummary logic)
-  const getGroupedItems = () => {
-    const currentOrderIds = new Set(orderItems.map(item => item.id));
-    
-    // Previously confirmed items (not in current order)
-    const previouslyConfirmed = confirmedItems.filter(item => !currentOrderIds.has(item.id));
-    
-    // Current order items
-    const currentOrder = orderItems.length > 0 ? orderItems : [];
-
-    return {
-      previouslyConfirmed: previouslyConfirmed.map(item => ({
-        id: `prev-${item.id}`,
-        menu_item_id: item.id,
-        menu_item_name: item.name,
-        menu_item_image: item.image,
-        quantity: item.quantity,
-        unit_price: item.price,
-        total_price: item.price * item.quantity,
-        notes: item.notes,
-        ordered_by: item.orderedBy || 'current',
-        status: 'confirmed' as const,
-        created_at: new Date().toISOString(),
-        isNewlyOrdered: false
-      })),
-      currentOrder: currentOrder.map(item => ({
-        id: `new-${item.id}`,
-        menu_item_id: item.id,
-        menu_item_name: item.name,
-        menu_item_image: item.image,
-        quantity: item.quantity,
-        unit_price: item.price,
-        total_price: item.price * item.quantity,
-        notes: item.notes,
-        ordered_by: item.orderedBy || 'current',
-        status: 'confirmed' as const,
-        created_at: new Date().toISOString(),
-        isNewlyOrdered: true
-      }))
-    };
-  };
-
-  const { previouslyConfirmed, currentOrder } = getGroupedItems();
-  const allDisplayItems = [...previouslyConfirmed, ...currentOrder];
-
-  // Calculate total for all items
-  const subtotal = allDisplayItems.reduce((acc, item) => acc + (item.total_price), 0);
+  // Simple calculation based on order items
+  const subtotal = orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const tax = subtotal * 0.13;
   const service = subtotal * 0.10;
   const total = subtotal + tax + service;
@@ -185,94 +75,38 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ onKeepOrdering, onPay, or
           </p>
         </div>
 
-        {/* Loading State */}
-        {isLoadingOrder && (
-          <div className="text-center py-8">
-            <div className="text-gray-500">Cargando detalles de la orden...</div>
-          </div>
-        )}
-
-        {/* Items List - Grouped like OrderSummary */}
+        {/* Items List */}
         <div className="space-y-6">
-          {/* Previously Confirmed Items Section */}
-          {previouslyConfirmed.length > 0 && (
-            <div className="opacity-75">
-              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
-                <span className="material-symbols-outlined text-[20px] text-green-600">
-                  check_circle
-                </span>
-                <p className="text-xs font-bold uppercase tracking-wider text-green-700 dark:text-green-400">
-                  En preparación
-                </p>
-              </div>
-              <div className="space-y-4 pl-2 border-l-2 border-green-500/20">
-                {previouslyConfirmed.map((item) => {
-                  const orderedBy = getUserName(item.ordered_by);
-                  return (
-                    <div key={item.id} className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                      <img
-                        src={item.menu_item_image}
-                        alt={item.menu_item_name}
-                        className="w-12 h-12 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <h3 className="text-sm font-bold text-gray-900 dark:text-white">{item.menu_item_name}</h3>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {item.quantity}x • ₡{item.total_price.toLocaleString()}
-                        </p>
-                        {orderedBy && tableUsers.length > 1 && (
-                          <p className="text-xs text-gray-400">por {orderedBy}</p>
-                        )}
-                      </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
-                        Confirmado
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+          <div>
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
+              <span className="material-symbols-outlined text-[20px] text-primary">
+                shopping_cart
+              </span>
+              <p className="text-xs font-bold uppercase tracking-wider text-primary">
+                Tu Orden
+              </p>
             </div>
-          )}
-
-          {/* Current Order Items Section */}
-          {currentOrder.length > 0 && (
-            <div>
-              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border-light dark:border-border-dark">
-                <span className="material-symbols-outlined text-[20px] text-primary">
-                  shopping_cart
-                </span>
-                <p className="text-xs font-bold uppercase tracking-wider text-primary">
-                  Nueva Orden
-                </p>
-              </div>
-              <div className="space-y-4 pl-2 border-l-2 border-primary/20">
-                {currentOrder.map((item) => {
-                  const orderedBy = getUserName(item.ordered_by);
-                  return (
-                    <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-                      <img
-                        src={item.menu_item_image}
-                        alt={item.menu_item_name}
-                        className="w-16 h-16 object-cover rounded-xl"
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 dark:text-white">{item.menu_item_name}</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {item.quantity}x • ₡{item.total_price.toLocaleString()}
-                        </p>
-                        {orderedBy && tableUsers.length > 1 && (
-                          <p className="text-xs text-gray-400">por {orderedBy}</p>
-                        )}
-                      </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
-                        Confirmado
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="space-y-4 pl-2 border-l-2 border-primary/20">
+              {orderItems.map((item: CartItem) => (
+                <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-16 h-16 object-cover rounded-xl"
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {item.quantity}x • ₡{(item.price * item.quantity).toLocaleString()}
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                    Confirmado
+                  </span>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
         </div>
 
         {/* Total Summary */}

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ViewState, CartItem, MenuItem, TableUser, PaidItem } from './types';
+import { ViewState, CartItem, MenuItem, PaidItem } from './types';
 import MenuScreen from './components/MenuScreen';
 import OrderSummary from './components/OrderSummary';
 import SuccessScreen from './components/SuccessScreen';
 import PaymentScreen from './components/PaymentScreen';
 import PaymentSuccessScreen from './components/PaymentSuccessScreen';
-import TableUsersPanel from './components/TableUsersPanel';
 
 import { RESTAURANTS } from './data';
-import { apiService, convertCartItemsToApiFormat, type ApiOrderCreate } from './services/api';
-import { getMenuItemUUID, getRestaurantUUID } from './services/menuMapping';
+import { debugLocalStorage } from './utils/localStorage';
 
 const getResKey = () => {
   if (typeof window === 'undefined') return 'gus';
@@ -38,53 +36,24 @@ const App: React.FC = () => {
     document.documentElement.style.setProperty('--app-background', restaurant.colors.background);
   }, [restaurant]);
 
-  // Table session management
+  // Simple localStorage-based state management (single user)
   const [currentUserId] = useState<string>(() => {
     const stored = localStorage.getItem('gus_userId');
     return stored || generateUserId();
   });
-  const [currentUserName, setCurrentUserName] = useState<string>(() => {
-    return localStorage.getItem('gus_userName') || '';
-  });
-  const [tableUsers, setTableUsers] = useState<TableUser[]>(() => {
-    if (tableId) {
-      const stored = localStorage.getItem(`gus_table_${tableId}`);
-      return stored ? JSON.parse(stored) : [];
-    }
-    return [];
-  });
   const [paidItems, setPaidItems] = useState<PaidItem[]>(() => {
     if (tableId) {
       const stored = localStorage.getItem(`gus_paid_${tableId}`);
-      return stored ? JSON.parse(stored) : [];
+      try {
+        return stored ? JSON.parse(stored) : [];
+      } catch {
+        // Clear invalid data
+        localStorage.removeItem(`gus_paid_${tableId}`);
+        return [];
+      }
     }
     return [];
   });
-
-  // Auto-join table when tableId is present and user has a name
-  useEffect(() => {
-    if (tableId && currentUserName) {
-      const userExists = tableUsers.find(u => u.id === currentUserId);
-      if (!userExists) {
-        setTableUsers(prev => {
-          const updated = [...prev, {
-            id: currentUserId,
-            name: currentUserName,
-            joinedAt: Date.now(),
-          }];
-          localStorage.setItem(`gus_table_${tableId}`, JSON.stringify(updated));
-          return updated;
-        });
-      }
-    }
-  }, [tableId, currentUserName, currentUserId]);
-
-  // Sync table users to localStorage
-  useEffect(() => {
-    if (tableId && tableUsers.length > 0) {
-      localStorage.setItem(`gus_table_${tableId}`, JSON.stringify(tableUsers));
-    }
-  }, [tableId, tableUsers]);
 
   // Sync paid items to localStorage
   useEffect(() => {
@@ -93,13 +62,11 @@ const App: React.FC = () => {
     }
   }, [tableId, paidItems]);
 
-  // Store user ID and name
+  // Store user ID and debug localStorage
   useEffect(() => {
     localStorage.setItem('gus_userId', currentUserId);
-    if (currentUserName) {
-      localStorage.setItem('gus_userName', currentUserName);
-    }
-  }, [currentUserId, currentUserName]);
+    debugLocalStorage(); // Debug what's in localStorage
+  }, [currentUserId]);
 
   const [view, setView] = useState<ViewState>('MENU');
   const [pendingPaymentItems, setPendingPaymentItems] = useState<CartItem[]>([]);
@@ -107,11 +74,10 @@ const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [lastOrder, setLastOrder] = useState<CartItem[]>([]);
   const [confirmedItems, setConfirmedItems] = useState<CartItem[]>([]);
-  
+
   // New States
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [lastPaidAmount, setLastPaidAmount] = useState(0);
-  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
   
   // Helper to get items for payment (ensures we always have items even if state is stale)
   const getItemsForPayment = (): CartItem[] => {
@@ -128,33 +94,6 @@ const App: React.FC = () => {
     return [];
   };
 
-  // Join table function
-  const handleJoinTable = () => {
-    if (tableId && currentUserName) {
-      const userExists = tableUsers.find(u => u.id === currentUserId);
-      if (!userExists) {
-        setTableUsers(prev => [...prev, {
-          id: currentUserId,
-          name: currentUserName,
-          joinedAt: Date.now(),
-        }]);
-      }
-    }
-  };
-
-  // Update user name
-  const handleNameChange = (name: string) => {
-    setCurrentUserName(name);
-    if (tableId) {
-      setTableUsers(prev => {
-        const existing = prev.find(u => u.id === currentUserId);
-        if (existing) {
-          return prev.map(u => u.id === currentUserId ? { ...u, name } : u);
-        }
-        return [...prev, { id: currentUserId, name, joinedAt: Date.now() }];
-      });
-    }
-  };
 
   // Helper to calculate total value of a list of items
   const calculateTotal = (items: CartItem[]) => {
@@ -164,9 +103,7 @@ const App: React.FC = () => {
     return subtotal + tax + service;
   };
 
-  // Derived state
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-  
   const currentCartTotal = calculateTotal(cart);
   const confirmedTotal = calculateTotal(confirmedItems);
   const grandTotal = currentCartTotal + confirmedTotal;
@@ -214,108 +151,36 @@ const App: React.FC = () => {
     });
   };
 
-  const handleConfirmOrder = async () => {
+  const handleConfirmOrder = () => {
     if (cart.length === 0) return;
 
-    try {
-      // Convert cart items to API format with UUID mapping
-      const orderItems = cart.map(item => ({
-        menu_item_id: getMenuItemUUID(item.id),
-        quantity: item.quantity,
-        notes: undefined,
-        ordered_by: currentUserId
-      }));
+    // Simple localStorage-based confirmation (no API calls)
+    const itemsToConfirm = [...cart]; // Copy cart items before clearing
 
-      // Create order via API - backend handles restaurant/table lookup from URL
-      const tableNumber = tableId ? parseInt(tableId) : 1; // Default table 1 if no table specified
+    setLastOrder(itemsToConfirm); // Save current items for success screen receipt
+    setPendingPaymentItems(itemsToConfirm); // Store items for payment screen
 
-      const orderData: ApiOrderCreate = {
-        // Don't send table_id in body - backend gets it from URL path parameter
-        // table_id: undefined, // Backend gets table from URL path, not body
-        items: orderItems,
-        notes: undefined
-      };
-
-      console.log('Creating order:', { resKey, tableNumber, orderData, currentUserId });
-
-      // Validate data before sending
-      if (!currentUserId || currentUserId.trim() === '') {
-        throw new Error('User ID is required. Please set your name in the table panel.');
-      }
-
-      // Validate menu item IDs are UUIDs
-      const invalidItems = orderItems.filter(item => {
-        // Check if menu_item_id is a valid UUID format
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        return !uuidRegex.test(item.menu_item_id);
+    // Merge into confirmed items history
+    setConfirmedItems(prev => {
+      const newConfirmed = [...prev];
+      itemsToConfirm.forEach(cartItem => {
+        const existingIndex = newConfirmed.findIndex(i => i.id === cartItem.id);
+        if (existingIndex >= 0) {
+          newConfirmed[existingIndex] = {
+            ...newConfirmed[existingIndex],
+            quantity: newConfirmed[existingIndex].quantity + cartItem.quantity
+          };
+        } else {
+          newConfirmed.push(cartItem);
+        }
       });
+      return newConfirmed;
+    });
 
-      if (invalidItems.length > 0) {
-        console.error('Invalid menu item IDs (not UUIDs):', invalidItems);
-        throw new Error(`Some menu items are not available. Please refresh and try again.`);
-      }
+    setIsOrderSummaryOpen(false);
+    setCart([]); // Clear active cart
 
-      // Call backend API
-      const createdOrder = await apiService.createOrder(resKey, tableNumber, orderData);
-
-      console.log('Order created successfully:', createdOrder);
-
-      // Store the current order ID for payment completion
-      setCurrentOrderId(createdOrder.id);
-
-      // Update local state for UI (keep existing behavior)
-      // IMPORTANT: Store items BEFORE clearing cart to ensure they're available for payment screen
-      const itemsToConfirm = [...cart]; // Copy cart items before clearing
-      
-      setLastOrder(itemsToConfirm); // Save current items for success screen receipt
-      setPendingPaymentItems(itemsToConfirm); // Store items for payment screen
-
-      // Merge into confirmed items history (use the copy, not cart which will be cleared)
-      setConfirmedItems(prev => {
-        const newConfirmed = [...prev];
-        itemsToConfirm.forEach(cartItem => {
-          const existingIndex = newConfirmed.findIndex(i => i.id === cartItem.id);
-          if (existingIndex >= 0) {
-            newConfirmed[existingIndex] = {
-              ...newConfirmed[existingIndex],
-              quantity: newConfirmed[existingIndex].quantity + cartItem.quantity
-            };
-          } else {
-            newConfirmed.push(cartItem);
-          }
-        });
-        return newConfirmed;
-      });
-
-      setIsOrderSummaryOpen(false);
-      setCart([]); // Clear active cart
-      
-      setView('SUCCESS');
-
-    } catch (error: any) {
-      console.error('Failed to create order:', error);
-      
-      // Check for validation errors (422)
-      if (error?.message?.includes('422')) {
-        const errorMsg = error.message.includes('Table') || error.message.includes('not found')
-          ? `Table ${tableNumber} not found for ${resKey}. Please create the table in the database first.`
-          : error.message.includes('Menu item') || error.message.includes('not available')
-          ? 'Some menu items are not available. Make sure Olive Garden menu is populated in the database.'
-          : `Validation error: ${error.message}`;
-        alert(`Error creating order:\n\n${errorMsg}\n\nPlease check:\n1. Table exists in database\n2. Menu items are populated\n3. Restaurant slug is correct`);
-        return; // Don't proceed with UI update on validation errors
-      }
-      
-      // Network error - order saved locally
-      alert('Network error - order saved locally. Will retry when connection is restored.');
-
-      const itemsToConfirm = [...cart]; // Copy before clearing
-      setLastOrder(itemsToConfirm);
-      setPendingPaymentItems(itemsToConfirm); // Store items for payment screen
-      setIsOrderSummaryOpen(false);
-      setCart([]);
-      setView('SUCCESS');
-    }
+    setView('SUCCESS');
   };
 
   const handleKeepOrdering = () => {
@@ -347,7 +212,7 @@ const App: React.FC = () => {
     setView('PAYMENT');
   };
 
-  const handlePaymentComplete = async (paidItemsList: {id: string, quantity: number}[], totalAmount: number) => {
+  const handlePaymentComplete = (paidItemsList: {id: string, quantity: number}[], totalAmount: number) => {
     // Determine if we fully paid everything
     let remainingItems: CartItem[] = [];
     let itemsBeingPaid: CartItem[] = [];
@@ -378,22 +243,6 @@ const App: React.FC = () => {
     // Use the total amount passed from PaymentScreen (includes tax, service, and tip)
     setLastPaidAmount(totalAmount);
     setConfirmedItems(remainingItems);
-
-    // Check if all items are paid for
-    const allItemsPaid = remainingItems.length === 0;
-
-    // If all items paid and we have a current order, mark it as complete in backend
-    if (allItemsPaid && currentOrderId) {
-      try {
-        await apiService.completeOrder(resKey, currentOrderId);
-        console.log('Order marked as paid in database:', currentOrderId);
-        // Clear the current order ID since it's now complete
-        setCurrentOrderId(null);
-      } catch (error) {
-        console.error('Failed to mark order as paid:', error);
-        // Continue with UI flow even if backend call fails
-      }
-    }
 
     // Instead of alert, go to Payment Success Screen
     setView('PAYMENT_SUCCESS');
@@ -455,22 +304,16 @@ const App: React.FC = () => {
             onKeepOrdering={handleKeepOrdering}
             onPay={handleGoToPayment}
             orderItems={lastOrder}
-            confirmedItems={confirmedItems}
             grandTotal={grandTotal}
-            tableUsers={tableUsers}
-            currentOrderId={currentOrderId}
-            restaurantSlug={resKey}
-            tableNumber={tableId ? parseInt(tableId) : undefined}
           />
         )}
 
         {view === 'PAYMENT' && (
-          <PaymentScreen 
-            confirmedItems={getItemsForPayment()}
+          <PaymentScreen
+            confirmedItems={confirmedItems}
             onBack={() => setView('MENU')}
             onCompletePayment={handlePaymentComplete}
             paidItems={paidItems}
-            tableUsers={tableUsers}
           />
         )}
 
@@ -483,8 +326,8 @@ const App: React.FC = () => {
       </main>
 
       {/* Order Summary Drawer (Overlay) */}
-      <OrderSummary 
-        isOpen={isOrderSummaryOpen} 
+      <OrderSummary
+        isOpen={isOrderSummaryOpen}
         onClose={() => setIsOrderSummaryOpen(false)}
         cart={cart}
         confirmedItems={confirmedItems}
@@ -494,19 +337,7 @@ const App: React.FC = () => {
         onAddRecommendation={handleItemSelect}
         onGoToPayment={handleGoToPayment}
         paidItems={paidItems}
-        tableUsers={tableUsers}
       />
-
-      {/* Table Users Panel */}
-      {tableId && (
-        <TableUsersPanel
-          currentUserId={currentUserId}
-          users={tableUsers}
-          currentUserName={currentUserName}
-          onNameChange={handleNameChange}
-          onJoinTable={handleJoinTable}
-        />
-      )}
 
     </div>
   );

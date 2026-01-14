@@ -78,6 +78,7 @@ const App: React.FC = () => {
   // New States
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [lastPaidAmount, setLastPaidAmount] = useState(0);
+  const [lastPaidItems, setLastPaidItems] = useState<CartItem[]>([]);
   
   // Helper to get items for payment (ensures we always have items even if state is stale)
   const getItemsForPayment = (): CartItem[] => {
@@ -97,10 +98,7 @@ const App: React.FC = () => {
 
   // Helper to calculate total value of a list of items
   const calculateTotal = (items: CartItem[]) => {
-    const subtotal = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    const tax = subtotal * 0.13;
-    const service = subtotal * 0.10;
-    return subtotal + tax + service;
+    return items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   };
 
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -242,6 +240,7 @@ const App: React.FC = () => {
 
     // Use the total amount passed from PaymentScreen (includes tax, service, and tip)
     setLastPaidAmount(totalAmount);
+    setLastPaidItems(itemsBeingPaid); // Store items that were paid for
     setConfirmedItems(remainingItems);
 
     // Instead of alert, go to Payment Success Screen
@@ -314,6 +313,7 @@ const App: React.FC = () => {
             onBack={() => setView('MENU')}
             onCompletePayment={handlePaymentComplete}
             paidItems={paidItems}
+            restaurant={restaurant}
           />
         )}
 
@@ -321,6 +321,7 @@ const App: React.FC = () => {
           <PaymentSuccessScreen 
              onDone={handlePaymentSuccessDone}
              totalPaid={lastPaidAmount}
+             paidItems={lastPaidItems}
           />
         )}
       </main>
@@ -337,6 +338,7 @@ const App: React.FC = () => {
         onAddRecommendation={handleItemSelect}
         onGoToPayment={handleGoToPayment}
         paidItems={paidItems}
+        restaurant={restaurant}
       />
 
     </div>

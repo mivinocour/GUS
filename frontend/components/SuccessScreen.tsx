@@ -43,10 +43,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
 }) => {
 
   // Simple calculation based on order items
-  const subtotal = orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.13;
-  const service = subtotal * 0.10;
-  const total = subtotal + tax + service;
+  const total = orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   const getStatusDisplay = (status: string) => {
     const statusMap = {
@@ -111,25 +108,9 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
 
         {/* Total Summary */}
         <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6">
-          <div className="space-y-3">
-            <div className="flex justify-between text-gray-600 dark:text-gray-400">
-              <span>Subtotal</span>
-              <span>₡{subtotal.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-gray-600 dark:text-gray-400">
-              <span>IVA (13%)</span>
-              <span>₡{tax.toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-gray-600 dark:text-gray-400">
-              <span>Servicio (10%)</span>
-              <span>₡{service.toLocaleString()}</span>
-            </div>
-            <div className="border-t border-gray-200 dark:border-gray-600 pt-3">
-              <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white">
-                <span>Total</span>
-                <span>₡{total.toLocaleString()}</span>
-              </div>
-            </div>
+          <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white">
+            <span>Total</span>
+            <span>₡{total.toLocaleString()}</span>
           </div>
         </div>
 

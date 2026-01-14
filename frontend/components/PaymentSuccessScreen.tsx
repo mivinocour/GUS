@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { CartItem } from '../types';
 
 interface PaymentSuccessScreenProps {
   onDone: () => void;
   totalPaid: number;
+  paidItems?: CartItem[];
 }
 
-const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, totalPaid }) => {
+const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, totalPaid, paidItems = [] }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [smsSent, setSmsSent] = useState(false);
 
@@ -39,6 +41,54 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
             Tu pago de <span className="font-bold text-text-light dark:text-text-dark">₡{totalPaid.toLocaleString()}</span> ha sido procesado correctamente.
           </p>
         </div>
+
+        {/* Items Paid For */}
+        {paidItems.length > 0 && (
+          <div className="w-full bg-surface-light dark:bg-surface-dark p-5 rounded-2xl shadow-card border border-border-light dark:border-border-dark">
+            <h3 className="font-bold text-sm uppercase tracking-wider text-text-muted dark:text-text-muted-dark mb-4">
+              Lo que pagaste
+            </h3>
+            
+            <div className="space-y-3 max-h-64 overflow-y-auto">
+              {paidItems.map((item) => (
+                <div key={item.id} className="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-border-light dark:border-border-dark">
+                  <div className="size-14 rounded-lg bg-slate-100 dark:bg-slate-700 shrink-0 overflow-hidden">
+                    <img 
+                      src={item.image} 
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-sm text-text-light dark:text-text-dark truncate">
+                      {item.name}
+                    </p>
+                    <div className="flex items-center justify-between mt-1">
+                      <p className="text-xs text-text-muted dark:text-text-muted-dark">
+                        {item.quantity}x • ₡{item.price.toLocaleString()}
+                      </p>
+                      <p className="font-bold text-sm text-text-light dark:text-text-dark">
+                        ₡{(item.price * item.quantity).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Total Summary */}
+            <div className="mt-4 pt-4 border-t border-dashed border-border-light dark:border-border-dark">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-text-muted dark:text-text-muted-dark">
+                  Total pagado
+                </span>
+                <span className="text-lg font-bold text-text-light dark:text-text-dark">
+                  ₡{totalPaid.toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Receipt Options Card */}
         <div className="w-full bg-surface-light dark:bg-surface-dark p-6 rounded-3xl shadow-card border border-border-light dark:border-border-dark mt-4">

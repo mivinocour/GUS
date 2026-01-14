@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { RestaurantData } from '../data';
 import { Category, MenuItem } from '../types';
+import SpiceUpRewards from './SpiceUpRewards';
 
 interface MenuScreenProps {
   restaurant: RestaurantData;
@@ -84,6 +85,9 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
 
   return (
     <div className="flex-1 flex flex-col w-full animate-fade-in">
+      {/* Spice Up Rewards - Only for Olive Garden */}
+      <SpiceUpRewards isOliveGarden={restaurant.slug === 'olivegarden'} />
+
       {/* Featured Banner - Rotating Recommendations */}
       <div className="px-5 pt-2 pb-6">
          {restaurant.recommendations && restaurant.recommendations.length > 0 && (

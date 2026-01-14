@@ -1,6 +1,7 @@
 import { Category, MenuItem } from './types';
 export interface RestaurantData {
   name: string;
+  slug?: string; // Optional slug for restaurant identification
   logo: string | null;
   colors: Record<string, string>;
   recommendations: MenuItem[];

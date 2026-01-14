@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CartItem, PaidItem, TableUser } from '../types';
+import { RestaurantData } from '../data';
 
 interface PaymentScreenProps {
   confirmedItems: CartItem[];
@@ -7,15 +8,27 @@ interface PaymentScreenProps {
   onCompletePayment: (paidItems: { id: string; quantity: number }[], totalAmount: number) => void;
   paidItems?: PaidItem[];
   tableUsers?: TableUser[];
+  restaurant?: RestaurantData;
 }
 
-type PaymentMethod = 'CARD' | 'SINPE' | 'CASH';
+type PaymentMethod = 'CARD' | 'CASH';
 
-const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, onCompletePayment, paidItems = [], tableUsers = [] }) => {
+const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, onCompletePayment, paidItems = [], tableUsers = [], restaurant }) => {
   const [flatItems, setFlatItems] = useState<{ uniqueId: string, originalItem: CartItem, isPaid: boolean, paidBy?: string }[]>([]);
   const [selectedUniqueIds, setSelectedUniqueIds] = useState<Set<string>>(new Set());
   const [tipPercentage, setTipPercentage] = useState<number>(10); // Default 10%
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CARD');
+  const [useRewards, setUseRewards] = useState<boolean>(false);
+
+  // Spice Up Rewards data (hardcoded for demo)
+  const isOliveGarden = restaurant?.slug === 'olivegarden';
+  // Convert $3 USD to colones (approximate rate: $1 = ₡500)
+  const USD_TO_CRC = 500;
+  const rewardsData = {
+    currentBalanceUSD: 3.00, // $3 credit
+    currentBalanceCRC: 3.00 * USD_TO_CRC, // ₡1,500 in colones
+    cashbackRate: 3 // 3% cashback
+  };
 
   const getPaidCount = (itemId: string) => {
     return paidItems.filter(p => p.itemId === itemId).reduce((sum, p) => sum + p.quantity, 0);
@@ -27,9 +40,6 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
   };
 
   useEffect(() => {
-    console.log('PaymentScreen: paidItems:', paidItems);
-    console.log('PaymentScreen: confirmedItems:', confirmedItems);
-
     // Flatten items: If quantity is 2, create 2 entries so they can be paid individually
     const flat: { uniqueId: string, originalItem: CartItem, isPaid: boolean, paidBy?: string }[] = [];
     confirmedItems.forEach((item, index) => {
@@ -37,16 +47,12 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
       const paidItemsForThis = paidItems.filter(p => p.itemId === item.id);
       let paidIndex = 0;
 
-      console.log(`Item ${item.id}: paidCount=${paidCount}, totalQuantity=${item.quantity}`);
-
       for (let i = 0; i < item.quantity; i++) {
         const isPaid = i < paidCount;
         const paidBy = isPaid && paidItemsForThis[paidIndex] ? paidItemsForThis[paidIndex].paidBy : undefined;
         if (isPaid && paidItemsForThis[paidIndex] && i >= paidItemsForThis[paidIndex].quantity) {
           paidIndex++;
         }
-
-        console.log(`  Item ${item.id}[${i}]: isPaid=${isPaid}, paidBy=${paidBy}`);
 
         flat.push({
           uniqueId: `${item.id}-${index}-${i}`,
@@ -88,10 +94,13 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
     .filter(i => selectedUniqueIds.has(i.uniqueId))
     .reduce((acc, i) => acc + i.originalItem.price, 0);
 
-  const iva = selectedItemsPrice * 0.13;
-  const service = selectedItemsPrice * 0.10; // Mandatory service
   const voluntaryTip = selectedItemsPrice * (tipPercentage / 100);
-  const total = selectedItemsPrice + iva + service + voluntaryTip;
+  
+  // Spice Up Rewards calculations
+  const rewardsEarning = isOliveGarden ? selectedItemsPrice * (rewardsData.cashbackRate / 100) : 0;
+  const rewardsToApply = useRewards && isOliveGarden ? Math.min(rewardsData.currentBalanceCRC, selectedItemsPrice) : 0;
+  const subtotalAfterRewards = selectedItemsPrice - rewardsToApply;
+  const total = subtotalAfterRewards + voluntaryTip;
 
   const handlePay = () => {
     if (selectedUniqueIds.size === 0) return;
@@ -115,7 +124,6 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
     const amount = `₡${total.toLocaleString()}`;
     switch (paymentMethod) {
       case 'CARD': return `Pagar ${amount}`;
-      case 'SINPE': return `Confirmar SINPE ${amount}`;
       case 'CASH': return `Solicitar Cobro ${amount}`;
     }
   };
@@ -133,7 +141,7 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
         <h1 className="text-xl font-extrabold text-text-light dark:text-text-dark">Pagar Cuenta</h1>
       </div>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar pb-64">
+      <div className="flex-1 overflow-y-auto no-scrollbar pb-80">
         {/* Selection Section */}
         <div className="p-5">
           <div className="flex justify-between items-center mb-4">
@@ -240,9 +248,55 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
           </div>
         )}
 
+        {/* Spice Up Rewards Section */}
+        {isOliveGarden && selectedUniqueIds.size > 0 && (
+          <div className="px-5 pt-2 pb-6 border-t border-dashed border-border-light dark:border-border-dark">
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4 border border-blue-200 dark:border-blue-800/50">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-[20px]">loyalty</span>
+                <h2 className="text-sm font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">Spice Up Rewards</h2>
+              </div>
+              
+              {/* Rewards Earning */}
+              <div className="bg-white/60 dark:bg-slate-800/60 rounded-xl p-3 mb-3 backdrop-blur-sm border border-blue-100 dark:border-blue-800/30">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm text-blue-700 dark:text-blue-300 font-medium">Ganarás con esta compra</span>
+                  <span className="text-lg font-bold text-blue-600 dark:text-blue-400">₡{Math.round(rewardsEarning).toLocaleString()}</span>
+                </div>
+                <p className="text-xs text-blue-600/70 dark:text-blue-400/70">3% de reembolso en efectivo</p>
+              </div>
+
+              {/* Use Rewards Toggle */}
+              {rewardsData.currentBalanceCRC > 0 && (
+                <div className="flex items-center justify-between p-3 bg-white/40 dark:bg-slate-800/40 rounded-xl backdrop-blur-sm border border-blue-100 dark:border-blue-800/30">
+                  <div className="flex items-center gap-3">
+                    <div className="size-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                      <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-[20px]">savings</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-blue-700 dark:text-blue-300">Usar crédito disponible</p>
+                      <p className="text-xs text-blue-600/70 dark:text-blue-400/70">${rewardsData.currentBalanceUSD.toFixed(2)} (₡{rewardsData.currentBalanceCRC.toLocaleString()}) disponibles</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setUseRewards(!useRewards)}
+                    className={`relative w-12 h-6 rounded-full transition-colors ${
+                      useRewards ? 'bg-blue-600 dark:bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}
+                  >
+                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform shadow-md ${
+                      useRewards ? 'translate-x-6' : 'translate-x-0'
+                    }`} />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Payment Method Section */}
         {selectedUniqueIds.size > 0 && (
-          <div className="px-5 pt-2 pb-6 border-t border-dashed border-border-light dark:border-border-dark">
+          <div className="px-5 pt-2 pb-10 border-t border-dashed border-border-light dark:border-border-dark">
             <div className="flex items-center gap-2 mb-4 mt-2">
                <span className="material-symbols-outlined text-primary text-[20px]">account_balance_wallet</span>
                <h2 className="text-sm font-bold uppercase tracking-wider text-text-light dark:text-text-dark">Método de Pago</h2>
@@ -266,22 +320,6 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
                  </div>
               </div>
 
-              {/* SINPE */}
-              <div 
-                onClick={() => setPaymentMethod('SINPE')}
-                className={`flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all ${paymentMethod === 'SINPE' ? 'bg-primary/5 border-primary shadow-sm' : 'bg-surface-light dark:bg-surface-dark border-transparent shadow-sm'}`}
-              >
-                 <div className="size-10 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-red-600 dark:text-red-400">currency_exchange</span>
-                 </div>
-                 <div className="flex-1">
-                    <p className="font-bold text-sm text-text-light dark:text-text-dark">SINPE Móvil</p>
-                    <p className="text-xs text-text-muted dark:text-text-muted-dark">88446496 • Restaurante El Patio</p>
-                 </div>
-                 <div className={`size-5 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'SINPE' ? 'border-primary' : 'border-slate-300 dark:border-slate-600'}`}>
-                    {paymentMethod === 'SINPE' && <div className="size-2.5 rounded-full bg-primary"></div>}
-                 </div>
-              </div>
 
               {/* Cash */}
               <div 
@@ -305,26 +343,42 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
       </div>
 
       {/* Sticky Bottom Summary */}
-      <div className="fixed bottom-0 left-0 right-0 bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark p-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-8 max-w-lg mx-auto z-40">
+      <div className="fixed bottom-0 left-0 right-0 bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark px-6 pt-6 pb-8 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] max-w-lg mx-auto z-40">
         <div className="space-y-2 mb-6 text-sm">
           <div className="flex justify-between text-text-muted dark:text-text-muted-dark">
             <span>Subtotal ({selectedUniqueIds.size} items)</span>
             <span>₡{selectedItemsPrice.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between text-text-muted dark:text-text-muted-dark">
-            <span>IVA (13%)</span>
-            <span>₡{iva.toLocaleString()}</span>
-          </div>
-          <div className="flex justify-between text-text-muted dark:text-text-muted-dark">
-            <span>Servicio (10%)</span>
-            <span>₡{service.toLocaleString()}</span>
-          </div>
+          
+          {/* Rewards Discount */}
+          {isOliveGarden && useRewards && rewardsToApply > 0 && (
+            <div className="flex justify-between text-blue-600 dark:text-blue-400 font-medium">
+              <span className="flex items-center gap-1">
+                <span className="material-symbols-outlined text-[16px]">loyalty</span>
+                Crédito aplicado
+              </span>
+              <span>- ₡{rewardsToApply.toLocaleString()}</span>
+            </div>
+          )}
+          
           {tipPercentage > 0 && (
             <div className="flex justify-between text-amber-600 dark:text-amber-400 font-medium">
               <span>Propina Extra ({tipPercentage}%)</span>
               <span>+ ₡{voluntaryTip.toLocaleString()}</span>
             </div>
           )}
+          
+          {/* Rewards Earning Display */}
+          {isOliveGarden && rewardsEarning > 0 && (
+            <div className="flex justify-between items-center pt-2 border-t border-dashed border-blue-200 dark:border-blue-800/50">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-[16px]">trending_up</span>
+                <span className="text-blue-700 dark:text-blue-300 text-sm font-medium">Ganarás (3%)</span>
+              </div>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">₡{Math.round(rewardsEarning).toLocaleString()}</span>
+            </div>
+          )}
+          
           <div className="flex justify-between text-xl font-extrabold text-text-light dark:text-text-dark pt-3 border-t border-dashed border-slate-200 dark:border-slate-700 mt-2">
             <span>Total a Pagar</span>
             <span>₡{total.toLocaleString()}</span>
@@ -337,7 +391,7 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
           className={`w-full bg-primary hover:bg-primary-dark text-white font-bold text-lg h-14 rounded-2xl shadow-lg shadow-primary/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 ${selectedUniqueIds.size === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           <span className="material-symbols-outlined">
-            {paymentMethod === 'CASH' ? 'payments' : paymentMethod === 'SINPE' ? 'send_to_mobile' : 'credit_card'}
+            {paymentMethod === 'CASH' ? 'payments' : 'credit_card'}
           </span>
           <span>{getButtonText()}</span>
         </button>

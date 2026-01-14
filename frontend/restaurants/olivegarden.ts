@@ -2,6 +2,7 @@ import { RestaurantData } from '../data';
 
 const olivegarden: RestaurantData = {
   name: "Olive Garden",
+  slug: "olivegarden",
   logo: null,
   colors: {
     primary: "#A6AD00",

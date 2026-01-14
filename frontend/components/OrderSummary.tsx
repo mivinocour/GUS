@@ -1,5 +1,6 @@
 import React from 'react';
 import { CartItem, MenuItem, PaidItem, TableUser } from '../types';
+import { RestaurantData } from '../data';
 
 interface OrderSummaryProps {
   isOpen: boolean;
@@ -13,20 +14,22 @@ interface OrderSummaryProps {
   onGoToPayment: () => void;
   paidItems?: PaidItem[];
   tableUsers?: TableUser[];
+  restaurant?: RestaurantData;
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ 
-  isOpen, 
-  onClose, 
+const OrderSummary: React.FC<OrderSummaryProps> = ({
+  isOpen,
+  onClose,
   cart,
   confirmedItems,
   recommendations,
-  onUpdateQuantity, 
+  onUpdateQuantity,
   onConfirm,
   onAddRecommendation,
   onGoToPayment,
   paidItems = [],
-  tableUsers = []
+  tableUsers = [],
+  restaurant
 }) => {
   if (!isOpen) return null;
 
@@ -48,10 +51,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   // When ordering: only show cart total
   // When viewing bill: show all confirmed items total
   const itemsForCalculation = isOrderingMode ? cart : confirmedItems;
-  const subtotal = itemsForCalculation.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.13;
-  const service = subtotal * 0.10;
-  const total = subtotal + tax + service;
+  const total = itemsForCalculation.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  // Spice Up Rewards calculation (only for Olive Garden)
+  const isOliveGarden = restaurant?.slug === 'olivegarden';
+  const rewardsEarning = isOliveGarden ? total * 0.03 : 0; // 3% cashback
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
@@ -215,17 +219,19 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             {itemsForCalculation.length > 0 && (
               <div className="mt-8 pt-6 pb-2 border-t border-dashed border-border-light dark:border-border-dark space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-text-muted dark:text-text-muted-dark text-sm font-medium">Subtotal</span>
-                  <span className="text-text-light dark:text-text-dark font-medium">₡{subtotal.toLocaleString()}</span>
+                  <span className="text-text-muted dark:text-text-muted-dark text-sm font-medium">Total</span>
+                  <span className="text-text-light dark:text-text-dark font-medium">₡{total.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-text-muted dark:text-text-muted-dark text-sm font-medium">IVA (13%)</span>
-                  <span className="text-text-light dark:text-text-dark font-medium">₡{tax.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-text-muted dark:text-text-muted-dark text-sm font-medium">Servicio (10%)</span>
-                  <span className="text-text-light dark:text-text-dark font-medium">₡{service.toLocaleString()}</span>
-                </div>
+                {/* Spice Up Rewards Earning Display */}
+                {isOliveGarden && rewardsEarning > 0 && (
+                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-dashed border-[#54301A]/30 dark:border-[#54301A]/30">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#54301A] dark:text-[#54301A] text-[16px]">loyalty</span>
+                      <span className="text-[#54301A] dark:text-[#54301A] text-sm font-medium">Ganarás (3%)</span>
+                    </div>
+                    <span className="text-[#54301A] dark:text-[#54301A] font-bold">₡{Math.round(rewardsEarning).toLocaleString()}</span>
+                  </div>
+                )}
               </div>
             )}
           </div>

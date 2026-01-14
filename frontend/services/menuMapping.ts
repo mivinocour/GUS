@@ -25,6 +25,7 @@ export const RESTAURANT_ID_MAPPING: Record<string, string> = {
   'gus': '1d446dfa-e91a-4df5-b1d8-7dae543a2292',        // Restaurante El Patio
   'sikwa': '362d4559-0c60-44ea-a799-647b5f5b9a8a',      // Sikwa Restaurant
   'filippo': '64efa06f-429d-4d91-9185-6f85fc42dfa2',    // Filippo Ristorante
+  'olivegarden': 'cfbee0db-ed55-4db5-a621-d8634583fae9',    // Olive Garden
 };
 
 /**

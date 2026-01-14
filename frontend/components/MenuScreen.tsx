@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { RestaurantData } from '../data';
 import { Category, MenuItem } from '../types';
 
@@ -24,6 +24,43 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
   onToggleFavorite
 }) => {
   const showFloatingButton = cartCount > 0 || hasConfirmedItems;
+  
+  // State to track which categories are expanded (default: all expanded)
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
+    const allExpanded = new Set<string>();
+    restaurant.menu.forEach((cat: Category) => allExpanded.add(cat.id));
+    return allExpanded;
+  });
+
+  // State for rotating recommendations
+  const [currentRecommendationIndex, setCurrentRecommendationIndex] = useState(0);
+
+  // Auto-rotate recommendations every 5 seconds
+  useEffect(() => {
+    if (!restaurant.recommendations || restaurant.recommendations.length <= 1) {
+      return; // Don't rotate if there's only one or no recommendations
+    }
+
+    const interval = setInterval(() => {
+      setCurrentRecommendationIndex(prev =>
+        (prev + 1) % restaurant.recommendations.length
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [restaurant.recommendations]);
+
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(categoryId)) {
+        newSet.delete(categoryId);
+      } else {
+        newSet.add(categoryId);
+      }
+      return newSet;
+    });
+  };
 
     // Flatten items to find favorites
     const favoriteItems = useMemo(() => {
@@ -34,23 +71,96 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
 
   return (
     <div className="flex-1 flex flex-col w-full animate-fade-in">
-      {/* Featured Banner (Optional, using first recommendation) */}
+      {/* Featured Banner - Rotating Recommendations */}
       <div className="px-5 pt-2 pb-6">
          {restaurant.recommendations && restaurant.recommendations.length > 0 && (
-           <div className="w-full h-48 rounded-3xl overflow-hidden relative shadow-lg group cursor-pointer" onClick={() => onItemSelect(restaurant.recommendations[0])}>
-              <img 
-                src={restaurant.recommendations[0].image} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                alt="Featured"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-5 w-full">
-                 <span className="inline-block px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded-lg mb-2 shadow-glow">Recomendado</span>
-                 <h3 className="text-white font-bold text-xl mb-1">{restaurant.recommendations[0].name}</h3>
-                 <div className="flex justify-between items-end">
-                    <p className="text-white/80 text-sm line-clamp-1 max-w-[70%]">{restaurant.recommendations[0].description}</p>
-                    <span className="text-white font-bold text-lg">₡{restaurant.recommendations[0].price.toLocaleString()}</span>
+           <div className="w-full h-48 rounded-3xl overflow-hidden relative shadow-lg group cursor-pointer"
+                onClick={() => onItemSelect(restaurant.recommendations[currentRecommendationIndex])}>
+
+              {/* Background Images with Crossfade */}
+              <div className="absolute inset-0">
+                {restaurant.recommendations.map((rec, index) => (
+                  <img
+                    key={rec.id}
+                    src={rec.image}
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 ${
+                      index === currentRecommendationIndex
+                        ? 'opacity-100 z-10'
+                        : 'opacity-0 z-0'
+                    }`}
+                    alt={rec.name}
+                  />
+                ))}
+              </div>
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-20"></div>
+
+              {/* Content with Slide Animation */}
+              <div className="absolute bottom-0 left-0 p-5 w-full z-30">
+                 <span className="inline-block px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded-lg mb-2 shadow-glow">
+                   Recomendado {currentRecommendationIndex + 1}/{restaurant.recommendations.length}
+                 </span>
+
+                 <div className="relative overflow-hidden h-7 mb-1">
+                   <div
+                     className="transition-transform duration-500 ease-in-out"
+                     style={{ transform: `translateY(-${currentRecommendationIndex * 100}%)` }}
+                   >
+                     {restaurant.recommendations.map((rec) => (
+                       <h3 key={rec.id} className="text-white font-bold text-xl h-7 flex items-center">
+                         {rec.name}
+                       </h3>
+                     ))}
+                   </div>
                  </div>
+
+                 <div className="flex justify-between items-end">
+                    <div className="relative overflow-hidden max-w-[70%] h-5">
+                      <div
+                        className="transition-transform duration-500 ease-in-out"
+                        style={{ transform: `translateY(-${currentRecommendationIndex * 100}%)` }}
+                      >
+                        {restaurant.recommendations.map((rec) => (
+                          <p key={rec.id} className="text-white/80 text-sm line-clamp-1 h-5 flex items-center">
+                            {rec.description}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="relative overflow-hidden h-6">
+                      <div
+                        className="transition-transform duration-500 ease-in-out"
+                        style={{ transform: `translateY(-${currentRecommendationIndex * 100}%)` }}
+                      >
+                        {restaurant.recommendations.map((rec) => (
+                          <span key={rec.id} className="text-white font-bold text-lg h-6 flex items-center">
+                            ₡{rec.price.toLocaleString()}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                 </div>
+
+                 {/* Dots Indicator */}
+                 {restaurant.recommendations.length > 1 && (
+                   <div className="flex gap-1.5 mt-3 justify-center">
+                     {restaurant.recommendations.map((_, index) => (
+                       <button
+                         key={index}
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           setCurrentRecommendationIndex(index);
+                         }}
+                         className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                           index === currentRecommendationIndex
+                             ? 'bg-white scale-125'
+                             : 'bg-white/50 hover:bg-white/75'
+                         }`}
+                       />
+                     ))}
+                   </div>
+                 )}
               </div>
            </div>
          )}
@@ -81,29 +191,43 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
           </section>
         )}
 
-        {restaurant.menu.map((section: any) => (
-          <section key={section.id} className="scroll-mt-20" id={section.id}>
-            {/* Sticky Header */}
-            <div className="sticky top-[72px] z-30 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-5 py-3 border-b border-border-light/50 dark:border-border-dark/50 mb-2">
-              <h2 className="text-lg font-extrabold text-text-light dark:text-text-dark flex items-center gap-2">
-                {section.title}
-                <span className="text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-2 py-0.5 rounded-full">{section.items.length}</span>
-              </h2>
-            </div>
-            
-            <div className="flex flex-col gap-4 px-5">
-              {section.items.map((item) => (
-                <MenuItemCard 
-                  key={item.id} 
-                  item={item} 
-                  onSelect={onItemSelect} 
-                  isFavorite={favorites.has(item.id)}
-                  onToggleFavorite={() => onToggleFavorite(item.id)}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
+        {restaurant.menu.map((section: any) => {
+          const isExpanded = expandedCategories.has(section.id);
+          return (
+            <section key={section.id} className="scroll-mt-20" id={section.id}>
+              {/* Sticky Header - Clickable to toggle */}
+              <div 
+                className="sticky top-[72px] z-30 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-5 py-3 border-b border-border-light/50 dark:border-border-dark/50 mb-2 cursor-pointer select-none"
+                onClick={() => toggleCategory(section.id)}
+              >
+                <h2 className="text-lg font-extrabold text-text-light dark:text-text-dark flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {section.title}
+                    <span className="text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-2 py-0.5 rounded-full">{section.items.length}</span>
+                  </div>
+                  <span className="material-symbols-outlined text-[20px] transition-transform duration-200" style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
+                    expand_more
+                  </span>
+                </h2>
+              </div>
+              
+              {/* Collapsible Content */}
+              {isExpanded && (
+                <div className="flex flex-col gap-4 px-5 animate-fade-in">
+                  {section.items.map((item) => (
+                    <MenuItemCard 
+                      key={item.id} 
+                      item={item} 
+                      onSelect={onItemSelect} 
+                      isFavorite={favorites.has(item.id)}
+                      onToggleFavorite={() => onToggleFavorite(item.id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
+          );
+        })}
       </div>
 
       {/* Floating Action Button for Cart or Bill */}

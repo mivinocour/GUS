@@ -76,7 +76,15 @@ const App: React.FC = () => {
   const [confirmedItems, setConfirmedItems] = useState<CartItem[]>([]);
 
   // New States
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  // Hardcode favorite for Olive Garden (Fried Mozzarella)
+  const [favorites, setFavorites] = useState<Set<string>>(() => {
+    const initialFavorites = new Set<string>();
+    // If Olive Garden, add fried-mozzarella as a favorite
+    if (resKey === 'olivegarden') {
+      initialFavorites.add('fried-mozzarella');
+    }
+    return initialFavorites;
+  });
   const [lastPaidAmount, setLastPaidAmount] = useState(0);
   const [lastPaidItems, setLastPaidItems] = useState<CartItem[]>([]);
   

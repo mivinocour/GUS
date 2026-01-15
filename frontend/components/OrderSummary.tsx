@@ -8,7 +8,7 @@ interface OrderSummaryProps {
   cart: CartItem[];
   confirmedItems: CartItem[];
   recommendations: MenuItem[];
-  onUpdateQuantity: (id: string, delta: number) => void;
+  onUpdateQuantity: (id: string, delta: number, customization?: any) => void;
   onConfirm: () => void;
   onAddRecommendation: (item: any) => void;
   onGoToPayment: () => void;
@@ -42,16 +42,39 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     return tableUsers.find(u => u.id === userId)?.name || 'Desconocido';
   };
 
+  const formatCustomization = (customization?: any) => {
+    if (!customization) return null;
+
+    const parts = [];
+
+    if (customization.extras && customization.extras.length > 0) {
+      const extrasText = customization.extras.map((extra: any) =>
+        `${extra.name} (₡${extra.price.toLocaleString()})`
+      ).join(', ');
+      parts.push(`Extras: ${extrasText}`);
+    }
+
+    if (customization.specialInstructions && customization.specialInstructions.trim()) {
+      parts.push(`Instrucciones: ${customization.specialInstructions}`);
+    }
+
+    return parts.length > 0 ? parts.join(' • ') : null;
+  };
+
   // Mode check
   const isOrderingMode = cart.length > 0;
   const isBillMode = cart.length === 0 && confirmedItems.length > 0;
   const isEmpty = cart.length === 0 && confirmedItems.length === 0;
 
-  // Calculate totals based on mode
+  // Calculate totals based on mode including extras
   // When ordering: only show cart total
   // When viewing bill: show all confirmed items total
   const itemsForCalculation = isOrderingMode ? cart : confirmedItems;
-  const total = itemsForCalculation.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const total = itemsForCalculation.reduce((acc, item) => {
+    const basePrice = item.price * item.quantity;
+    const extrasPrice = item.customization ? item.customization.totalExtrasPrice * item.quantity : 0;
+    return acc + basePrice + extrasPrice;
+  }, 0);
 
   // Spice Up Rewards calculation (only for Olive Garden)
   const isOliveGarden = restaurant?.slug === 'olivegarden';
@@ -114,7 +137,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                             <div className="flex gap-4 flex-1">
                                 <div className="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
                                     <img 
-                                      src={item.image} 
+                                      src={item.image || restaurant?.logo || ''} 
                                       alt={item.name} 
                                       className={`w-full h-full object-cover ${isFullyPaid ? 'grayscale' : ''}`} 
                                     />
@@ -127,8 +150,13 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                                     }`}>
                                       {item.name}
                                     </p>
+                                    {item.customization && formatCustomization(item.customization) && (
+                                      <p className="text-blue-600 dark:text-blue-400 text-xs mt-1 leading-relaxed">
+                                        {formatCustomization(item.customization)}
+                                      </p>
+                                    )}
                                     <div className="mt-1 text-text-muted dark:text-text-muted-dark font-medium text-xs">
-                                      {item.quantity}x <span className="mx-1">•</span> ₡{(item.price * item.quantity).toLocaleString()}
+                                      {item.quantity}x <span className="mx-1">•</span> ₡{((item.price + (item.customization?.totalExtrasPrice || 0)) * item.quantity).toLocaleString()}
                                       {item.orderedBy && tableUsers.length > 1 && (
                                         <span className="ml-2">• por {getUserName(item.orderedBy)}</span>
                                       )}
@@ -183,26 +211,31 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                     <div className="flex items-start justify-between gap-4">
                         <div className="flex gap-4 flex-1">
                             <div className="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
-                                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                <img src={item.image || restaurant?.logo || ''} alt={item.name} className="w-full h-full object-cover" />
                             </div>
                             <div className="flex-1 min-w-0 pt-0.5">
                                 <p className="text-text-light dark:text-text-dark text-base font-bold leading-tight truncate">{item.name}</p>
                                 <p className="text-text-muted dark:text-text-muted-dark text-sm mt-1 leading-normal">{item.category}</p>
-                                <div className="mt-2 text-primary font-bold text-sm">₡{(item.price * item.quantity).toLocaleString()}</div>
+                                {item.customization && formatCustomization(item.customization) && (
+                                  <p className="text-blue-600 dark:text-blue-400 text-xs mt-1 leading-relaxed">
+                                    {formatCustomization(item.customization)}
+                                  </p>
+                                )}
+                                <div className="mt-2 text-primary font-bold text-sm">₡{((item.price + (item.customization?.totalExtrasPrice || 0)) * item.quantity).toLocaleString()}</div>
                             </div>
                         </div>
                         
                         <div className="flex flex-col items-end gap-2">
                             <div className="flex items-center bg-slate-50 dark:bg-slate-800/50 rounded-lg p-1 border border-border-light dark:border-border-dark">
                                 <button 
-                                    onClick={() => onUpdateQuantity(item.id, -1)}
+                                    onClick={() => onUpdateQuantity(item.id, -1, item.customization)}
                                     className="size-7 rounded-md flex items-center justify-center text-slate-500 hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm transition-all"
                                 >
                                     <span className="material-symbols-outlined text-[16px]">remove</span>
                                 </button>
                                 <span className="text-sm font-bold text-text-light dark:text-text-dark w-6 text-center">{item.quantity}</span>
                                 <button 
-                                    onClick={() => onUpdateQuantity(item.id, 1)}
+                                    onClick={() => onUpdateQuantity(item.id, 1, item.customization)}
                                     className="size-7 rounded-md flex items-center justify-center text-slate-500 hover:bg-white dark:hover:bg-slate-700 hover:shadow-sm transition-all"
                                 >
                                     <span className="material-symbols-outlined text-[16px]">add</span>
@@ -256,10 +289,14 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   <p className="text-xs font-bold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Te podría gustar</p>
                 </div>
                 <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-6 px-6 pb-2 snap-x">
-                  {recommendations.map((rec) => (
+                  {(restaurant?.cartRecommendations || recommendations).map((rec) => (
                     <div key={rec.id} className="snap-start flex-shrink-0 w-64 p-3 rounded-2xl bg-white dark:bg-slate-800 border border-border-light dark:border-border-dark flex items-center gap-3 shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95" onClick={() => onAddRecommendation(rec)}>
                       <div className="size-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center shrink-0 overflow-hidden">
-                        <img src={rec.image} alt={rec.name} className="w-full h-full object-cover" />
+                        {rec.image ? (
+                          <img src={rec.image} alt={rec.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="material-symbols-outlined text-slate-400">restaurant_menu</span>
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-bold text-sm text-text-light dark:text-text-dark truncate">{rec.name}</p>

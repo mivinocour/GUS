@@ -4,7 +4,8 @@ export interface RestaurantData {
   slug?: string; // Optional slug for restaurant identification
   logo: string | null;
   colors: Record<string, string>;
-  recommendations: MenuItem[];
+  recommendations: MenuItem[]; // Main banner recommendations
+  cartRecommendations?: MenuItem[]; // "Te podría gustar" in cart/order summary
   menu: Category[];
 }
 

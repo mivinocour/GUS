@@ -128,7 +128,7 @@ const olivegarden: RestaurantData = {
         },
         {
           id: "house-salad",
-          name: "House salad",
+          name: "House Salad",
           description: "Our famous salad prepared with mixed greens, black...",
           price: 4900,
           image: "https://github.com/user-attachments/assets/3d6e8df7-6723-4d86-8858-61aac7e056bb",
@@ -360,7 +360,7 @@ const olivegarden: RestaurantData = {
         },
         {
           id: "ice-cream-cup",
-          name: "Ice cream cup",
+          name: "Ice Cream Cup",
           description: "Vanilla ice cream cup",
           price: 1900,
           image: "https://github.com/user-attachments/assets/0dfaf82b-1684-4edf-8761-b670719f4a81",
@@ -508,7 +508,7 @@ const olivegarden: RestaurantData = {
         },
         {
           id: "non-alcoholic-beverages",
-          name: "Non-alcoholic beverages",
+          name: "Non-Alcoholic Beverages",
           description: "Choose from Lemonades, Lemonade, Spearmint Lemonade, Raspberry Lemonade,....",
           price: 1900,
           image: "/images/olive-garden/bebidasnoalcoholicas.png.jxl",
@@ -540,7 +540,7 @@ const olivegarden: RestaurantData = {
         },
         {
           id: "bottled-water",
-          name: "Bottled water",
+          name: "Bottled Water",
           description: "Choose between Acqua Panna Spring (500 ml), Pellegrino...",
           price: 1500,
           image: "https://github.com/user-attachments/assets/cec4684e-7f72-416b-96c2-32063e5dc844",

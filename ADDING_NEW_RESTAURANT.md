@@ -166,3 +166,61 @@ RETURNING id;  -- This will show you the UUID to use in menuMapping.ts
 ```
 
 Then use the returned UUID in your `menuMapping.ts` file.
+
+## Extras Configuration (For Restaurants like Tsunami Sushi)
+
+Some restaurants support extras and special instructions for their menu items. Currently, this feature is implemented for Tsunami Sushi.
+
+### How Extras Work
+
+1. **Frontend Configuration**: Extras are defined in `frontend/components/ExtrasPopup.tsx`
+2. **Database Storage**: Extras are stored as JSON in the `notes` field of order items
+3. **Price Calculation**: Extra prices are included in the total order calculation
+4. **Display**: Extras show with prices in confirmation and payment screens
+
+### Adding Extras to a New Restaurant
+
+To configure extras for a new restaurant:
+
+1. **Update ExtrasPopup.tsx**: Add your restaurant's extras list with prices (in cents)
+   ```typescript
+   const YOUR_RESTAURANT_EXTRAS = [
+     { name: 'Extra Cheese', price: 50000 }, // ₡500.00 in cents
+     { name: 'Extra Sauce', price: 25000 },  // ₡250.00 in cents
+   ];
+   ```
+
+2. **Update the showExtras condition**: Add your restaurant slug to enable extras
+   ```typescript
+   const showExtras = restaurantSlug === 'tsunamisushi' || restaurantSlug === 'yourrestaurant';
+   ```
+
+3. **Update the extras array usage**: Use your restaurant's extras when appropriate
+   ```typescript
+   // Add logic to select the right extras array based on restaurant
+   const extrasToShow = restaurantSlug === 'tsunamisushi' ? TSUNAMI_EXTRAS :
+                       restaurantSlug === 'yourrestaurant' ? YOUR_RESTAURANT_EXTRAS : [];
+   ```
+
+### Current Extras Implementation
+
+**Generic Extras** (currently configured as placeholders):
+- Extra Cheese (₡500)
+- Extra Sauce (₡250)
+- Extra Veggies (₡300)
+- Extra Meat (₡800)
+- No Onions (₡0 - Free modification)
+- Extra Spicy (₡0 - Free modification)
+- Side Sauce (₡150)
+- Double Portion (₡1000)
+
+**Note**: These are placeholder examples. Update `TSUNAMI_EXTRAS` array in `ExtrasPopup.tsx` with actual restaurant-specific extras and correct pricing.
+
+### Database Impact
+
+No database schema changes are required. The implementation uses:
+- **Storage**: JSON in `order_items.notes` field
+- **Format**: `"Extras: Extra Salsa Anguila (+₡699), Extra Pollo (+₡3,482) | Instrucciones: Extra ginger on the side"`
+- **Calculation**: Frontend handles price calculations including extras
+
+To configure extras for future restaurants, please update the `ExtrasPopup.tsx` component with the restaurant-specific extras list and pricing.

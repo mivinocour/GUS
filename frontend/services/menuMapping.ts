@@ -77,6 +77,54 @@ export const MENU_ID_MAPPING: Record<string, string> = {
   'beers': '780c64ed-09c3-4ee3-b5e2-7517ea81b7d2',
   'hot-drinks': '05aa467f-e220-4b21-9b62-c5ca83e025d3',
   'bottled-water': 'c3cac735-c59b-42cf-a606-eef976e0c7ad',
+
+  // Tsunami Sushi restaurant items
+  'arroz-frito': '36cecbe1-02c8-4ca5-ba8a-d7661c4ed5d9',
+  'arroz-frito-con-camaron': '4559821c-71c9-47f9-87c3-c9df363195f8',
+  'arroz-frito-con-lomito': '76cedb96-5123-4580-890e-7b608eafd2bf',
+  'arroz-frito-con-pollo': '73305310-a5bc-4b0b-a843-c428b34ea953',
+  'arroz-frito-mixto': '44033f03-8cb1-4625-af09-d396688629e1',
+  'bobby-special-roll': '4058f913-4ad1-4d70-a787-dd935b47e7c6',
+  'bruce-lee-roll': '60314350-2b9f-40a4-9091-6223236c935e',
+  'california-roll': 'cb954643-b357-4b30-86e9-b021269e646c',
+  'crab-cali-roll': '727e1817-4fd5-4d19-ac32-fb8b23f82d10',
+  'crispy-gyosa': 'f28c5514-2fdb-4640-8764-f7ea873a7d50',
+  'crunch-roll': '75819811-a8bb-4560-b188-7b9d49929aad',
+  'edamame-basico': 'f1cc7c7f-0556-4aac-8d29-6c38bebf9187',
+  'edamame-spicy-with-garlic': 'd13d9772-7fcc-4790-a084-490306dda95b',
+  'fiesta-pack': 'c4c72a35-2390-4414-9631-83831457ccde',
+  'godzilla-roll': '21f53257-9180-431b-8fbb-1ad02875a3cd',
+  'heredia-roll': '55dad5b2-2c21-4025-a0f8-c424f0fa1710',
+  'hilo-boy-roll': '1cd84f36-b551-4a6b-9c2d-9d21f489aa19',
+  'lonny-roll': '8586bb87-b1ec-47e1-9414-b6e2baf49f54',
+  'madona-roll': '0195f78b-922d-47f3-a778-7078058003e3',
+  'mau-roll': '2f9604ad-7174-4038-acf5-9291d6acffe2',
+  'mcgwire-roll': '7afb6a4b-4397-411f-b41d-8c2e076b7505',
+  'pacific-roll': 'b6467dc2-9f75-4940-abfd-c1042c69ffeb',
+  'poke-surf-tower': '04144201-e9e4-4cd4-afd2-4ef473f248e9',
+  'pollo-loco-roll': 'fec4d0a8-2861-48af-8b9a-d431426ddfe2',
+  'pura-vida-roll': '5955072e-51f0-4ece-8526-902673d21259',
+  'rainbow-roll': '005f0f5a-0fbb-4d95-91a4-c6795efa7357',
+  'raw-veggie-roll': '6e9f3fc2-e8fe-4995-9ce5-d2fa08ccf3a4',
+  'rollos-primavera-crispy': '7eef6ece-12aa-4bac-915d-418e736563af',
+  'salmon-roll': '59233485-fd18-4b13-8e1d-229ccd845052',
+  'sasha-campbell-roll': 'aa070985-a40b-495f-890d-05a4ca07aa5d',
+  'spicy-lobster-roll': '400160a3-df71-420a-9a7c-9135fa4dde73',
+  'spicy-shrimp-roll': '01a686af-ab1f-4a84-a4cd-e61adbc746d6',
+  'spicy-tuna-deluxe': '451d4c9b-6481-4f9d-9c10-5d6a3f71d46c',
+  'spicy-tuna-roll': '5076945a-b8f2-4221-add8-049e529ee3ac',
+  'sunburn-roll': '06a6cb8a-17c7-4b3d-b581-1410ca5e6af4',
+  'surfer-roll': '538282ec-0577-48b8-ad66-b3eebee1e68b',
+  'tempura-roll': 'c2d7bf0a-8a91-485e-86ab-7892b8d1c0ba',
+  'tempura-vegetales': 'b67ab7bd-17ce-4494-8832-28cc73d8f076',
+  'tempura-vegetales-con-camaron': 'af6499da-b0ad-4af8-957c-91f5931f6afe',
+  'tempura-vegetales-con-mariscos': 'f2b6bf3c-e81c-4eda-95ca-449ad228543d',
+  'tico-roll': 'e94ffbf7-f52b-4fc3-a398-fab4d4bc9559',
+  'tsunami-signature-roll': 'e0195420-a12f-4ff0-a600-a1197ea09e80',
+  'tuna-tatake': 'f0e47e8e-6dab-4285-9716-d5a18be855c9',
+  'veggie-tempura-avocado-roll': '749727f3-8916-456a-a798-269c17b49e7d',
+  'veggie-tico-roll': '13f968e9-f6e0-4dd2-9058-6305e91a33ff',
+  'x-roll': '2a142843-e191-4afd-826c-cd1f5e62e392',
 };
 
 export const RESTAURANT_ID_MAPPING: Record<string, string> = {
@@ -84,6 +132,7 @@ export const RESTAURANT_ID_MAPPING: Record<string, string> = {
   'sikwa': '362d4559-0c60-44ea-a799-647b5f5b9a8a',      // Sikwa Restaurant
   'filippo': '64efa06f-429d-4d91-9185-6f85fc42dfa2',    // Filippo Ristorante
   'olivegarden': 'cfbee0db-ed55-4db5-a621-d8634583fae9',    // Olive Garden
+  'tsunamisushi': '3c6ce878-df27-4977-acdc-31e5dd3e4f19',    // Tsunami Sushi
 };
 
 /**

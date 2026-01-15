@@ -44,8 +44,12 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
   grandTotal
 }) => {
 
-  // Calculate total from ALL confirmed items (not just current order)
-  const total = confirmedItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  // Calculate total from ALL confirmed items (not just current order) including extras
+  const total = confirmedItems.reduce((acc, item) => {
+    const basePrice = item.price * item.quantity;
+    const extrasPrice = item.customization ? item.customization.totalExtrasPrice * item.quantity : 0;
+    return acc + basePrice + extrasPrice;
+  }, 0);
   
   // Separate current order items from previously confirmed items
   const currentOrderIds = new Set(orderItems.map(item => item.id));
@@ -101,8 +105,18 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
                     />
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
+                      {item.customization && (item.customization.extras.length > 0 || item.customization.specialInstructions) && (
+                        <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                          {item.customization.extras.length > 0 && (
+                            <div>Extras: {item.customization.extras.map(e => `${e.name} (+₡${e.price.toLocaleString()})`).join(', ')}</div>
+                          )}
+                          {item.customization.specialInstructions && (
+                            <div>Instrucciones: {item.customization.specialInstructions}</div>
+                          )}
+                        </div>
+                      )}
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {item.quantity}x • ₡{(item.price * item.quantity).toLocaleString()}
+                        {item.quantity}x • ₡{((item.price + (item.customization?.totalExtrasPrice || 0)) * item.quantity).toLocaleString()}
                       </p>
                     </div>
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
@@ -135,8 +149,18 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
                     />
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
+                      {item.customization && (item.customization.extras.length > 0 || item.customization.specialInstructions) && (
+                        <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                          {item.customization.extras.length > 0 && (
+                            <div>Extras: {item.customization.extras.map(e => `${e.name} (+₡${e.price.toLocaleString()})`).join(', ')}</div>
+                          )}
+                          {item.customization.specialInstructions && (
+                            <div>Instrucciones: {item.customization.specialInstructions}</div>
+                          )}
+                        </div>
+                      )}
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {item.quantity}x • ₡{(item.price * item.quantity).toLocaleString()}
+                        {item.quantity}x • ₡{((item.price + (item.customization?.totalExtrasPrice || 0)) * item.quantity).toLocaleString()}
                       </p>
                     </div>
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">

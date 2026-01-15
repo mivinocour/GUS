@@ -3,13 +3,25 @@ export interface MenuItem {
   name: string;
   description: string;
   price: number;
-  image: string;
+  image?: string;
   category: string;
+}
+
+export interface ExtraItem {
+  name: string;
+  price: number;
+}
+
+export interface ItemCustomization {
+  extras: ExtraItem[];
+  specialInstructions: string;
+  totalExtrasPrice: number;
 }
 
 export interface CartItem extends MenuItem {
   quantity: number;
   orderedBy?: string; // User ID who ordered this item
+  customization?: ItemCustomization;
 }
 
 export interface Category {

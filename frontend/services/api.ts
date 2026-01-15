@@ -254,12 +254,36 @@ export function convertCartItemsToApiFormat(
   currentUserId: string,
   menuItemsMap: Map<string, string> // Map from frontend ID to backend UUID
 ): ApiOrderItem[] {
-  return cartItems.map(item => ({
-    menu_item_id: menuItemsMap.get(item.id) || item.id,
-    quantity: item.quantity,
-    notes: item.notes || undefined,
-    ordered_by: currentUserId,
-  }));
+  return cartItems.map(item => {
+    let notes = item.notes || '';
+
+    // Add customization to notes if present
+    if (item.customization) {
+      const customizationNotes = [];
+
+      if (item.customization.extras && item.customization.extras.length > 0) {
+        const extrasText = item.customization.extras.map((extra: any) =>
+          `${extra.name} (+₡${extra.price.toLocaleString()})`
+        ).join(', ');
+        customizationNotes.push(`Extras: ${extrasText}`);
+      }
+
+      if (item.customization.specialInstructions && item.customization.specialInstructions.trim()) {
+        customizationNotes.push(`Instrucciones: ${item.customization.specialInstructions}`);
+      }
+
+      if (customizationNotes.length > 0) {
+        notes = notes ? `${notes} | ${customizationNotes.join(' | ')}` : customizationNotes.join(' | ');
+      }
+    }
+
+    return {
+      menu_item_id: menuItemsMap.get(item.id) || item.id,
+      quantity: item.quantity,
+      notes: notes || undefined,
+      ordered_by: currentUserId,
+    };
+  });
 }
 
 // Helper function to convert API restaurant data to frontend format

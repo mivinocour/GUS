@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ViewState, CartItem, MenuItem, PaidItem } from './types';
+import { ViewState, CartItem, MenuItem, PaidItem, ItemCustomization } from './types';
 import MenuScreen from './components/MenuScreen';
 import OrderSummary from './components/OrderSummary';
 import SuccessScreen from './components/SuccessScreen';
 import PaymentScreen from './components/PaymentScreen';
 import PaymentSuccessScreen from './components/PaymentSuccessScreen';
+import ExtrasPopup from './components/ExtrasPopup';
 
 import { RESTAURANTS } from './data';
 import { debugLocalStorage } from './utils/localStorage';
@@ -75,13 +76,21 @@ const App: React.FC = () => {
   const [lastOrder, setLastOrder] = useState<CartItem[]>([]);
   const [confirmedItems, setConfirmedItems] = useState<CartItem[]>([]);
 
+  // Popup states
+  const [selectedItemForExtras, setSelectedItemForExtras] = useState<MenuItem | null>(null);
+  const [showExtrasPopup, setShowExtrasPopup] = useState(false);
+
   // New States
-  // Hardcode favorite for Olive Garden (Fried Mozzarella)
+  // Hardcode favorites for restaurants
   const [favorites, setFavorites] = useState<Set<string>>(() => {
     const initialFavorites = new Set<string>();
     // If Olive Garden, add fried-mozzarella as a favorite
     if (resKey === 'olivegarden') {
       initialFavorites.add('fried-mozzarella');
+    }
+    // If Tsunami Sushi, add spicy edamame as a favorite
+    if (resKey === 'tsunamisushi') {
+      initialFavorites.add('edamame-spicy-with-garlic');
     }
     return initialFavorites;
   });
@@ -104,33 +113,57 @@ const App: React.FC = () => {
   };
 
 
-  // Helper to calculate total value of a list of items
+  // Helper to calculate total value of a list of items including extras
   const calculateTotal = (items: CartItem[]) => {
-    return items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    return items.reduce((acc, item) => {
+      const basePrice = item.price * item.quantity;
+      const extrasPrice = item.customization ? item.customization.totalExtrasPrice * item.quantity : 0;
+      return acc + basePrice + extrasPrice;
+    }, 0);
   };
 
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const currentCartTotal = calculateTotal(cart);
   const confirmedTotal = calculateTotal(confirmedItems);
-  const grandTotal = currentCartTotal + confirmedTotal;
+  // When ordering (cart.length > 0): show only cart total
+  // When viewing bill (cart.length === 0): show all confirmed items total
+  const grandTotal = cart.length > 0 ? currentCartTotal : confirmedTotal;
 
-  const handleAddToCart = (item: MenuItem) => {
+  const handleAddToCart = (item: MenuItem, customization?: ItemCustomization, quantity: number = 1) => {
     setCart(prev => {
-      const existing = prev.find(i => i.id === item.id && i.orderedBy === currentUserId);
+      // For tsunami, find existing item with same customization
+      const existing = prev.find(i =>
+        i.id === item.id &&
+        i.orderedBy === currentUserId &&
+        JSON.stringify(i.customization) === JSON.stringify(customization)
+      );
+
       if (existing) {
-        return prev.map(i => 
-          i.id === item.id && i.orderedBy === currentUserId
-            ? { ...i, quantity: i.quantity + 1 }
+        return prev.map(i =>
+          i.id === item.id &&
+          i.orderedBy === currentUserId &&
+          JSON.stringify(i.customization) === JSON.stringify(customization)
+            ? { ...i, quantity: i.quantity + quantity }
             : i
         );
       }
-      return [...prev, { ...item, quantity: 1, orderedBy: currentUserId }];
+      return [...prev, { ...item, quantity, orderedBy: currentUserId, customization }];
     });
   };
 
-  // Modified handler: Adds to cart without toast or drawer
+  // For tsunami, show popup; for others, add directly
   const handleItemSelect = (item: MenuItem) => {
-    handleAddToCart(item);
+    if (resKey === 'tsunamisushi') {
+      setSelectedItemForExtras(item);
+      setShowExtrasPopup(true);
+    } else {
+      handleAddToCart(item);
+    }
+  };
+
+  // Handle extras popup confirmation
+  const handleExtrasConfirm = (item: MenuItem, customization: ItemCustomization, quantity: number) => {
+    handleAddToCart(item, customization, quantity);
   };
 
   const handleToggleFavorite = (id: string) => {
@@ -145,10 +178,12 @@ const App: React.FC = () => {
     });
   };
 
-  const handleUpdateQuantity = (id: string, delta: number) => {
+  const handleUpdateQuantity = (id: string, delta: number, customization?: ItemCustomization) => {
     setCart(prev => {
       return prev.map(item => {
-        if (item.id === id && item.orderedBy === currentUserId) {
+        if (item.id === id &&
+            item.orderedBy === currentUserId &&
+            JSON.stringify(item.customization) === JSON.stringify(customization)) {
           const newQty = item.quantity + delta;
           return { ...item, quantity: newQty };
         }
@@ -301,7 +336,7 @@ const App: React.FC = () => {
             favorites={favorites}
             onToggleFavorite={handleToggleFavorite}
             cart={cart}
-            onUpdateQuantity={handleUpdateQuantity}
+            onUpdateQuantity={(id, delta, customization) => handleUpdateQuantity(id, delta, customization)}
             currentUserId={currentUserId}
           />
         )}
@@ -331,6 +366,7 @@ const App: React.FC = () => {
              onDone={handlePaymentSuccessDone}
              totalPaid={lastPaidAmount}
              paidItems={lastPaidItems}
+             restaurant={restaurant}
           />
         )}
       </main>
@@ -342,12 +378,24 @@ const App: React.FC = () => {
         cart={cart}
         confirmedItems={confirmedItems}
         recommendations={restaurant.recommendations || []}
-        onUpdateQuantity={handleUpdateQuantity}
+        onUpdateQuantity={(id, delta, customization) => handleUpdateQuantity(id, delta, customization)}
         onConfirm={handleConfirmOrder}
         onAddRecommendation={handleItemSelect}
         onGoToPayment={handleGoToPayment}
         paidItems={paidItems}
         restaurant={restaurant}
+      />
+
+      {/* Extras Popup */}
+      <ExtrasPopup
+        item={selectedItemForExtras}
+        isOpen={showExtrasPopup}
+        onClose={() => {
+          setShowExtrasPopup(false);
+          setSelectedItemForExtras(null);
+        }}
+        onConfirm={handleExtrasConfirm}
+        restaurantSlug={resKey}
       />
 
     </div>

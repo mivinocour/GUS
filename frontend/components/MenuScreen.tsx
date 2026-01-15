@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { RestaurantData } from '../data';
 import { Category, MenuItem } from '../types';
 import SpiceUpRewards from './SpiceUpRewards';
+import TsunamiRewards from './TsunamiRewards';
 
 interface MenuScreenProps {
   restaurant: RestaurantData;
@@ -87,6 +88,9 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
     <div className="flex-1 flex flex-col w-full animate-fade-in">
       {/* Spice Up Rewards - Only for Olive Garden */}
       <SpiceUpRewards isOliveGarden={restaurant.slug === 'olivegarden'} />
+
+      {/* Tsunami Rewards - Only for Tsunami */}
+      <TsunamiRewards isTsunami={restaurant.slug === 'tsunamisushi'} />
 
       {/* Featured Banner - Rotating Recommendations */}
       <div className="px-5 pt-2 pb-6">
@@ -268,45 +272,42 @@ const MenuItemCard: React.FC<{
   isFavorite: boolean;
   onToggleFavorite: () => void;
   cartQuantity: number;
-  onUpdateQuantity: (id: string, delta: number) => void;
+  onUpdateQuantity: (id: string, delta: number, customization?: any) => void;
 }> = ({ item, onSelect, isFavorite, onToggleFavorite, cartQuantity, onUpdateQuantity }) => {
+  const hasImage = !!item.image;
+  
   return (
     <div 
       onClick={() => onSelect(item)}
       className="group bg-surface-light dark:bg-surface-dark p-3 rounded-2xl shadow-card hover:shadow-soft transition-all duration-300 cursor-pointer border border-transparent hover:border-primary/10 relative overflow-hidden active:scale-[0.99]"
     >
-      <div className="flex gap-4">
-          {/* Image */}
-        <div className="size-28 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
-          <img 
-            src={item.image} 
-            alt={item.name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-            loading="lazy"
-          />
-          {/* Quantity Badge */}
-          {cartQuantity > 0 && (
-            <div className="absolute top-1.5 left-1.5 size-7 rounded-full bg-primary text-white flex items-center justify-center shadow-sm z-20 text-xs font-bold">
-              {cartQuantity}
-            </div>
-          )}
-
-          {/* Favorite Button Overlay */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleFavorite();
-            }}
-            className="absolute top-1.5 right-1.5 size-7 rounded-full bg-white/80 dark:bg-black/50 backdrop-blur-sm flex items-center justify-center shadow-sm z-20 active:scale-90 transition-transform"
-          >
-            <span className={`material-symbols-outlined text-[18px] transition-colors ${isFavorite ? 'text-red-500 material-symbols-filled' : 'text-slate-500 dark:text-slate-300'}`}>favorite</span>
-          </button>
-        </div>
+      <div className={`flex ${hasImage ? 'gap-4' : ''}`}>
+          {/* Image - Only render if image exists */}
+        {hasImage && (
+          <div className="size-28 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
+            <img 
+              src={item.image} 
+              alt={item.name}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+              loading="lazy"
+            />
+          </div>
+        )}
 
         {/* Content */}
         <div className="flex flex-1 flex-col relative z-10">
           <div className="flex-1">
-            <div className="flex justify-between items-start gap-2">
+            <div className="flex items-center gap-2">
+                {/* Favorite Button - Always on the left of title */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleFavorite();
+                  }}
+                  className="size-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center shadow-sm active:scale-90 transition-transform shrink-0"
+                >
+                  <span className={`material-symbols-outlined text-[18px] transition-colors ${isFavorite ? 'text-red-500 material-symbols-filled' : 'text-slate-500 dark:text-slate-300'}`}>favorite</span>
+                </button>
                 <h3 className="font-bold text-text-light dark:text-text-dark text-base leading-tight mb-1">{item.name}</h3>
             </div>
             <p className="text-xs text-text-muted dark:text-text-muted-dark leading-relaxed line-clamp-2">{item.description}</p>

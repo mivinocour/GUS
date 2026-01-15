@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { CartItem } from '../types';
+import { RestaurantData } from '../data';
 
 interface PaymentSuccessScreenProps {
   onDone: () => void;
   totalPaid: number;
   paidItems?: CartItem[];
+  restaurant?: RestaurantData;
 }
 
-const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, totalPaid, paidItems = [] }) => {
+const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, totalPaid, paidItems = [], restaurant }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [smsSent, setSmsSent] = useState(false);
   const [rating, setRating] = useState<number>(0);
@@ -57,7 +59,7 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
                 <div key={item.id} className="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-border-light dark:border-border-dark">
                   <div className="size-14 rounded-lg bg-slate-100 dark:bg-slate-700 shrink-0 overflow-hidden">
                     <img 
-                      src={item.image} 
+                      src={item.image || restaurant?.logo || ''} 
                       alt={item.name}
                       className="w-full h-full object-cover"
                     />
@@ -66,12 +68,22 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
                     <p className="font-bold text-sm text-text-light dark:text-text-dark truncate">
                       {item.name}
                     </p>
+                    {item.customization && (item.customization.extras.length > 0 || item.customization.specialInstructions) && (
+                      <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                        {item.customization.extras.length > 0 && (
+                          <div>Extras: {item.customization.extras.map(e => `${e.name} (+₡${e.price.toLocaleString()})`).join(', ')}</div>
+                        )}
+                        {item.customization.specialInstructions && (
+                          <div>Instrucciones: {item.customization.specialInstructions}</div>
+                        )}
+                      </div>
+                    )}
                     <div className="flex items-center justify-between mt-1">
                       <p className="text-xs text-text-muted dark:text-text-muted-dark">
-                        {item.quantity}x • ₡{item.price.toLocaleString()}
+                        {item.quantity}x • ₡{(item.price + (item.customization?.totalExtrasPrice || 0)).toLocaleString()}
                       </p>
                       <p className="font-bold text-sm text-text-light dark:text-text-dark">
-                        ₡{(item.price * item.quantity).toLocaleString()}
+                        ₡{((item.price + (item.customization?.totalExtrasPrice || 0)) * item.quantity).toLocaleString()}
                       </p>
                     </div>
                   </div>

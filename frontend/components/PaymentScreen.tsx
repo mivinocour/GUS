@@ -92,7 +92,11 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
   // Calculations
   const selectedItemsPrice = flatItems
     .filter(i => selectedUniqueIds.has(i.uniqueId))
-    .reduce((acc, i) => acc + i.originalItem.price, 0);
+    .reduce((acc, i) => {
+      const basePrice = i.originalItem.price;
+      const extrasPrice = i.originalItem.customization?.totalExtrasPrice || 0;
+      return acc + basePrice + extrasPrice;
+    }, 0);
 
   const voluntaryTip = selectedItemsPrice * (tipPercentage / 100);
   
@@ -189,7 +193,7 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
                   
                   <div className="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
                     <img 
-                      src={item.originalItem.image} 
+                      src={item.originalItem.image || restaurant?.logo || ''} 
                       alt="" 
                       className={`w-full h-full object-cover ${item.isPaid ? 'grayscale' : ''}`} 
                     />
@@ -205,12 +209,24 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
                     }`}>
                       {item.originalItem.name}
                     </p>
+                    {item.originalItem.customization && (item.originalItem.customization.extras.length > 0 || item.originalItem.customization.specialInstructions) && !item.isPaid && (
+                      <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                        {item.originalItem.customization.extras.length > 0 && (
+                          <div>Extras: {item.originalItem.customization.extras.map(e => `${e.name} (+₡${e.price.toLocaleString()})`).join(', ')}</div>
+                        )}
+                        {item.originalItem.customization.specialInstructions && (
+                          <div>Instrucciones: {item.originalItem.customization.specialInstructions}</div>
+                        )}
+                      </div>
+                    )}
                     {item.isPaid ? (
                       <p className="text-xs text-green-600 dark:text-green-400 font-semibold">
                         {paidByName ? `Pagado por ${paidByName}` : 'Pagado'}
                       </p>
                     ) : (
-                      <p className="text-xs text-text-muted dark:text-text-muted-dark">₡{item.originalItem.price.toLocaleString()}</p>
+                      <p className="text-xs text-text-muted dark:text-text-muted-dark">
+                        ₡{(item.originalItem.price + (item.originalItem.customization?.totalExtrasPrice || 0)).toLocaleString()}
+                      </p>
                     )}
                   </div>
                 </div>

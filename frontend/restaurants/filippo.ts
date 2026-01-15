@@ -11,7 +11,7 @@ const filippo: RestaurantData = {
   recommendations: [
       {
         "id": "pizza-filippo",
-        "name": "FILIPPO PIZZA",
+        "name": "Filippo Pizza",
         "description": "Smoked Salmon, Parmesan, Cherry Tomato, Mozzarella, Arugula",
         "price": 13900,
         "category": "BIANCA (SIN SALSA DE TOMATE)",
@@ -19,7 +19,7 @@ const filippo: RestaurantData = {
       },
       {
         "id": "risotto-de-frutos-del-mar",
-        "name": "RISOTTO DE FRUTOS DEL MAR",
+        "name": "Risotto de Frutos del Mar",
         "description": "Risotto with Seafood and Napoli Sauce",
         "price": 19900,
         "category": "RISOTTOS & PASTAS",
@@ -27,7 +27,7 @@ const filippo: RestaurantData = {
       },
       {
         "id": "plato-medio-oriente",
-        "name": "PLATO MEDIO ORIENTE",
+        "name": "Plato Medio Oriente",
         "description": "Falafel, Kibbe, Hummus, Babaganush, Ensalada Israelí, Pita Bread",
         "price": 7600,
         "category": "ENTRADAS | APPETIZERS",
@@ -163,7 +163,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "smoothie-gandhi",
-            "name": "GANDHI",
+            "name": "Gandhi",
             "description": "Turmeric, Pineapple, Banana, Mango, Ginger, Honey, Milk",
             "price": 4300,
             "image": "/images/filippo/smoothie-gandhi.jpg",
@@ -171,7 +171,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "smoothie-pura-vida",
-            "name": "PURA VIDA",
+            "name": "Pura Vida",
             "description": "Strawberry, Lemon, Spearmint, Honey, Coconut Water",
             "price": 4000,
             "image": "/images/filippo/smoothie-puravida.jpg",
@@ -179,7 +179,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "smoothie-dia-playa",
-            "name": "DÍA DE PLAYA",
+            "name": "Día de Playa",
             "description": "Papaya, Pineapple, Banana, Honey, Vanilla, Milk",
             "price": 3300,
             "image": "/images/filippo/smoothie-playa.jpg",
@@ -193,7 +193,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "focaccia-caprese",
-            "name": "FOCACCIA CAPRESE",
+            "name": "Focaccia Caprese",
             "description": "Fresh mozzarella, tomato, and basil on focaccia",
             "price": 5900,
             "image": "/images/filippo/focaccia-caprese.jpg",
@@ -201,7 +201,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "focaccia-romero-ajo",
-            "name": "FOCACCIA ROMERO O AJO",
+            "name": "Focaccia Romero o Ajo",
             "description": "Rosemary or Garlic Focaccia",
             "price": 4000,
             "image": "/images/filippo/focaccia-ajo.jpg",
@@ -209,7 +209,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "focaccia-carpaccio-salmon",
-            "name": "FOCACCIA CARPACCIO SALMÓN",
+            "name": "Focaccia Carpaccio Salmón",
             "description": "Salmon Carpaccio on Foccaccia",
             "price": 12100,
             "image": "/images/filippo/focaccia-salmon.jpg",
@@ -217,7 +217,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "carpaccio-de-res",
-            "name": "CARPACCIO DE RES",
+            "name": "Carpaccio de Res",
             "description": "Beef Carpaccio, Arugula, Parmesan, Lemon, EVOO",
             "price": 13100,
             "image": "/images/filippo/carpaccio-res.jpg",
@@ -225,7 +225,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "carpaccio-de-salmon",
-            "name": "CARPACCIO DE SALMÓN",
+            "name": "Carpaccio de Salmón",
             "description": "Salmon Carpaccio, Onion, Celery, Sweet Pepper, Capers, Lemon, EVOO",
             "price": 11000,
             "image": "/images/filippo/carpaccio-salmon.jpg",
@@ -233,7 +233,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "tartar-salmon-atun",
-            "name": "TARTAR DE SALMÓN O ATÚN",
+            "name": "Tartar de Salmón o Atún",
             "description": "Salmon or Tuna Tartare with Oriental Mayonnaise on Crispy Rice",
             "price": 8100,
             "image": "/images/filippo/tartar.jpg",
@@ -241,7 +241,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "coctel-camarones",
-            "name": "CÓCTEL DE CAMARONES",
+            "name": "Cóctel de Camarones",
             "description": "Shrimp Cocktail",
             "price": 13200,
             "image": "/images/filippo/coctel-camarones.jpg",
@@ -249,7 +249,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ceviche-pescado",
-            "name": "CEVICHE DE PESCADO",
+            "name": "Ceviche de Pescado",
             "description": "Fish Ceviche (Avocado, Onion, Cilantro, Tomato)",
             "price": 10500,
             "image": "/images/filippo/ceviche-pescado.jpg",
@@ -257,7 +257,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ceviche-mixto",
-            "name": "CEVICHE MIXTO",
+            "name": "Ceviche Mixto",
             "description": "Fish, Shrimp, Avocado, Onion, Cilantro, Tomato",
             "price": 8900,
             "image": "/images/filippo/ceviche-mixto.jpg",
@@ -265,7 +265,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "coliflor-al-horno",
-            "name": "COLIFLOR AL HORNO & TAHINI",
+            "name": "Coliflor al Horno & Tahini",
             "description": "Baked Cauliflower & Tahini",
             "price": 5900,
             "image": "/images/filippo/coliflor.jpg",
@@ -273,7 +273,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "calamares-fritos",
-            "name": "CALAMARES FRITOS (EN TEMPORADA)",
+            "name": "Calamares Fritos (En Temporada)",
             "description": "Fried Calamari (In season)",
             "price": 10500,
             "image": "/images/filippo/calamares.jpg",
@@ -281,7 +281,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "alitas-pollo-horno",
-            "name": "ALITAS DE POLLO AL HORNO",
+            "name": "Alitas de Pollo al Horno",
             "description": "Honey-Ginger Sauce or BBQ",
             "price": 12000,
             "image": "/images/filippo/alitas.jpg",
@@ -289,7 +289,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "croquetas-risotto-hongos",
-            "name": "CROQUETAS DE RISOTTO Y HONGOS",
+            "name": "Croquetas de Risotto y Hongos",
             "description": "Risotto and Mushroom Croquettes (6 units)",
             "price": 5800,
             "image": "/images/filippo/croquetas.jpg",
@@ -297,7 +297,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "dedos-mozzarella-app",
-            "name": "DEDOS DE MOZZARELLA EMPANIZADOS & CHUTNEY",
+            "name": "Dedos de Mozzarella Empanizados & Chutney",
             "description": "Mozzarella Fingers with Chutney",
             "price": 6600,
             "image": "/images/filippo/mozzarella-fingers.jpg",
@@ -305,7 +305,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "hongos-rellenos-queso",
-            "name": "HONGOS RELLENOS DE QUESO",
+            "name": "Hongos Rellenos de Queso",
             "description": "Cheese Stuffed Mushrooms",
             "price": 7900,
             "image": "/images/filippo/hongos-rellenos.jpg",
@@ -313,7 +313,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "queso-fundido-horno",
-            "name": "QUESO FUNDIDO AL HORNO",
+            "name": "Queso Fundido al Horno",
             "description": "Baked Cheese",
             "price": 5000,
             "image": "/images/filippo/queso-fundido.jpg",
@@ -321,7 +321,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "plato-quesos-fiambres",
-            "name": "PLATO DE QUESOS Y FIAMBRES",
+            "name": "Plato de Quesos y Fiambres",
             "description": "Cheese Platter with Salumi and Marinated Vegetables",
             "price": 14900,
             "image": "/images/filippo/tabla-quesos.jpg",
@@ -329,7 +329,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "falafel-hummus",
-            "name": "FALAFEL CON HUMMUS",
+            "name": "Falafel con Hummus",
             "description": "6 pieces of Falafel served with Hummus",
             "price": 5800,
             "image": "/images/filippo/falafel-hummus.jpg",
@@ -337,7 +337,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "kibbe-tabule",
-            "name": "KIBBE CON ENSALADA TABULE Y TAHINI",
+            "name": "Kibbe con Ensalada Tabule y Tahini",
             "description": "Kibbe with Tabule Salad and Tahini",
             "price": 6800,
             "image": "/images/filippo/kibbe.jpg",
@@ -345,7 +345,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "plato-medio-oriente-app",
-            "name": "PLATO MEDIO ORIENTE",
+            "name": "Plato Medio Oriente",
             "description": "Falafel, Kibbe, Hummus, Babaganush, Ensalada Israelí, Pita Bread",
             "price": 7600,
             "image": "/images/filippo/medio-oriente.jpg",
@@ -353,7 +353,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "plato-hummus-pita",
-            "name": "PLATO DE HUMMUS, PITA & CRUDITES",
+            "name": "Plato de Hummus, Pita & Crudites",
             "description": "Hummus Plate with Pita and Crudites",
             "price": 4600,
             "image": "/images/filippo/hummus-plate.jpg",
@@ -361,7 +361,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "plato-babaganush-pita",
-            "name": "PLATO DE BABAGANUSH, PITA & CRUDITES",
+            "name": "Plato de Babaganush, Pita & Crudites",
             "description": "Babaganush Plate with Pita and Crudites",
             "price": 5400,
             "image": "/images/filippo/babaganush-plate.jpg",
@@ -375,7 +375,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "crema-ayote",
-            "name": "CREMA DE AYOTE",
+            "name": "Crema de Ayote",
             "description": "Pumpkin Cream",
             "price": 6100,
             "image": "/images/filippo/crema-ayote.jpg",
@@ -383,7 +383,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sopa-tomate",
-            "name": "SOPA DE TOMATE CON PARMESANO",
+            "name": "Sopa de Tomate con Parmesano",
             "description": "Tomato Soup with Parmesan",
             "price": 5500,
             "image": "/images/filippo/sopa-tomate.jpg",
@@ -391,7 +391,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sopa-cebolla",
-            "name": "SOPA DE CEBOLLA GRATINADA",
+            "name": "Sopa de Cebolla Gratinada",
             "description": "French Onion Soup",
             "price": 6100,
             "image": "/images/filippo/sopa-cebolla.jpg",
@@ -405,7 +405,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "ensalada-verde-mixta",
-            "name": "VERDE MIXTA",
+            "name": "Verde Mixta",
             "description": "Mixed Greens, Mushrooms, Tomato, Carrots, Vinaigrette",
             "price": 5400,
             "image": "/images/filippo/ensalada-mixta.jpg",
@@ -413,7 +413,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-quinoa-mediterranea",
-            "name": "QUINOA MEDITERRÁNEA",
+            "name": "Quinoa Mediterránea",
             "description": "Cucumber, Avocado, Kalamata Olive, Fig, Tomato, Almond, Chutney, Goat Cheese",
             "price": 8900,
             "image": "/images/filippo/ensalada-quinoa.jpg",
@@ -421,7 +421,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-caprese",
-            "name": "CAPRESE",
+            "name": "Caprese",
             "description": "Tomato, Fresh Mozzarella, Basil, Pesto, Balsamic Reduction",
             "price": 8300,
             "image": "/images/filippo/ensalada-caprese.jpg",
@@ -429,7 +429,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-capellini-palmitos",
-            "name": "CAPELLINI DE PALMITOS",
+            "name": "Capellini de Palmitos",
             "description": "Hearts of Palm, Cheese, Dried Tomato, Ginger Vinaigrette",
             "price": 11300,
             "image": "/images/filippo/ensalada-palmitos.jpg",
@@ -437,7 +437,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-cesar",
-            "name": "CÉSAR",
+            "name": "César",
             "description": "Lettuce, Anchovies, Parmesan, Egg, Croutons, Anchovies Dressing",
             "price": 7900,
             "image": "/images/filippo/ensalada-cesar.jpg",
@@ -445,7 +445,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-atun-bronceado",
-            "name": "ATÚN BRONCEADO",
+            "name": "Atún Bronceado",
             "description": "Mixed Lettuce, Tomato, Fungi, Grilled Onion, Almonds, Onion Vinaigrette",
             "price": 10800,
             "image": "/images/filippo/ensalada-atun.jpg",
@@ -453,7 +453,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-iceberg",
-            "name": "ICEBERG",
+            "name": "Iceberg",
             "description": "Blue Cheese dressing, Crispy Bacon, Egg, Cherry Tomatoes",
             "price": 7600,
             "image": "/images/filippo/ensalada-iceberg.jpg",
@@ -461,7 +461,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-israeli-palmito",
-            "name": "ISRAELÍ & PALMITO GRILLADO",
+            "name": "Israelí & Palmito Grillado",
             "description": "Tomato, Cucumber, Red Onion, Fresh heart of Palm, Avocado",
             "price": 5200,
             "image": "/images/filippo/ensalada-israeli.jpg",
@@ -469,7 +469,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-salmon-nicoise",
-            "name": "SALMÓN NICOISE",
+            "name": "Salmón Nicoise",
             "description": "Grilled Salmon, Egg, Potato, Tomato, Alfalfa, Arugula, String Beans, Vinaigrette",
             "price": 13700,
             "image": "/images/filippo/ensalada-nicoise.jpg",
@@ -477,7 +477,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ensalada-prosciutto-pera",
-            "name": "PROSCIUTTO CRISPY & PERA",
+            "name": "Prosciutto Crispy & Pera",
             "description": "Mixed Lettuce, Parmesan, Poppyseed Dressing",
             "price": 8900,
             "image": "/images/filippo/ensalada-prosciutto.jpg",
@@ -491,7 +491,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "poke-salmon",
-            "name": "SALMÓN",
+            "name": "Salmón",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 11800,
             "image": "/images/filippo/poke-salmon.jpg",
@@ -499,7 +499,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "poke-atun",
-            "name": "ATÚN",
+            "name": "Atún",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 8700,
             "image": "/images/filippo/poke-atun.jpg",
@@ -507,7 +507,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "poke-carne",
-            "name": "CARNE",
+            "name": "Carne",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 12700,
             "image": "/images/filippo/poke-carne.jpg",
@@ -515,7 +515,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "poke-pollo",
-            "name": "POLLO",
+            "name": "Pollo",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 9000,
             "image": "/images/filippo/poke-pollo.jpg",
@@ -523,7 +523,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "poke-vegetales",
-            "name": "VEGETALES SALTEADOS",
+            "name": "Vegetales Salteados",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 7100,
             "image": "/images/filippo/poke-veg.jpg",
@@ -537,7 +537,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "risotto-ayote",
-            "name": "RISOTTO AL AYOTE",
+            "name": "Risotto al Ayote",
             "description": "Pumpkin Risotto",
             "price": 13400,
             "image": "/images/filippo/risotto-ayote.jpg",
@@ -545,7 +545,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "risotto-hongos-trufados",
-            "name": "RISOTTO A LOS HONGOS TRUFADOS",
+            "name": "Risotto a los Hongos Trufados",
             "description": "Risotto with Mushrooms and Truffle",
             "price": 15700,
             "image": "/images/filippo/risotto-hongos.jpg",
@@ -553,7 +553,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "risotto-frutos-mar",
-            "name": "RISOTTO DE FRUTOS DEL MAR",
+            "name": "Risotto de Frutos del Mar",
             "description": "Risotto with Seafood and Napoli Sauce",
             "price": 19900,
             "image": "/images/filippo/risotto-mar.jpg",
@@ -561,7 +561,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "ravioli-carne",
-            "name": "RAVIOLI DE CARNE EN SALSA NAPOLI",
+            "name": "Ravioli de Carne en Salsa Napoli",
             "description": "Meat Ravioli in Tomato Sauce",
             "price": 8900,
             "image": "/images/filippo/ravioli.jpg",
@@ -569,7 +569,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "tortellini-ricotta",
-            "name": "TORTELLINI DE RICOTTA EN SALSA AURORA CON PESTO",
+            "name": "Tortellini de Ricotta en Salsa Aurora con Pesto",
             "description": "Ricotta Filled Tortellini in Aurora Sauce with Pesto",
             "price": 10300,
             "image": "/images/filippo/tortellini-ricotta.jpg",
@@ -577,7 +577,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "tortellini-hongos",
-            "name": "TORTELLINI DE HONGOS EN SALSA BLANCA TRUFADA",
+            "name": "Tortellini de Hongos en Salsa Blanca Trufada",
             "description": "Mushroom Tortellini in White Truffle Sauce",
             "price": 14900,
             "image": "/images/filippo/tortellini-hongos.jpg",
@@ -585,7 +585,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "lasagna-carne",
-            "name": "LASAGNA DE CARNE",
+            "name": "Lasagna de Carne",
             "description": "Meat Lasagna",
             "price": 9400,
             "image": "/images/filippo/lasagna-carne.jpg",
@@ -593,7 +593,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "lasagna-pollo",
-            "name": "LASAGNA DE POLLO",
+            "name": "Lasagna de Pollo",
             "description": "Chicken Lasagna",
             "price": 8400,
             "image": "/images/filippo/lasagna-pollo.jpg",
@@ -693,7 +693,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "main-corvina",
-            "name": "CORVINA",
+            "name": "Corvina",
             "description": "Sea Bass with Tomato, Asparagus and Butter Sauce",
             "price": 22400,
             "image": "/images/filippo/corvina.jpg",
@@ -701,7 +701,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "main-salmon",
-            "name": "SALMÓN",
+            "name": "Salmón",
             "description": "Salmon in Pumpkin Sauce, Asparagus and Tomato",
             "price": 17600,
             "image": "/images/filippo/salmon.jpg",
@@ -709,7 +709,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "main-tagliata-lomito",
-            "name": "TAGLIATA DE LOMITO AL HORNO",
+            "name": "Tagliata de Lomito al Horno",
             "description": "Sliced Steak with Grilled Tomato and Mushrooms and Pepper Chimi Sauce",
             "price": 18600,
             "image": "/images/filippo/tagliata.jpg",
@@ -717,7 +717,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "main-pollo-limon",
-            "name": "PECHUGA DE POLLO AL LIMÓN Y HIERBAS",
+            "name": "Pechuga de Pollo al Limón y Hierbas",
             "description": "Roasted Chicken Breast with Lemon and Herbs",
             "price": 10400,
             "image": "/images/filippo/pollo-limon.jpg",
@@ -725,7 +725,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "main-milanesa-pollo",
-            "name": "MILANESA DE POLLO",
+            "name": "Milanesa de Pollo",
             "description": "Milanese Chicken with Mini Salad",
             "price": 8500,
             "image": "/images/filippo/milanesa.jpg",
@@ -733,7 +733,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "main-milanesa-parmigiana",
-            "name": "MILANESA DE POLLO A LA PARMIGIANA",
+            "name": "Milanesa de Pollo a la Parmigiana",
             "description": "Milanese Chicken Parmigiana",
             "price": 10500,
             "image": "/images/filippo/parmigiana.jpg",
@@ -747,7 +747,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "burger-portobello",
-            "name": "PORTOBELLO HORNEADO",
+            "name": "Portobello Horneado",
             "description": "Baked Portobello Burger with Provolone, Blue Cheese and Avocado Sauce",
             "price": 10700,
             "image": "/images/filippo/burger-portobello.jpg",
@@ -755,7 +755,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "burger-corvina",
-            "name": "CORVINA",
+            "name": "Corvina",
             "description": "Sea Bass Burger with Jalapeños Sauce, Pickles and Crispy Onions",
             "price": 13400,
             "image": "/images/filippo/burger-corvina.jpg",
@@ -763,7 +763,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "burger-salmon",
-            "name": "SALMÓN",
+            "name": "Salmón",
             "description": "Salmon with Mayonnaise Salmon, Honey, Ginger",
             "price": 13400,
             "image": "/images/filippo/burger-salmon.jpg",
@@ -771,7 +771,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "burger-angus",
-            "name": "CARNE ANGUS",
+            "name": "Carne Angus",
             "description": "Angus Hamburguer (Lettuce, Tomato, Onion)",
             "price": 9900,
             "image": "/images/filippo/burger-angus.jpg",
@@ -801,7 +801,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sandwich-queso",
-            "name": "SANDWICH DE QUESO",
+            "name": "Sandwich de Queso",
             "description": "The Cheese Sandwich",
             "price": 6600,
             "image": "/images/filippo/sandwich-queso.jpg",
@@ -809,7 +809,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sandwich-atun",
-            "name": "ENSALADA DE ATÚN",
+            "name": "Ensalada de Atún",
             "description": "Avocado, Lettuce, Alfalfa, Potatoes",
             "price": 8600,
             "image": "/images/filippo/sandwich-atun.jpg",
@@ -817,7 +817,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sandwich-jackfruit",
-            "name": "JACK-FRUIT",
+            "name": "Jack-Fruit",
             "description": "Jack-fruit, Purple Cabbage, Carrot, Apple Cider Vinegar, Mayonnaise",
             "price": 6900,
             "image": "/images/filippo/sandwich-jackfruit.jpg",
@@ -825,7 +825,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sandwich-caprese",
-            "name": "CAPRESE",
+            "name": "Caprese",
             "description": "Fresh Mozzarella, Tomato, Pesto, Olive Oil, Balsamic Reduction",
             "price": 7100,
             "image": "/images/filippo/sandwich-caprese.jpg",
@@ -849,7 +849,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sandwich-pechuga-pollo",
-            "name": "PECHUGA DE POLLO",
+            "name": "Pechuga de Pollo",
             "description": "Chicken Breast, Brie Cheese, Caramelized Onion, Chutney, Arugula",
             "price": 11000,
             "image": "/images/filippo/sandwich-pollo.jpg",
@@ -857,7 +857,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sandwich-prosciutto",
-            "name": "PROSCIUTTO",
+            "name": "Prosciutto",
             "description": "Prosciutto, Fresh Mozzarella, Tomato, Olive Oil, Pepper",
             "price": 8900,
             "image": "/images/filippo/sandwich-prosciutto.jpg",
@@ -865,7 +865,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "sandwich-salmon-grillado",
-            "name": "SALMÓN GRILLADO",
+            "name": "Salmón Grillado",
             "description": "Grilled Salmon, Hearts of Palm, Cheese, Dried Tomato, Wasabi and Jalapeno Mayo",
             "price": 12900,
             "image": "/images/filippo/sandwich-salmon.jpg",
@@ -879,7 +879,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "kids-dedos-pollo",
-            "name": "DEDOS DE POLLO EMPANIZADOS Y PAPAS FRITAS",
+            "name": "Dedos de Pollo Empanizados y Papas Fritas",
             "description": "Chicken Tenders with Fries",
             "price": 6100,
             "image": "/images/filippo/kids-pollo.jpg",
@@ -887,7 +887,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "kids-dedos-mozzarella",
-            "name": "DEDOS DE MOZZARELLA",
+            "name": "Dedos de Mozzarella",
             "description": "Mozzarella Fingers",
             "price": 5700,
             "image": "/images/filippo/kids-mozzarella.jpg",
@@ -895,7 +895,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "kids-spaghetti-mantequilla",
-            "name": "SPAGUETTI EN MANTEQUILLA",
+            "name": "Spaghetti en Mantequilla",
             "description": "Spaghetti with Butter",
             "price": 3300,
             "image": "/images/filippo/kids-mantequilla.jpg",
@@ -903,7 +903,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "kids-spaghetti-pomodoro",
-            "name": "SPAGUETTI POMODORO",
+            "name": "Spaghetti Pomodoro",
             "description": "Spaghetti with Pomodoro",
             "price": 3600,
             "image": "/images/filippo/kids-pomodoro.jpg",
@@ -911,7 +911,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "kids-penne-bolognesa",
-            "name": "PENNE BOLOGNESA",
+            "name": "Penne Bolognesa",
             "description": "Bolognese Pasta",
             "price": 5400,
             "image": "/images/filippo/kids-bolognesa.jpg",
@@ -919,7 +919,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "kids-pizzetta",
-            "name": "PIZZETTA DE JAMÓN Y QUESO",
+            "name": "Pizzetta de Jamón y Queso",
             "description": "Ham and Cheese Pizzetta",
             "price": 5900,
             "image": "/images/filippo/kids-pizzetta.jpg",
@@ -933,7 +933,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "pizza-margherita",
-            "name": "MARGHERITA",
+            "name": "Margherita",
             "description": "Mozzarella, Basil",
             "price": 8700,
             "image": "/images/filippo/pizza-margherita.jpg",
@@ -941,7 +941,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "pizza-di-parma",
-            "name": "DI PARMA",
+            "name": "Di Parma",
             "description": "Prosciutto, Mozzarella, Arugula",
             "price": 12000,
             "image": "/images/filippo/pizza-parma.jpg",
@@ -949,7 +949,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "pizza-classica",
-            "name": "CLASSICA",
+            "name": "Classica",
             "description": "Ham, Mushrooms, Mozzarella",
             "price": 10900,
             "image": "/images/filippo/pizza-classica.jpg",
@@ -965,7 +965,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "pizza-pepperoni",
-            "name": "PEPPERONI",
+            "name": "Pepperoni",
             "description": "Pepperoni, Mozzarella",
             "price": 10500,
             "image": "/images/filippo/pizza-pepperoni.jpg",
@@ -973,7 +973,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "pizza-gamberetti",
-            "name": "GAMBERETTI",
+            "name": "Gamberetti",
             "description": "Shrimps, Mozzarella, Roasted Tomatoes, Arugula",
             "price": 10900,
             "image": "/images/filippo/pizza-gamberetti.jpg",
@@ -981,7 +981,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "pizza-maui",
-            "name": "MAUI",
+            "name": "Maui",
             "description": "Ham, Pineapple, Mozzarella, Basil",
             "price": 9800,
             "image": "/images/filippo/pizza-maui.jpg",
@@ -997,7 +997,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "pizza-puttanesca",
-            "name": "PUTTANESCA",
+            "name": "Puttanesca",
             "description": "Olives, Anchovies, Capers, Chile Flakes, Mozzarella",
             "price": 9800,
             "image": "/images/filippo/pizza-puttanesca.jpg",
@@ -1019,7 +1019,7 @@ const filippo: RestaurantData = {
         "items": [
           {
             "id": "bianca-filippo",
-            "name": "FILIPPO",
+            "name": "Filippo",
             "description": "Smoked Salmon, Parmesan, Cherry Tomato, Mozzarella, Arugula",
             "price": 13900,
             "image": "/images/filippo/bianca-filippo.jpg",
@@ -1027,7 +1027,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "bianca-funghi",
-            "name": "FUNGHI",
+            "name": "Funghi",
             "description": "Mushroom Tapenade, Mozzarella, Truffle Oil",
             "price": 9800,
             "image": "/images/filippo/bianca-funghi.jpg",
@@ -1035,7 +1035,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "bianca-formaggi",
-            "name": "FORMAGGI",
+            "name": "Formaggi",
             "description": "Gorgonzola, Parmesan, Mozzarella, Gouda",
             "price": 10200,
             "image": "/images/filippo/bianca-formaggi.jpg",
@@ -1043,7 +1043,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "bianca-caprino",
-            "name": "CAPRINO",
+            "name": "Caprino",
             "description": "Asparagus, Goat Cheese, Mozzarella",
             "price": 9900,
             "image": "/images/filippo/bianca-caprino.jpg",
@@ -1051,7 +1051,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "bianca-dolce-piccante",
-            "name": "DOLCE E PICCANTE",
+            "name": "Dolce e Piccante",
             "description": "Figs, Gorgonzola, Honey, Mozzarella, Chile Flakes",
             "price": 8800,
             "image": "/images/filippo/bianca-dolce.jpg",
@@ -1059,7 +1059,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "bianca-brie-pera",
-            "name": "BRIE E PERA",
+            "name": "Brie e Pera",
             "description": "Brie, Mozzarella, Caramelized Pear, Balsamic Reduction",
             "price": 9900,
             "image": "/images/filippo/bianca-brie.jpg",
@@ -1067,7 +1067,7 @@ const filippo: RestaurantData = {
           },
           {
             "id": "bianca-prosciutto-alcachofa",
-            "name": "PROSCIUTTO",
+            "name": "Prosciutto",
             "description": "Artichoke, Prosciutto, Mozzarella, Pesto",
             "price": 11500,
             "image": "/images/filippo/bianca-prosciutto.jpg",

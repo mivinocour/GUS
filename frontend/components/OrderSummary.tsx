@@ -76,9 +76,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     return acc + basePrice + extrasPrice;
   }, 0);
 
-  // Spice Up Rewards calculation (only for Olive Garden)
+  // Rewards calculation (Olive Garden and Tsunami)
   const isOliveGarden = restaurant?.slug === 'olivegarden';
-  const rewardsEarning = isOliveGarden ? total * 0.03 : 0; // 3% cashback
+  const isTsunami = restaurant?.slug === 'tsunamisushi';
+  const rewardsEarning = (isOliveGarden || isTsunami) ? total * 0.03 : 0; // 3% cashback
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
@@ -255,14 +256,36 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   <span className="text-text-muted dark:text-text-muted-dark text-sm font-medium">Total</span>
                   <span className="text-text-light dark:text-text-dark font-medium">₡{total.toLocaleString()}</span>
                 </div>
-                {/* Spice Up Rewards Earning Display */}
-                {isOliveGarden && rewardsEarning > 0 && (
-                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-dashed border-[#54301A]/30 dark:border-[#54301A]/30">
+                {/* Rewards Earning Display */}
+                {(isOliveGarden || isTsunami) && rewardsEarning > 0 && (
+                  <div className={`flex justify-between items-center mt-2 pt-2 border-t border-dashed ${
+                    isOliveGarden
+                      ? 'border-[#54301A]/30 dark:border-[#54301A]/30'
+                      : 'border-[#003580]/30 dark:border-[#003580]/30'
+                  }`}>
                     <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[#54301A] dark:text-[#54301A] text-[16px]">loyalty</span>
-                      <span className="text-[#54301A] dark:text-[#54301A] text-sm font-medium">Ganarás (3%)</span>
+                      <span className={`material-symbols-outlined text-[16px] ${
+                        isOliveGarden
+                          ? 'text-[#54301A] dark:text-[#54301A]'
+                          : 'text-[#003580] dark:text-[#003580]'
+                      }`}>
+                        {isTsunami ? 'waves' : 'loyalty'}
+                      </span>
+                      <span className={`text-sm font-medium ${
+                        isOliveGarden
+                          ? 'text-[#54301A] dark:text-[#54301A]'
+                          : 'text-[#003580] dark:text-[#003580]'
+                      }`}>
+                        Ganarás (3%)
+                      </span>
                     </div>
-                    <span className="text-[#54301A] dark:text-[#54301A] font-bold">₡{Math.round(rewardsEarning).toLocaleString()}</span>
+                    <span className={`font-bold ${
+                      isOliveGarden
+                        ? 'text-[#54301A] dark:text-[#54301A]'
+                        : 'text-[#003580] dark:text-[#003580]'
+                    }`}>
+                      ₡{Math.round(rewardsEarning).toLocaleString()}
+                    </span>
                   </div>
                 )}
               </div>

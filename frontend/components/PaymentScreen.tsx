@@ -20,8 +20,9 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CARD');
   const [useRewards, setUseRewards] = useState<boolean>(false);
 
-  // Spice Up Rewards data (hardcoded for demo)
+  // Rewards data (hardcoded for demo)
   const isOliveGarden = restaurant?.slug === 'olivegarden';
+  const isTsunami = restaurant?.slug === 'tsunamisushi';
   // Convert $3 USD to colones (approximate rate: $1 = ₡500)
   const USD_TO_CRC = 500;
   const rewardsData = {
@@ -100,9 +101,9 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
 
   const voluntaryTip = selectedItemsPrice * (tipPercentage / 100);
   
-  // Spice Up Rewards calculations
-  const rewardsEarning = isOliveGarden ? selectedItemsPrice * (rewardsData.cashbackRate / 100) : 0;
-  const rewardsToApply = useRewards && isOliveGarden ? Math.min(rewardsData.currentBalanceCRC, selectedItemsPrice) : 0;
+  // Rewards calculations
+  const rewardsEarning = (isOliveGarden || isTsunami) ? selectedItemsPrice * (rewardsData.cashbackRate / 100) : 0;
+  const rewardsToApply = useRewards && (isOliveGarden || isTsunami) ? Math.min(rewardsData.currentBalanceCRC, selectedItemsPrice) : 0;
   const subtotalAfterRewards = selectedItemsPrice - rewardsToApply;
   const total = subtotalAfterRewards + voluntaryTip;
 
@@ -264,40 +265,108 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
           </div>
         )}
 
-        {/* Spice Up Rewards Section */}
-        {isOliveGarden && selectedUniqueIds.size > 0 && (
+        {/* Rewards Section */}
+        {(isOliveGarden || isTsunami) && selectedUniqueIds.size > 0 && (
           <div className="px-5 pt-2 pb-6 border-t border-dashed border-border-light dark:border-border-dark">
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4 border border-blue-200 dark:border-blue-800/50">
+            <div className={`rounded-2xl p-4 border ${
+              isTsunami
+                ? 'bg-[#003580]/5 dark:bg-[#003580]/10 border-[#003580]/20 dark:border-[#003580]/30'
+                : 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50'
+            }`}>
               <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-[20px]">loyalty</span>
-                <h2 className="text-sm font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">Spice Up Rewards</h2>
+                <span className={`material-symbols-outlined text-[20px] ${
+                  isTsunami
+                    ? 'text-[#003580] dark:text-[#003580]'
+                    : 'text-blue-600 dark:text-blue-400'
+                }`}>
+                  {isTsunami ? 'waves' : 'loyalty'}
+                </span>
+                <h2 className={`text-sm font-bold uppercase tracking-wider ${
+                  isTsunami
+                    ? 'text-[#003580] dark:text-[#003580]'
+                    : 'text-blue-700 dark:text-blue-300'
+                }`}>
+                  {isTsunami ? 'Tsunami Rewards' : 'Spice Up Rewards'}
+                </h2>
               </div>
               
               {/* Rewards Earning */}
-              <div className="bg-white/60 dark:bg-slate-800/60 rounded-xl p-3 mb-3 backdrop-blur-sm border border-blue-100 dark:border-blue-800/30">
+              <div className={`bg-white/60 dark:bg-slate-800/60 rounded-xl p-3 mb-3 backdrop-blur-sm border ${
+                isTsunami
+                  ? 'border-[#003580]/20 dark:border-[#003580]/30'
+                  : 'border-blue-100 dark:border-blue-800/30'
+              }`}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm text-blue-700 dark:text-blue-300 font-medium">Ganarás con esta compra</span>
-                  <span className="text-lg font-bold text-blue-600 dark:text-blue-400">₡{Math.round(rewardsEarning).toLocaleString()}</span>
+                  <span className={`text-sm font-medium ${
+                    isTsunami
+                      ? 'text-[#003580] dark:text-[#003580]'
+                      : 'text-blue-700 dark:text-blue-300'
+                  }`}>
+                    Ganarás con esta compra
+                  </span>
+                  <span className={`text-lg font-bold ${
+                    isTsunami
+                      ? 'text-[#003580] dark:text-[#003580]'
+                      : 'text-blue-600 dark:text-blue-400'
+                  }`}>
+                    ₡{Math.round(rewardsEarning).toLocaleString()}
+                  </span>
                 </div>
-                <p className="text-xs text-blue-600/70 dark:text-blue-400/70">3% de reembolso en efectivo</p>
+                <p className={`text-xs ${
+                  isTsunami
+                    ? 'text-[#003580]/70 dark:text-[#003580]/70'
+                    : 'text-blue-600/70 dark:text-blue-400/70'
+                }`}>
+                  3% de reembolso en efectivo
+                </p>
               </div>
 
               {/* Use Rewards Toggle */}
               {rewardsData.currentBalanceCRC > 0 && (
-                <div className="flex items-center justify-between p-3 bg-white/40 dark:bg-slate-800/40 rounded-xl backdrop-blur-sm border border-blue-100 dark:border-blue-800/30">
+                <div className={`flex items-center justify-between p-3 bg-white/40 dark:bg-slate-800/40 rounded-xl backdrop-blur-sm border ${
+                  isTsunami
+                    ? 'border-[#003580]/20 dark:border-[#003580]/30'
+                    : 'border-blue-100 dark:border-blue-800/30'
+                }`}>
                   <div className="flex items-center gap-3">
-                    <div className="size-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                      <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-[20px]">savings</span>
+                    <div className={`size-10 rounded-lg flex items-center justify-center ${
+                      isTsunami
+                        ? 'bg-[#003580]/20 dark:bg-[#003580]/30'
+                        : 'bg-blue-100 dark:bg-blue-900/30'
+                    }`}>
+                      <span className={`material-symbols-outlined text-[20px] ${
+                        isTsunami
+                          ? 'text-[#003580] dark:text-[#003580]'
+                          : 'text-blue-600 dark:text-blue-400'
+                      }`}>
+                        {isTsunami ? 'waves' : 'savings'}
+                      </span>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-blue-700 dark:text-blue-300">Usar crédito disponible</p>
-                      <p className="text-xs text-blue-600/70 dark:text-blue-400/70">${rewardsData.currentBalanceUSD.toFixed(2)} (₡{rewardsData.currentBalanceCRC.toLocaleString()}) disponibles</p>
+                      <p className={`text-sm font-bold ${
+                        isTsunami
+                          ? 'text-[#003580] dark:text-[#003580]'
+                          : 'text-blue-700 dark:text-blue-300'
+                      }`}>
+                        Usar crédito disponible
+                      </p>
+                      <p className={`text-xs ${
+                        isTsunami
+                          ? 'text-[#003580]/70 dark:text-[#003580]/70'
+                          : 'text-blue-600/70 dark:text-blue-400/70'
+                      }`}>
+                        ${rewardsData.currentBalanceUSD.toFixed(2)} (₡{rewardsData.currentBalanceCRC.toLocaleString()}) disponibles
+                      </p>
                     </div>
                   </div>
                   <button
                     onClick={() => setUseRewards(!useRewards)}
                     className={`relative w-12 h-6 rounded-full transition-colors ${
-                      useRewards ? 'bg-blue-600 dark:bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
+                      useRewards
+                        ? isTsunami
+                          ? 'bg-[#003580] dark:bg-[#003580]'
+                          : 'bg-blue-600 dark:bg-blue-500'
+                        : 'bg-slate-300 dark:bg-slate-600'
                     }`}
                   >
                     <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform shadow-md ${
@@ -367,10 +436,16 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
           </div>
           
           {/* Rewards Discount */}
-          {isOliveGarden && useRewards && rewardsToApply > 0 && (
-            <div className="flex justify-between text-blue-600 dark:text-blue-400 font-medium">
+          {(isOliveGarden || isTsunami) && useRewards && rewardsToApply > 0 && (
+            <div className={`flex justify-between font-medium ${
+              isTsunami
+                ? 'text-[#003580] dark:text-[#003580]'
+                : 'text-blue-600 dark:text-blue-400'
+            }`}>
               <span className="flex items-center gap-1">
-                <span className="material-symbols-outlined text-[16px]">loyalty</span>
+                <span className="material-symbols-outlined text-[16px]">
+                  {isTsunami ? 'waves' : 'loyalty'}
+                </span>
                 Crédito aplicado
               </span>
               <span>- ₡{rewardsToApply.toLocaleString()}</span>
@@ -385,13 +460,35 @@ const PaymentScreen: React.FC<PaymentScreenProps> = ({ confirmedItems, onBack, o
           )}
           
           {/* Rewards Earning Display */}
-          {isOliveGarden && rewardsEarning > 0 && (
-            <div className="flex justify-between items-center pt-2 border-t border-dashed border-blue-200 dark:border-blue-800/50">
+          {(isOliveGarden || isTsunami) && rewardsEarning > 0 && (
+            <div className={`flex justify-between items-center pt-2 border-t border-dashed ${
+              isTsunami
+                ? 'border-[#003580]/30 dark:border-[#003580]/30'
+                : 'border-blue-200 dark:border-blue-800/50'
+            }`}>
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-[16px]">trending_up</span>
-                <span className="text-blue-700 dark:text-blue-300 text-sm font-medium">Ganarás (3%)</span>
+                <span className={`material-symbols-outlined text-[16px] ${
+                  isTsunami
+                    ? 'text-[#003580] dark:text-[#003580]'
+                    : 'text-blue-600 dark:text-blue-400'
+                }`}>
+                  {isTsunami ? 'waves' : 'trending_up'}
+                </span>
+                <span className={`text-sm font-medium ${
+                  isTsunami
+                    ? 'text-[#003580] dark:text-[#003580]'
+                    : 'text-blue-700 dark:text-blue-300'
+                }`}>
+                  Ganarás (3%)
+                </span>
               </div>
-              <span className="text-blue-600 dark:text-blue-400 font-bold">₡{Math.round(rewardsEarning).toLocaleString()}</span>
+              <span className={`font-bold ${
+                isTsunami
+                  ? 'text-[#003580] dark:text-[#003580]'
+                  : 'text-blue-600 dark:text-blue-400'
+              }`}>
+                ₡{Math.round(rewardsEarning).toLocaleString()}
+              </span>
             </div>
           )}
           

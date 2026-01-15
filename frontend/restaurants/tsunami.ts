@@ -50,7 +50,7 @@ const tsunami: RestaurantData = {
       description: "Orden de edamame en vaina, clásico y ligero para compartir.",
       price: 4485,
       category: "Entradas",
-      image: "https://private-user-images.githubusercontent.com/173657784/536296833-b9eeb277-4195-4cf4-bc6a-58669756b54c.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Njg0OTE5MzUsIm5iZiI6MTc2ODQ5MTYzNSwicGF0aCI6Ii8xNzM2NTc3ODQvNTM2Mjk2ODMzLWI5ZWViMjc3LTQxOTUtNGNmNC1iYzZhLTU4NjY5NzU2YjU0Yy5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDExNVQxNTQwMzVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT01YWQ4OTZhZGNiOTIyNTY0ZDM3ODU3YWIwN2ZjM2MzNDJiOGE0YTY5YTc4OTAzZmQ4ZDE0YjlhMDM4NmJhOGZmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.y790O7kc7UdxHJOQ2CNDs-hGJCdOpho177pqGhoiuGE"
+      image: "/images/tsunami/normaledamame.jpg"
     },
     {
       id: "arroz-frito-con-lomito",
@@ -93,7 +93,7 @@ const tsunami: RestaurantData = {
           name: "Edamame Básico",
           description: "Orden de edamame en vaina, clásico y ligero para compartir.",
           price: 4485,
-          image: "https://private-user-images.githubusercontent.com/173657784/536296833-b9eeb277-4195-4cf4-bc6a-58669756b54c.jpg?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Njg0OTE5MzUsIm5iZiI6MTc2ODQ5MTYzNSwicGF0aCI6Ii8xNzM2NTc3ODQvNTM2Mjk2ODMzLWI5ZWViMjc3LTQxOTUtNGNmNC1iYzZhLTU4NjY5NzU2YjU0Yy5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwMTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDExNVQxNTQwMzVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT01YWQ4OTZhZGNiOTIyNTY0ZDM3ODU3YWIwN2ZjM2MzNDJiOGE0YTY5YTc4OTAzZmQ4ZDE0YjlhMDM4NmJhOGZmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.y790O7kc7UdxHJOQ2CNDs-hGJCdOpho177pqGhoiuGE",
+          image: "/images/tsunami/normaledamame.jpg",
           category: "Entradas"
         },
         {

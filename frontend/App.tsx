@@ -156,14 +156,10 @@ const App: React.FC = () => {
     });
   };
 
-  // For tsunami, show popup; for others, add directly
+  // Show popup for all restaurants to allow special instructions
   const handleItemSelect = (item: MenuItem) => {
-    if (resKey === 'tsunamisushi') {
-      setSelectedItemForExtras(item);
-      setShowExtrasPopup(true);
-    } else {
-      handleAddToCart(item);
-    }
+    setSelectedItemForExtras(item);
+    setShowExtrasPopup(true);
   };
 
   // Handle extras popup confirmation

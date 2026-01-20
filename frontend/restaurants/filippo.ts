@@ -831,14 +831,16 @@ const filippo: RestaurantData = {
                         "name": "Coca Cola",
                         "description": "Coca Cola",
                         "price": 2300,
-                        "category": "Bebidas | Drinks"
+                        "category": "Bebidas | Drinks",
+                        "image": "/images/filippo/coca.png.webp"
                   },
                   {
                         "id": "fresca",
                         "name": "Fresca",
                         "description": "Fresca",
                         "price": 2300,
-                        "category": "Bebidas | Drinks"
+                        "category": "Bebidas | Drinks",
+                        "image": "/images/filippo/fresca.jpg"
                   },
                   {
                         "id": "ginger-ale",
@@ -927,14 +929,16 @@ const filippo: RestaurantData = {
                         "name": "Cas, Limonada, Naranja, Papaya, Piña, Sandía",
                         "description": "Fresh fruit juices",
                         "price": 3000,
-                        "category": "Jugos Naturales | Fruit Juices"
+                        "category": "Jugos Naturales | Fruit Juices",
+                        "selectionOptions": ["Cas", "Limonada", "Naranja", "Papaya", "Piña", "Sandía"]
                   },
                   {
                         "id": "jugos-especiales",
                         "name": "Guanábana, Mango, Melón, Mora, Naranjilla, Naranja-Zanahoria",
                         "description": "Special fresh fruit juices",
                         "price": 3300,
-                        "category": "Jugos Naturales | Fruit Juices"
+                        "category": "Jugos Naturales | Fruit Juices",
+                        "selectionOptions": ["Guanábana", "Mango", "Melón", "Mora", "Naranjilla", "Naranja-Zanahoria"]
                   },
                   {
                         "id": "tomate-preparado",
@@ -989,29 +993,21 @@ const filippo: RestaurantData = {
     ],
       recommendations: [
         {
-          "id": "kombucha-rosa-jamaica",
-          "name": "Kombucha Rosa de Jamaica Anís",
-          "description": "Hibiscus Anise Kombucha",
-          "price": 5600,
+          "id": "coca-cola",
+          "name": "Coca Cola",
+          "description": "Coca Cola",
+          "price": 2300,
           "category": "Bebidas | Drinks",
-          "image": "https://images.unsplash.com/photo-1Gm_xrfRzUA?auto=format&fit=crop&q=80&w=600"
-        },
-        {
-          "id": "soda-artesanal-limon-lavanda",
-          "name": "Soda Artesanal Limón - Lavanda",
-          "description": "Lemon Lavender Soda",
-          "price": 5600,
+          "image": "/images/filippo/coca.png.webp"
+    },
+    {
+          "id": "fresca",
+          "name": "Fresca",
+          "description": "Fresca",
+          "price": 2300,
           "category": "Bebidas | Drinks",
-          "image": "https://images.unsplash.com/photo-A6kKks_5La0?auto=format&fit=crop&q=80&w=600"
-        },
-        {
-          "id": "smoothie-gandhi",
-          "name": "Gandhi",
-          "description": "Turmeric, Pineapple, Banana, Mango, Ginger, Honey, Milk",
-          "price": 4300,
-          "category": "Smoothies",
-          "image": "https://images.unsplash.com/photo-1JVwnL-A1Rs?auto=format&fit=crop&q=80&w=600"
-        }
+          "image": "/images/filippo/fresca.jpg"
+    },
       ]
     },
     {
@@ -1435,7 +1431,8 @@ const filippo: RestaurantData = {
               name: "Choco Chip al Horno con Helado de Vainilla",
               description: "Baked Choco Chip Cookie with Vanilla Ice Cream",
               price: 5900,
-              category: "Postres"
+              category: "Postres",
+              image: "/images/filippo/chocochip.jpg.webp"
             },
             {
               id: "pannacotta",
@@ -1492,7 +1489,8 @@ const filippo: RestaurantData = {
               name: "Tiramisú con Tierra de Chocolate",
               description: "With Chocolate Sand",
               price: 4200,
-              category: "Postres"
+              category: "Postres",
+              image: "/images/filippo/tiramisu.jpg"
             },
             {
               id: "tarta-4-leches",
@@ -1526,7 +1524,7 @@ const filippo: RestaurantData = {
           description: "Baked Choco Chip Cookie with Vanilla Ice Cream",
           price: 5900,
           category: "Postres",
-          image: "https://images.unsplash.com/photo-_m5zy0_TWyA?auto=format&fit=crop&q=80&w=600"
+          image: "/images/filippo/chocochip.jpg.webp"
         },
         {
           id: "tiramisu",
@@ -1534,7 +1532,7 @@ const filippo: RestaurantData = {
           description: "With Chocolate Sand",
           price: 4200,
           category: "Postres",
-          image: "https://images.unsplash.com/photo-88devcSxi0o?auto=format&fit=crop&q=80&w=600"
+          image: "/images/filippo/tiramisu.jpg"
         },
         {
           id: "tarta-chocolate-oscuro",

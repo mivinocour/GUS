@@ -56,20 +56,22 @@ const PaymentSuccessScreen: React.FC<PaymentSuccessScreenProps> = ({ onDone, tot
             
             <div className="space-y-3 max-h-64 overflow-y-auto">
               {paidItems.map((item) => (
-                <div key={item.id} className="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-border-light dark:border-border-dark">
-                  <div className="size-14 rounded-lg bg-slate-100 dark:bg-slate-700 shrink-0 overflow-hidden">
-                    <img 
-                      src={item.image || restaurant?.logo || ''} 
-                      alt={item.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-sm text-text-light dark:text-text-dark truncate">
+                <div key={item.id} className={`flex items-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl border border-border-light dark:border-border-dark ${!item.image ? 'flex-row' : ''}`}>
+                  {item.image && (
+                    <div className="size-14 rounded-lg bg-slate-100 dark:bg-slate-700 shrink-0 overflow-hidden">
+                      <img 
+                        src={item.image} 
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <div className={`flex-1 min-w-0 ${!item.image ? '' : ''}`}>
+                    <p className="font-bold text-sm text-text-light dark:text-text-dark break-words">
                       {item.name}
                     </p>
                     {item.customization && (item.customization.extras.length > 0 || item.customization.specialInstructions) && (
-                      <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                      <div className="text-xs text-primary-dark dark:text-primary-dark/80 mt-1">
                         {item.customization.extras.length > 0 && (
                           <div>Extras: {item.customization.extras.map(e => `${e.name} (+₡${e.price.toLocaleString()})`).join(', ')}</div>
                         )}

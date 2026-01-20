@@ -76,10 +76,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     return acc + basePrice + extrasPrice;
   }, 0);
 
-  // Rewards calculation (Olive Garden and Tsunami)
+  // Rewards calculation (Olive Garden, Tsunami, and Filippo)
   const isOliveGarden = restaurant?.slug === 'olivegarden';
   const isTsunami = restaurant?.slug === 'tsunamisushi';
-  const rewardsEarning = (isOliveGarden || isTsunami) ? total * 0.03 : 0; // 3% cashback
+  const isFilippo = restaurant?.slug === 'filippo';
+  const rewardsEarning = (isOliveGarden || isTsunami || isFilippo) ? total * 0.03 : 0; // 3% cashback
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
@@ -91,7 +92,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
       {/* Drawer Content */}
       <div className="relative w-full max-w-lg mx-auto pointer-events-none flex flex-col h-[95vh]">
-        <div className="pointer-events-auto bg-surface-light dark:bg-surface-dark w-full rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] flex flex-col h-full animate-slide-up relative overflow-hidden">
+        <div className="pointer-events-auto bg-surface-light dark:bg-surface-dark w-full rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] flex flex-col h-full animate-slide-up relative overflow-hidden max-w-full">
           
           {/* Handle */}
           <div className="w-full flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing shrink-0" onClick={onClose}>
@@ -112,7 +113,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           </div>
 
           {/* Scrollable Cart Items */}
-          <div className="flex-1 overflow-y-auto px-6 py-2 no-scrollbar">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden px-6 py-2 no-scrollbar">
             
             {/* Confirmed Items Section */}
             {confirmedItems.length > 0 && (
@@ -136,15 +137,17 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                       <div key={`confirmed-${item.id}`} className={`flex flex-col gap-2 ${isFullyPaid ? 'opacity-50' : ''}`}>
                         <div className="flex items-start justify-between gap-4">
                             <div className="flex gap-4 flex-1">
-                                <div className="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
+                                {item.image && (
+                                  <div className="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
                                     <img 
-                                      src={item.image || restaurant?.logo || ''} 
+                                      src={item.image} 
                                       alt={item.name} 
                                       className={`w-full h-full object-cover ${isFullyPaid ? 'grayscale' : ''}`} 
                                     />
-                                </div>
-                                <div className="flex-1 min-w-0 pt-0.5">
-                                    <p className={`text-sm font-bold leading-tight truncate ${
+                                  </div>
+                                )}
+                                <div className={`flex-1 min-w-0 pt-0.5 ${!item.image ? '' : ''}`}>
+                                    <p className={`text-sm font-bold leading-tight break-words ${
                                       isFullyPaid 
                                         ? 'text-slate-400 dark:text-slate-500 line-through' 
                                         : 'text-text-light dark:text-text-dark'
@@ -152,7 +155,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                                       {item.name}
                                     </p>
                                     {item.customization && formatCustomization(item.customization) && (
-                                      <p className="text-blue-600 dark:text-blue-400 text-xs mt-1 leading-relaxed">
+                                      <p className="text-primary-dark dark:text-primary-dark/80 text-xs mt-1 leading-relaxed">
                                         {formatCustomization(item.customization)}
                                       </p>
                                     )}
@@ -211,11 +214,13 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   <div key={item.id} className="flex flex-col gap-3 group">
                     <div className="flex items-start justify-between gap-4">
                         <div className="flex gap-4 flex-1">
-                            <div className="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
-                                <img src={item.image || restaurant?.logo || ''} alt={item.name} className="w-full h-full object-cover" />
-                            </div>
-                            <div className="flex-1 min-w-0 pt-0.5">
-                                <p className="text-text-light dark:text-text-dark text-base font-bold leading-tight truncate">{item.name}</p>
+                            {item.image && (
+                              <div className="size-16 rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0 overflow-hidden">
+                                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                              </div>
+                            )}
+                            <div className={`flex-1 min-w-0 pt-0.5 ${!item.image ? '' : ''}`}>
+                                <p className="text-text-light dark:text-text-dark text-base font-bold leading-tight break-words">{item.name}</p>
                                 <p className="text-text-muted dark:text-text-muted-dark text-sm mt-1 leading-normal">{item.category}</p>
                                 {item.customization && formatCustomization(item.customization) && (
                                   <p className="text-blue-600 dark:text-blue-400 text-xs mt-1 leading-relaxed">
@@ -257,24 +262,30 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   <span className="text-text-light dark:text-text-dark font-medium">₡{total.toLocaleString()}</span>
                 </div>
                 {/* Rewards Earning Display */}
-                {(isOliveGarden || isTsunami) && rewardsEarning > 0 && (
+                {(isOliveGarden || isTsunami || isFilippo) && rewardsEarning > 0 && (
                   <div className={`flex justify-between items-center mt-2 pt-2 border-t border-dashed ${
                     isOliveGarden
                       ? 'border-[#54301A]/30 dark:border-[#54301A]/30'
-                      : 'border-[#003580]/30 dark:border-[#003580]/30'
+                      : isTsunami
+                      ? 'border-[#003580]/30 dark:border-[#003580]/30'
+                      : 'border-[#7A6348]/30 dark:border-[#7A6348]/30'
                   }`}>
                     <div className="flex items-center gap-2">
                       <span className={`material-symbols-outlined text-[16px] ${
                         isOliveGarden
                           ? 'text-[#54301A] dark:text-[#54301A]'
-                          : 'text-[#003580] dark:text-[#003580]'
+                          : isTsunami
+                          ? 'text-[#003580] dark:text-[#003580]'
+                          : 'text-[#7A6348] dark:text-[#7A6348]'
                       }`}>
                         {isTsunami ? 'waves' : 'loyalty'}
                       </span>
                       <span className={`text-sm font-medium ${
                         isOliveGarden
                           ? 'text-[#54301A] dark:text-[#54301A]'
-                          : 'text-[#003580] dark:text-[#003580]'
+                          : isTsunami
+                          ? 'text-[#003580] dark:text-[#003580]'
+                          : 'text-[#7A6348] dark:text-[#7A6348]'
                       }`}>
                         Ganarás (3%)
                       </span>
@@ -282,7 +293,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                     <span className={`font-bold ${
                       isOliveGarden
                         ? 'text-[#54301A] dark:text-[#54301A]'
-                        : 'text-[#003580] dark:text-[#003580]'
+                        : isTsunami
+                        ? 'text-[#003580] dark:text-[#003580]'
+                        : 'text-[#7A6348] dark:text-[#7A6348]'
                     }`}>
                       ₡{Math.round(rewardsEarning).toLocaleString()}
                     </span>

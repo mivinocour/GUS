@@ -92,6 +92,11 @@ const App: React.FC = () => {
     if (resKey === 'tsunamisushi') {
       initialFavorites.add('edamame-spicy-with-garlic');
     }
+    // If Filippo, add lasagna and choco chip al horno as favorites
+    if (resKey === 'filippo') {
+      initialFavorites.add('lasagna-carne');
+      initialFavorites.add('choco-chip-horno');
+    }
     return initialFavorites;
   });
   const [lastPaidAmount, setLastPaidAmount] = useState(0);

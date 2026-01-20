@@ -3,6 +3,7 @@ import { RestaurantData } from '../data';
 import { Category, MenuItem } from '../types';
 import SpiceUpRewards from './SpiceUpRewards';
 import TsunamiRewards from './TsunamiRewards';
+import FilippoRewards from './FilippoRewards';
 
 interface MenuScreenProps {
   restaurant: RestaurantData;
@@ -46,6 +47,11 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
     ? restaurant.menuTabs.find(tab => tab.id === activeTab)?.menu || []
     : restaurant.menu;
   
+  // Get current recommendations based on active tab or default recommendations
+  const currentRecommendations = restaurant.menuTabs && activeTab
+    ? restaurant.menuTabs.find(tab => tab.id === activeTab)?.recommendations || restaurant.recommendations || []
+    : restaurant.recommendations || [];
+  
   // State to track which categories are expanded (default: all expanded)
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
     const allExpanded = new Set<string>();
@@ -63,20 +69,25 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
   // State for rotating recommendations
   const [currentRecommendationIndex, setCurrentRecommendationIndex] = useState(0);
 
+  // Reset recommendation index when tab changes
+  useEffect(() => {
+    setCurrentRecommendationIndex(0);
+  }, [activeTab]);
+
   // Auto-rotate recommendations every 5 seconds
   useEffect(() => {
-    if (!restaurant.recommendations || restaurant.recommendations.length <= 1) {
+    if (!currentRecommendations || currentRecommendations.length <= 1) {
       return; // Don't rotate if there's only one or no recommendations
     }
 
     const interval = setInterval(() => {
       setCurrentRecommendationIndex(prev =>
-        (prev + 1) % restaurant.recommendations.length
+        (prev + 1) % currentRecommendations.length
       );
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [restaurant.recommendations]);
+  }, [currentRecommendations]);
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategories(prev => {
@@ -118,6 +129,9 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
       {/* Tsunami Rewards - Only for Tsunami */}
       <TsunamiRewards isTsunami={restaurant.slug === 'tsunamisushi'} />
 
+      {/* Filippo Rewards - Only for Filippo */}
+      <FilippoRewards isFilippo={restaurant.slug === 'filippo'} />
+
       {/* Menu Tabs - Only show if menuTabs exists */}
       {restaurant.menuTabs && restaurant.menuTabs.length > 0 && (
         <div className="sticky top-[72px] z-30 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-border-light/50 dark:border-border-dark/50">
@@ -141,23 +155,34 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
 
       {/* Featured Banner - Rotating Recommendations */}
       <div className="px-5 pt-2 pb-6">
-         {restaurant.recommendations && restaurant.recommendations.length > 0 && (
+         {currentRecommendations && currentRecommendations.length > 0 && (
            <div className="w-full h-48 rounded-3xl overflow-hidden relative shadow-lg group cursor-pointer"
-                onClick={() => onItemSelect(restaurant.recommendations[currentRecommendationIndex])}>
+                onClick={() => onItemSelect(currentRecommendations[currentRecommendationIndex])}>
 
               {/* Background Images with Crossfade */}
               <div className="absolute inset-0">
-                {restaurant.recommendations.map((rec, index) => (
-                  <img
-                    key={rec.id}
-                    src={rec.image}
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 ${
-                      index === currentRecommendationIndex
-                        ? 'opacity-100 z-10'
-                        : 'opacity-0 z-0'
-                    }`}
-                    alt={rec.name}
-                  />
+                {currentRecommendations.map((rec, index) => (
+                  rec.image ? (
+                    <img
+                      key={rec.id}
+                      src={rec.image}
+                      className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 ${
+                        index === currentRecommendationIndex
+                          ? 'opacity-100 z-10'
+                          : 'opacity-0 z-0'
+                      }`}
+                      alt={rec.name}
+                    />
+                  ) : (
+                    <div
+                      key={rec.id}
+                      className={`absolute inset-0 bg-slate-200 dark:bg-slate-700 transition-all duration-1000 ${
+                        index === currentRecommendationIndex
+                          ? 'opacity-100 z-10'
+                          : 'opacity-0 z-0'
+                      }`}
+                    />
+                  )
                 ))}
               </div>
 
@@ -166,30 +191,30 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
               {/* Content with Slide Animation */}
               <div className="absolute bottom-0 left-0 p-5 w-full z-30">
                  <span className="inline-block px-2.5 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-wider rounded-lg mb-2 shadow-glow">
-                   Recomendado {currentRecommendationIndex + 1}/{restaurant.recommendations.length}
+                   Recomendado {currentRecommendationIndex + 1}/{currentRecommendations.length}
                  </span>
 
                  {/* Title */}
                  <h3 className="text-white font-bold text-xl mb-1">
-                   {restaurant.recommendations[currentRecommendationIndex].name}
+                   {currentRecommendations[currentRecommendationIndex].name}
                  </h3>
 
                  <div className="flex justify-between items-end">
                     {/* Description */}
                     <p className="text-white/80 text-sm line-clamp-1 max-w-[70%]">
-                      {restaurant.recommendations[currentRecommendationIndex].description}
+                      {currentRecommendations[currentRecommendationIndex].description}
                     </p>
 
                     {/* Price */}
                     <span className="text-white font-bold text-lg">
-                      ₡{restaurant.recommendations[currentRecommendationIndex].price.toLocaleString()}
+                      ₡{currentRecommendations[currentRecommendationIndex].price.toLocaleString()}
                     </span>
                  </div>
 
                  {/* Dots Indicator */}
-                 {restaurant.recommendations.length > 1 && (
+                 {currentRecommendations.length > 1 && (
                    <div className="flex gap-1.5 mt-3 justify-center">
-                     {restaurant.recommendations.map((_, index) => (
+                     {currentRecommendations.map((_, index) => (
                        <button
                          key={index}
                          onClick={(e) => {

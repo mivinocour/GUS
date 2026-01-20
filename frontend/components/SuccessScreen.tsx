@@ -58,7 +58,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
   const getStatusDisplay = (status: string) => {
     const statusMap = {
       pending: { text: 'Pendiente', color: 'bg-slate-100 text-slate-600 border-slate-200' },
-      confirmed: { text: 'Confirmado', color: 'bg-blue-100 text-blue-700 border-blue-200' },
+      confirmed: { text: 'Confirmado', color: 'bg-primary/10 text-primary-dark border-primary/20' },
       preparing: { text: 'Preparando', color: 'bg-amber-100 text-amber-700 border-amber-200' },
       ready: { text: 'Listo', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
       served: { text: 'Entregado', color: 'bg-slate-100 text-slate-500 border-slate-200' },
@@ -97,16 +97,18 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
               </div>
               <div className="space-y-4 pl-2 border-l-2 border-primary/20">
                 {orderItems.map((item: CartItem) => (
-                  <div key={`new-${item.id}`} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-16 h-16 object-cover rounded-xl"
-                    />
+                  <div key={`new-${item.id}`} className={`flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl ${!item.image ? 'flex-row' : ''}`}>
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded-xl shrink-0"
+                      />
+                    )}
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
                       {item.customization && (item.customization.extras.length > 0 || item.customization.specialInstructions) && (
-                        <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                        <div className="text-xs text-primary-dark dark:text-primary-dark/80 mt-1">
                           {item.customization.extras.length > 0 && (
                             <div>Extras: {item.customization.extras.map(e => `${e.name} (+₡${e.price.toLocaleString()})`).join(', ')}</div>
                           )}
@@ -119,7 +121,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
                         {item.quantity}x • ₡{((item.price + (item.customization?.totalExtrasPrice || 0)) * item.quantity).toLocaleString()}
                       </p>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary-dark border border-primary/20">
                       Confirmado
                     </span>
                   </div>
@@ -141,16 +143,18 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
               </div>
               <div className="space-y-4 pl-2 border-l-2 border-green-500/20">
                 {previouslyConfirmed.map((item: CartItem) => (
-                  <div key={`prev-${item.id}`} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-16 h-16 object-cover rounded-xl"
-                    />
+                  <div key={`prev-${item.id}`} className={`flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl ${!item.image ? 'flex-row' : ''}`}>
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded-xl shrink-0"
+                      />
+                    )}
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
                       {item.customization && (item.customization.extras.length > 0 || item.customization.specialInstructions) && (
-                        <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                        <div className="text-xs text-primary-dark dark:text-primary-dark/80 mt-1">
                           {item.customization.extras.length > 0 && (
                             <div>Extras: {item.customization.extras.map(e => `${e.name} (+₡${e.price.toLocaleString()})`).join(', ')}</div>
                           )}
@@ -185,7 +189,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({
         <div className="flex flex-col w-full gap-3 mt-6 mb-8">
           <button
             onClick={onPay}
-            className="w-full bg-blue-600 text-white font-bold h-14 rounded-2xl shadow-lg active:scale-[0.98] transition-all hover:bg-blue-700"
+            className="w-full bg-primary-dark text-white font-bold h-14 rounded-2xl shadow-lg active:scale-[0.98] transition-all hover:bg-primary"
           >
             <span>Pagar Total (₡{total.toLocaleString()})</span>
           </button>

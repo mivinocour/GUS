@@ -5,6 +5,7 @@ export interface MenuItem {
   price: number;
   image?: string;
   category: string;
+  selectionOptions?: string[]; // For items that require a selection (e.g., grouped beverages)
 }
 
 export interface ExtraItem {

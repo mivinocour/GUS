@@ -31,6 +31,7 @@ const ExtrasPopup: React.FC<ExtrasPopupProps> = ({
 }) => {
   const [selectedExtras, setSelectedExtras] = useState<ExtraItem[]>([]);
   const [specialInstructions, setSpecialInstructions] = useState('');
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
 
   if (!isOpen || !item) return null;
@@ -47,9 +48,20 @@ const ExtrasPopup: React.FC<ExtrasPopupProps> = ({
   const totalExtrasPrice = selectedExtras.reduce((sum, extra) => sum + extra.price, 0);
 
   const handleConfirm = () => {
+    // Build special instructions: include selection if needed, then any additional instructions
+    let instructions = '';
+    if (item.selectionOptions && selectedOption) {
+      instructions = `Selección: ${selectedOption}`;
+      if (specialInstructions.trim()) {
+        instructions += ` | ${specialInstructions.trim()}`;
+      }
+    } else {
+      instructions = specialInstructions.trim();
+    }
+
     const customization: ItemCustomization = {
       extras: selectedExtras,
-      specialInstructions: specialInstructions.trim(),
+      specialInstructions: instructions,
       totalExtrasPrice
     };
 
@@ -58,6 +70,7 @@ const ExtrasPopup: React.FC<ExtrasPopupProps> = ({
     // Reset state
     setSelectedExtras([]);
     setSpecialInstructions('');
+    setSelectedOption('');
     setQuantity(1);
     onClose();
   };
@@ -66,6 +79,7 @@ const ExtrasPopup: React.FC<ExtrasPopupProps> = ({
     // Reset state
     setSelectedExtras([]);
     setSpecialInstructions('');
+    setSelectedOption('');
     setQuantity(1);
     onClose();
   };
@@ -121,9 +135,31 @@ const ExtrasPopup: React.FC<ExtrasPopupProps> = ({
           </div>
 
           {/* Scrollable Extras and Instructions */}
-          {showExtras && (
-            <div className="flex-1 overflow-y-auto px-6">
-              {/* Extras */}
+          <div className="flex-1 overflow-y-auto px-6">
+            {/* Selection Options (for grouped items like beverages) */}
+            {item.selectionOptions && item.selectionOptions.length > 0 && (
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-3">
+                  Selecciona tu opción <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={selectedOption}
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                  className="w-full p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  required
+                >
+                  <option value="">-- Selecciona --</option>
+                  {item.selectionOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Extras - Only for Tsunami */}
+            {showExtras && (
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-3">
                   Extras
@@ -152,26 +188,32 @@ const ExtrasPopup: React.FC<ExtrasPopupProps> = ({
                   ))}
                 </div>
               </div>
+            )}
 
-              {/* Special Instructions */}
-              <div className="mb-6">
-                <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-3">
-                  Instrucciones Especiales
-                </label>
-                <textarea
-                  value={specialInstructions}
-                  onChange={(e) => setSpecialInstructions(e.target.value)}
-                  placeholder="Ej: Extra ginger en el lado, sin wasabi..."
-                  className="w-full p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 resize-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  rows={3}
-                  maxLength={200}
-                />
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  {specialInstructions.length}/200 caracteres
-                </div>
+            {/* Special Instructions - Always visible for all restaurants */}
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-3">
+                Instrucciones Especiales
+              </label>
+              <textarea
+                value={specialInstructions}
+                onChange={(e) => setSpecialInstructions(e.target.value)}
+                placeholder={
+                  item.selectionOptions 
+                    ? "Instrucciones adicionales (opcional)..." 
+                    : showExtras
+                    ? "Ej: Extra ginger en el lado, sin wasabi..."
+                    : "Ej: Sin cebolla, bien cocido, sin picante..."
+                }
+                className="w-full p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 resize-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                rows={3}
+                maxLength={200}
+              />
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                {specialInstructions.length}/200 caracteres
               </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Footer */}
@@ -203,7 +245,12 @@ const ExtrasPopup: React.FC<ExtrasPopupProps> = ({
             </button>
             <button
               onClick={handleConfirm}
-              className="flex-1 px-4 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dark transition-colors"
+              disabled={item.selectionOptions && item.selectionOptions.length > 0 && !selectedOption}
+              className={`flex-1 px-4 py-3 rounded-lg bg-primary text-white font-semibold transition-colors ${
+                item.selectionOptions && item.selectionOptions.length > 0 && !selectedOption
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'hover:bg-primary-dark'
+              }`}
             >
               Agregar al Pedido
             </button>

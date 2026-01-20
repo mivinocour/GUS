@@ -7,6 +7,7 @@ export interface RestaurantData {
   recommendations: MenuItem[]; // Main banner recommendations
   cartRecommendations?: MenuItem[]; // "Te podría gustar" in cart/order summary
   menu: Category[];
+  menuTabs?: { id: string; label: string; menu: Category[] }[]; // Optional tabs for restaurants with multiple menu views
 }
 
 // Restaurant data is now loaded from the /restaurants folder.

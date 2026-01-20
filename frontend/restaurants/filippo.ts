@@ -2,10 +2,11 @@ import { RestaurantData } from '../data';
 
 const filippo: RestaurantData = {
   name: 'Filippo',
+  slug: 'filippo',
   logo: null,
   colors: {
-    primary: '#2563EB',
-    'primary-dark': '#1d4ed8',
+    primary: '#8B6F47',
+    'primary-dark': '#6B5639',
     background: '#F8FAFC',
   },
   recommendations: [

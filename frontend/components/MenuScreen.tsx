@@ -33,12 +33,32 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
 }) => {
   const showFloatingButton = cartCount > 0 || hasConfirmedItems;
   
+  // Tab state for restaurants with menuTabs (like Negroni)
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    if (restaurant.menuTabs && restaurant.menuTabs.length > 0) {
+      return restaurant.menuTabs[0].id;
+    }
+    return '';
+  });
+
+  // Get current menu based on active tab or default menu
+  const currentMenu = restaurant.menuTabs 
+    ? restaurant.menuTabs.find(tab => tab.id === activeTab)?.menu || []
+    : restaurant.menu;
+  
   // State to track which categories are expanded (default: all expanded)
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
     const allExpanded = new Set<string>();
-    restaurant.menu.forEach((cat: Category) => allExpanded.add(cat.id));
+    currentMenu.forEach((cat: Category) => allExpanded.add(cat.id));
     return allExpanded;
   });
+
+  // Update expanded categories when tab changes
+  useEffect(() => {
+    const allExpanded = new Set<string>();
+    currentMenu.forEach((cat: Category) => allExpanded.add(cat.id));
+    setExpandedCategories(allExpanded);
+  }, [activeTab, currentMenu]);
 
   // State for rotating recommendations
   const [currentRecommendationIndex, setCurrentRecommendationIndex] = useState(0);
@@ -77,10 +97,16 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
     return cartItem ? cartItem.quantity : 0;
   };
 
-    // Flatten items to find favorites
+    // Flatten items to find favorites (from all tabs if menuTabs exists)
     const favoriteItems = useMemo(() => {
       const allItems: MenuItem[] = [];
-      restaurant.menu.forEach((cat: Category) => allItems.push(...cat.items));
+      if (restaurant.menuTabs) {
+        restaurant.menuTabs.forEach(tab => {
+          tab.menu.forEach((cat: Category) => allItems.push(...cat.items));
+        });
+      } else {
+        restaurant.menu.forEach((cat: Category) => allItems.push(...cat.items));
+      }
       return allItems.filter(item => favorites.has(item.id));
     }, [favorites, restaurant]);
 
@@ -91,6 +117,27 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
 
       {/* Tsunami Rewards - Only for Tsunami */}
       <TsunamiRewards isTsunami={restaurant.slug === 'tsunamisushi'} />
+
+      {/* Menu Tabs - Only show if menuTabs exists */}
+      {restaurant.menuTabs && restaurant.menuTabs.length > 0 && (
+        <div className="sticky top-[72px] z-30 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-border-light/50 dark:border-border-dark/50">
+          <div className="flex gap-2 px-5 py-3 overflow-x-auto no-scrollbar">
+            {restaurant.menuTabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-4 py-2 rounded-xl font-semibold text-sm whitespace-nowrap transition-all ${
+                  activeTab === tab.id
+                    ? 'bg-primary text-white shadow-md'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Featured Banner - Rotating Recommendations */}
       <div className="px-5 pt-2 pb-6">
@@ -190,7 +237,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({
           </section>
         )}
 
-        {restaurant.menu.map((section: any) => {
+        {currentMenu.map((section: any) => {
           const isExpanded = expandedCategories.has(section.id);
           return (
             <section key={section.id} className="scroll-mt-20" id={section.id}>

@@ -1,0 +1,669 @@
+{
+  "principal": [
+    {
+      "id": "entradas",
+      "title": "ENTRADAS",
+      "items": [
+        {
+          "id": "canasta",
+          "name": "Canasta",
+          "description": "de Pan de Masa Madre Pan fresco de masa madre, mantequilla de aceitunas, pan tumaca",
+          "price": 2500,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "papas",
+          "name": "Papas",
+          "description": "Negroni Papas fritas, mayonesa rostizada, especias cajún",
+          "price": 4200,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "arancini",
+          "name": "Arancini",
+          "description": "de Ragú Relleno de ragú y mozzarella",
+          "price": 4800,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "hummus",
+          "name": "Hummus",
+          "description": "de la Casa Pan de masa madre",
+          "price": 5600,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "pan",
+          "name": "Pan",
+          "description": "gluten free",
+          "price": 6400,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "labneh",
+          "name": "Labneh",
+          "description": "Pan de masa madre, aceite de oliva",
+          "price": 5600,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "pan",
+          "name": "Pan",
+          "description": "gluten free",
+          "price": 6400,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "carpaccio",
+          "name": "Carpaccio",
+          "description": "de Lomito Alcaparrón, limón, mayonesa de alcaparras, parmesano, aceite de oliva trufado, focaccia Focaccia",
+          "price": 7900,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "focaccia",
+          "name": "Focaccia",
+          "description": "Gluten Free",
+          "price": 8300,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "crocante",
+          "name": "Crocante",
+          "description": "de Atún Atún marinado con alioli de pimientos, arroz arborio crocante, cebolla morada, cebollino",
+          "price": 6900,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "tartar",
+          "name": "Tartar",
+          "description": "de Dorado Pasta de ají con jengibre, cebolla, culantro, limón, maní, cremoso de aguacate",
+          "price": 6100,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "burrata",
+          "name": "Burrata",
+          "description": "Caprese Tomate cherry , aceite de oliva, albahaca, limón, focaccia o pan de masa madre Pan de masa madre",
+          "price": 9200,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "pan",
+          "name": "Pan",
+          "description": "gluten free",
+          "price": 9900,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "calamari",
+          "name": "Calamari",
+          "description": "Fritti Calamares, pangrattato, mayonesa de limón y ralladura de limón",
+          "price": 5700,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "tabla",
+          "name": "Tabla",
+          "description": "Mixta Variedad de quesos, charcutería, pan de masa madre, mermelada de frutos rojos y naranja, semillas mixtas",
+          "price": 17500,
+          "category": "ENTRADAS",
+          "image": ""
+        },
+        {
+          "id": "sopa",
+          "name": "Sopa",
+          "description": "de Pescado Leche de coco, pescado, camarones, almejas, tomillo, chile picante",
+          "price": 7600,
+          "category": "ENTRADAS",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "ensaladas",
+      "title": "ENSALADAS",
+      "items": [
+        {
+          "id": "ensalada",
+          "name": "Ensalada",
+          "description": "de Entraña Mix de hojas verdes, tomate cherry , queso de cabra, marañón, aceitunas marinadas, vinagreta de balsámico con naranja, aceite de oliva y limón",
+          "price": 7900,
+          "category": "ENSALADAS",
+          "image": ""
+        },
+        {
+          "id": "ensalada",
+          "name": "Ensalada",
+          "description": "Mediterránea Mix de hojas verdes, tomate cherry , queso feta, cebolla morada, pepino, pimiento morrón, aceitunas kalamata, alcaparras, orégano, vinagreta de limón y aceite de oliva",
+          "price": 6500,
+          "category": "ENSALADAS",
+          "image": ""
+        },
+        {
+          "id": "ensalada",
+          "name": "Ensalada",
+          "description": "de Camarón Mix de hojas verdes, camarones parrillados, coco tostado, cebollas encurtidas, aderezo de aguacate, tomate cherry , chile morrón, pangrattato con hierbas",
+          "price": 8500,
+          "category": "ENSALADAS",
+          "image": ""
+        },
+        {
+          "id": "ensalada",
+          "name": "Ensalada",
+          "description": "Griega Mix de hojas verdes, pepino, arúgula, cebolla morada, aceitunas kalamata, tomate cherry , queso feta, garbanzos tostados, chile morrón, aderezo de tzatziki",
+          "price": 6500,
+          "category": "ENSALADAS",
+          "image": ""
+        },
+        {
+          "id": "extra",
+          "name": "Extra",
+          "description": "de proteína Pechuga de pollo",
+          "price": 2700,
+          "category": "ENSALADAS",
+          "image": ""
+        },
+        {
+          "id": "salmón",
+          "name": "Salmón",
+          "description": "",
+          "price": 3700,
+          "category": "ENSALADAS",
+          "image": ""
+        },
+        {
+          "id": "camarones",
+          "name": "Camarones",
+          "description": "",
+          "price": 3900,
+          "category": "ENSALADAS",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "pizzas",
+      "title": "PIZZAS",
+      "items": [
+        {
+          "id": "focaccia",
+          "name": "Focaccia",
+          "description": "Aceite infusionado, tomates confitados y romero Masa tradicional",
+          "price": 5500,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 4510,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "margarita",
+          "name": "Margarita",
+          "description": "Tomate fresco, albahaca, ajo rostizado Masa tradicional",
+          "price": 7900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 8890,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "napolitana",
+          "name": "Napolitana",
+          "description": "Tomate fresco, orégano deshidratado y chimi de la casa Masa tradicional",
+          "price": 7900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 8890,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "fugazzeta",
+          "name": "Fugazzeta",
+          "description": "Cebolla, mozzarella, orégano y parmesano Masa tradicional",
+          "price": 7900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 8890,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "cuatro",
+          "name": "Cuatro",
+          "description": "Quesos Mozzarella, gorgonzola, feta, parmesano, orégano Masa tradicional",
+          "price": 8900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 9890,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "prosciutto",
+          "name": "Prosciutto",
+          "description": "Hongos frescos, albahaca Masa tradicional",
+          "price": 9100,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 10090,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "pepperoni",
+          "name": "Pepperoni",
+          "description": "Pepperoni, arúgula, aceitunas Masa tradicional",
+          "price": 7900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 8890,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "calzone",
+          "name": "Calzone",
+          "description": "Vegetariano Berenjenas asadas, hongos frescos, aceitunas kalamata, hierbas, mix de hojas verdes Masa tradicional",
+          "price": 7900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 8890,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "calzone",
+          "name": "Calzone",
+          "description": "de Prosciutto Mozzarella, arúgula, parmesano Masa tradicional",
+          "price": 8900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 9890,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "classica",
+          "name": "Classica",
+          "description": "Jamón y hongos Masa tradicional",
+          "price": 7900,
+          "category": "PIZZAS",
+          "image": ""
+        },
+        {
+          "id": "masa",
+          "name": "Masa",
+          "description": "gluten free",
+          "price": 8890,
+          "category": "PIZZAS",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "pastas",
+      "title": "PASTAS",
+      "items": [
+        {
+          "id": "gnocchi",
+          "name": "Gnocchi",
+          "description": "al Pomodoro Alcaparras, pomodoro, hongos, tomate deshidratado, mozzarella, parmesano",
+          "price": 8500,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "risotto",
+          "name": "Risotto",
+          "description": "con Camarones Fondo de camarón, eneldo, emulsión de limón",
+          "price": 13900,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "tortellini",
+          "name": "Tortellini",
+          "description": "de Stracciatella Salvia, ralladura de limón, prosciutto crocante, arvejas, queso parmesano",
+          "price": 10100,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "ravioli",
+          "name": "Ravioli",
+          "description": "de Burrata y Limón Straciatella, ralladura de limón, salsa de mantequilla y albahaca, prosciutto crocante",
+          "price": 9400,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "fettuccine",
+          "name": "Fettuccine",
+          "description": "de Hongos Porcini, hongos, salsa de vino blanco",
+          "price": 8900,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "pasta",
+          "name": "Pasta",
+          "description": "Gluten Free Penne",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "fusilli",
+          "name": "Fusilli",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "spaghetti",
+          "name": "Spaghetti",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "fettuccine",
+          "name": "Fettuccine",
+          "description": "de la Casa con Trucha Mantequilla, salvia, parmesano",
+          "price": 8500,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "pasta",
+          "name": "Pasta",
+          "description": "Gluten Free Penne",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "fusilli",
+          "name": "Fusilli",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "spaghetti",
+          "name": "Spaghetti",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "spaghetti",
+          "name": "Spaghetti",
+          "description": "con Camarones Pesto de ayote, queso feta, ralladura de limón",
+          "price": 8900,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "pasta",
+          "name": "Pasta",
+          "description": "Gluten Free Penne",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "fusilli",
+          "name": "Fusilli",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "spaghetti",
+          "name": "Spaghetti",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "rigatoni",
+          "name": "Rigatoni",
+          "description": "al Ragú Ragú de res, salsa pomodoro, Grana Padano, aceite de albahaca",
+          "price": 10200,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "pasta",
+          "name": "Pasta",
+          "description": "Gluten Free Penne",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "fusilli",
+          "name": "Fusilli",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "spaghetti",
+          "name": "Spaghetti",
+          "description": "",
+          "price": 99000,
+          "category": "PASTAS",
+          "image": ""
+        },
+        {
+          "id": "raviolón",
+          "name": "Raviolón",
+          "description": "de Osobuco Pomodoro, aceitunas fritas y parmesano",
+          "price": 8900,
+          "category": "PASTAS",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "forno",
+      "title": "FORNO",
+      "items": [
+        {
+          "id": "corte",
+          "name": "Corte",
+          "description": "Negroni Gnocchi en mantequilla de orégano, picanha cocida 12 hrs, jugos de cocción",
+          "price": 17500,
+          "category": "FORNO",
+          "image": ""
+        },
+        {
+          "id": "lasagna",
+          "name": "Lasagna",
+          "description": "de Berenjena Blend de quesos, pomodoro, hongos, vegetales",
+          "price": 8500,
+          "category": "FORNO",
+          "image": ""
+        },
+        {
+          "id": "lasagna",
+          "name": "Lasagna",
+          "description": "de Carne",
+          "price": 9700,
+          "category": "FORNO",
+          "image": ""
+        },
+        {
+          "id": "osobuco",
+          "name": "Osobuco",
+          "description": "Braseado Risotto alla Parmigiana, reducción de jugos",
+          "price": 15000,
+          "category": "FORNO",
+          "image": ""
+        },
+        {
+          "id": "costilla",
+          "name": "Costilla",
+          "description": "de Res al Horno (8 Horas) Papas en gajo con aceite de ajo y hierbas, mix de hojas verdes",
+          "price": 13900,
+          "category": "FORNO",
+          "image": ""
+        },
+        {
+          "id": "pargo",
+          "name": "Pargo",
+          "description": "al Vino Vino blanco, mantequilla, ajo, alcaparras, vegetales al vapor",
+          "price": 13900,
+          "category": "FORNO",
+          "image": ""
+        },
+        {
+          "id": "pollo",
+          "name": "Pollo",
+          "description": "con Hueso en Pesto de Hierbas Ensalada Fattoush: tomate, pepino, lechuga, cebolla, rábano, menta fresca, perejil, chile dulce, vinagreta aceite de oliva y limón, focaccia frita",
+          "price": 9500,
+          "category": "FORNO",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "parrilla",
+      "title": "PARRILLA",
+      "items": [
+        {
+          "id": "bisteca",
+          "name": "Bisteca",
+          "description": "a la Pimienta Lomito, salsa de pimienta, aceite de albahaca, papas fritas",
+          "price": 14500,
+          "category": "PARRILLA",
+          "image": ""
+        },
+        {
+          "id": "salmón",
+          "name": "Salmón",
+          "description": "a la Parrilla Risotto con ralladura de limón o ensalada griega",
+          "price": 14900,
+          "category": "PARRILLA",
+          "image": ""
+        },
+        {
+          "id": "lomito",
+          "name": "Lomito",
+          "description": "Fettuccine en salsa de hongos, salsa de vino blanco, tomates cherry , aceite de hierbas",
+          "price": 15900,
+          "category": "PARRILLA",
+          "image": ""
+        },
+        {
+          "id": "pasta",
+          "name": "Pasta",
+          "description": "Gluten Free Penne",
+          "price": 99000,
+          "category": "PARRILLA",
+          "image": ""
+        },
+        {
+          "id": "fusilli",
+          "name": "Fusilli",
+          "description": "",
+          "price": 99000,
+          "category": "PARRILLA",
+          "image": ""
+        },
+        {
+          "id": "spaghetti",
+          "name": "Spaghetti",
+          "description": "",
+          "price": 99000,
+          "category": "PARRILLA",
+          "image": ""
+        },
+        {
+          "id": "entraña",
+          "name": "Entraña",
+          "description": "Risotto de hongos",
+          "price": 16900,
+          "category": "PARRILLA",
+          "image": ""
+        }
+      ]
+    }
+  ],
+  "desayuno": [],
+  "pasteleria": [],
+  "bebidas": [],
+  "vinos": [],
+  "ninos": []
+}

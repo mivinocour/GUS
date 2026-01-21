@@ -15,7 +15,7 @@ const filippo: RestaurantData = {
         "description": "Smoked Salmon, Parmesan, Cherry Tomato, Mozzarella, Arugula",
         "price": 13900,
         "category": "BIANCA (SIN SALSA DE TOMATE)",
-        "image": "/images/filippo/pizza-filippo.jpg"
+        "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600"
       },
       {
         "id": "risotto-de-frutos-del-mar",
@@ -23,7 +23,7 @@ const filippo: RestaurantData = {
         "description": "Risotto with Seafood and Napoli Sauce",
         "price": 19900,
         "category": "RISOTTOS & PASTAS",
-        "image": "/images/filippo/risotto-frutos-mar.jpg"
+        "image": "https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&q=80&w=600"
       },
       {
         "id": "plato-medio-oriente",
@@ -31,7 +31,7 @@ const filippo: RestaurantData = {
         "description": "Falafel, Kibbe, Hummus, Babaganush, Ensalada Israelí, Pita Bread",
         "price": 7600,
         "category": "ENTRADAS | APPETIZERS",
-        "image": "/images/filippo/plato-medio-oriente.jpg"
+        "image": "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=600"
       }
     ],
     "menu": [
@@ -44,7 +44,7 @@ const filippo: RestaurantData = {
             "name": "Coca Cola, Fresca, Ginger Ale, Soda, Coca Zero",
             "description": "Soft drinks",
             "price": 2300,
-            "image": "/images/filippo/soda.jpg",
+            "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600",
             "category": "BEBIDAS | DRINKS"
           },
           {
@@ -52,7 +52,7 @@ const filippo: RestaurantData = {
             "name": "Kombucha Rosa de Jamaica Anís",
             "description": "Hibiscus Anise Kombucha",
             "price": 5600,
-            "image": "/images/filippo/kombucha.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BEBIDAS | DRINKS"
           },
           {
@@ -60,7 +60,7 @@ const filippo: RestaurantData = {
             "name": "Soda Artesanal Limón - Lavanda",
             "description": "Lemon Lavender Soda",
             "price": 5600,
-            "image": "/images/filippo/soda-lavanda.jpg",
+            "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600",
             "category": "BEBIDAS | DRINKS"
           },
           {
@@ -68,7 +68,7 @@ const filippo: RestaurantData = {
             "name": "Soda Artesanal Maracuyá - Manzanilla",
             "description": "Passion Fruit Chamomile Soda",
             "price": 5600,
-            "image": "/images/filippo/soda-maracuya.jpg",
+            "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600",
             "category": "BEBIDAS | DRINKS"
           },
           {
@@ -76,7 +76,7 @@ const filippo: RestaurantData = {
             "name": "Agua RainForest (500ml)",
             "description": "Bottled water",
             "price": 4400,
-            "image": "/images/filippo/agua.jpg",
+            "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600",
             "category": "BEBIDAS | DRINKS"
           }
         ]
@@ -90,7 +90,7 @@ const filippo: RestaurantData = {
             "name": "Aqua Panna (500 ml)",
             "description": "Mineral water",
             "price": 4700,
-            "image": "/images/filippo/aqua-panna.jpg",
+            "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600",
             "category": "MINERALES | MINERAL WATER"
           },
           {
@@ -98,7 +98,7 @@ const filippo: RestaurantData = {
             "name": "San Pellegrino (250 ml)",
             "description": "Sparkling mineral water",
             "price": 3500,
-            "image": "/images/filippo/pellegrino-250.jpg",
+            "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600",
             "category": "MINERALES | MINERAL WATER"
           },
           {
@@ -106,7 +106,7 @@ const filippo: RestaurantData = {
             "name": "San Pellegrino (500 ml)",
             "description": "Sparkling mineral water",
             "price": 5600,
-            "image": "/images/filippo/pellegrino-500.jpg",
+            "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600",
             "category": "MINERALES | MINERAL WATER"
           }
         ]
@@ -120,7 +120,7 @@ const filippo: RestaurantData = {
             "name": "Cas, Limonada, Naranja, Papaya, Piña, Sandía",
             "description": "Fresh fruit juices",
             "price": 3000,
-            "image": "/images/filippo/jugos.jpg",
+            "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=600",
             "category": "JUGOS NATURALES | FRUIT JUICES"
           },
           {
@@ -128,7 +128,7 @@ const filippo: RestaurantData = {
             "name": "Guanábana, Mango, Melón, Mora, Naranjilla, Naranja-Zanahoria",
             "description": "Special fresh fruit juices",
             "price": 3300,
-            "image": "/images/filippo/jugos-especiales.jpg",
+            "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=600",
             "category": "JUGOS NATURALES | FRUIT JUICES"
           },
           {
@@ -136,7 +136,7 @@ const filippo: RestaurantData = {
             "name": "Tomate Preparado",
             "description": "Prepared Tomato juice",
             "price": 3300,
-            "image": "/images/filippo/jugo-tomate.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "JUGOS NATURALES | FRUIT JUICES"
           },
           {
@@ -144,7 +144,7 @@ const filippo: RestaurantData = {
             "name": "Fresa",
             "description": "Strawberry juice",
             "price": 4300,
-            "image": "/images/filippo/jugo-fresa.jpg",
+            "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=600",
             "category": "JUGOS NATURALES | FRUIT JUICES"
           },
           {
@@ -152,7 +152,7 @@ const filippo: RestaurantData = {
             "name": "Mandarina (en temporada)",
             "description": "Tangerine juice (in season)",
             "price": 5000,
-            "image": "/images/filippo/jugo-mandarina.jpg",
+            "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=600",
             "category": "JUGOS NATURALES | FRUIT JUICES"
           }
         ]
@@ -166,7 +166,7 @@ const filippo: RestaurantData = {
             "name": "Gandhi",
             "description": "Turmeric, Pineapple, Banana, Mango, Ginger, Honey, Milk",
             "price": 4300,
-            "image": "/images/filippo/smoothie-gandhi.jpg",
+            "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=600",
             "category": "SMOOTHIES"
           },
           {
@@ -174,7 +174,7 @@ const filippo: RestaurantData = {
             "name": "Pura Vida",
             "description": "Strawberry, Lemon, Spearmint, Honey, Coconut Water",
             "price": 4000,
-            "image": "/images/filippo/smoothie-puravida.jpg",
+            "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=600",
             "category": "SMOOTHIES"
           },
           {
@@ -182,7 +182,7 @@ const filippo: RestaurantData = {
             "name": "Día de Playa",
             "description": "Papaya, Pineapple, Banana, Honey, Vanilla, Milk",
             "price": 3300,
-            "image": "/images/filippo/smoothie-playa.jpg",
+            "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&q=80&w=600",
             "category": "SMOOTHIES"
           }
         ]
@@ -196,7 +196,7 @@ const filippo: RestaurantData = {
             "name": "Focaccia Caprese",
             "description": "Fresh mozzarella, tomato, and basil on focaccia",
             "price": 5900,
-            "image": "/images/filippo/focaccia-caprese.jpg",
+            "image": "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -204,7 +204,7 @@ const filippo: RestaurantData = {
             "name": "Focaccia Romero o Ajo",
             "description": "Rosemary or Garlic Focaccia",
             "price": 4000,
-            "image": "/images/filippo/focaccia-ajo.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -212,7 +212,7 @@ const filippo: RestaurantData = {
             "name": "Focaccia Carpaccio Salmón",
             "description": "Salmon Carpaccio on Foccaccia",
             "price": 12100,
-            "image": "/images/filippo/focaccia-salmon.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -220,7 +220,7 @@ const filippo: RestaurantData = {
             "name": "Carpaccio de Res",
             "description": "Beef Carpaccio, Arugula, Parmesan, Lemon, EVOO",
             "price": 13100,
-            "image": "/images/filippo/carpaccio-res.jpg",
+            "image": "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -228,7 +228,7 @@ const filippo: RestaurantData = {
             "name": "Carpaccio de Salmón",
             "description": "Salmon Carpaccio, Onion, Celery, Sweet Pepper, Capers, Lemon, EVOO",
             "price": 11000,
-            "image": "/images/filippo/carpaccio-salmon.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -236,7 +236,7 @@ const filippo: RestaurantData = {
             "name": "Tartar de Salmón o Atún",
             "description": "Salmon or Tuna Tartare with Oriental Mayonnaise on Crispy Rice",
             "price": 8100,
-            "image": "/images/filippo/tartar.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -244,7 +244,7 @@ const filippo: RestaurantData = {
             "name": "Cóctel de Camarones",
             "description": "Shrimp Cocktail",
             "price": 13200,
-            "image": "/images/filippo/coctel-camarones.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -252,7 +252,7 @@ const filippo: RestaurantData = {
             "name": "Ceviche de Pescado",
             "description": "Fish Ceviche (Avocado, Onion, Cilantro, Tomato)",
             "price": 10500,
-            "image": "/images/filippo/ceviche-pescado.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -260,7 +260,7 @@ const filippo: RestaurantData = {
             "name": "Ceviche Mixto",
             "description": "Fish, Shrimp, Avocado, Onion, Cilantro, Tomato",
             "price": 8900,
-            "image": "/images/filippo/ceviche-mixto.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -268,7 +268,7 @@ const filippo: RestaurantData = {
             "name": "Coliflor al Horno & Tahini",
             "description": "Baked Cauliflower & Tahini",
             "price": 5900,
-            "image": "/images/filippo/coliflor.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -276,7 +276,7 @@ const filippo: RestaurantData = {
             "name": "Calamares Fritos (En Temporada)",
             "description": "Fried Calamari (In season)",
             "price": 10500,
-            "image": "/images/filippo/calamares.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -284,7 +284,7 @@ const filippo: RestaurantData = {
             "name": "Alitas de Pollo al Horno",
             "description": "Honey-Ginger Sauce or BBQ",
             "price": 12000,
-            "image": "/images/filippo/alitas.jpg",
+            "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -292,7 +292,7 @@ const filippo: RestaurantData = {
             "name": "Croquetas de Risotto y Hongos",
             "description": "Risotto and Mushroom Croquettes (6 units)",
             "price": 5800,
-            "image": "/images/filippo/croquetas.jpg",
+            "image": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -300,7 +300,7 @@ const filippo: RestaurantData = {
             "name": "Dedos de Mozzarella Empanizados & Chutney",
             "description": "Mozzarella Fingers with Chutney",
             "price": 6600,
-            "image": "/images/filippo/mozzarella-fingers.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -308,7 +308,7 @@ const filippo: RestaurantData = {
             "name": "Hongos Rellenos de Queso",
             "description": "Cheese Stuffed Mushrooms",
             "price": 7900,
-            "image": "/images/filippo/hongos-rellenos.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -316,7 +316,7 @@ const filippo: RestaurantData = {
             "name": "Queso Fundido al Horno",
             "description": "Baked Cheese",
             "price": 5000,
-            "image": "/images/filippo/queso-fundido.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -324,7 +324,7 @@ const filippo: RestaurantData = {
             "name": "Plato de Quesos y Fiambres",
             "description": "Cheese Platter with Salumi and Marinated Vegetables",
             "price": 14900,
-            "image": "/images/filippo/tabla-quesos.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -332,7 +332,7 @@ const filippo: RestaurantData = {
             "name": "Falafel con Hummus",
             "description": "6 pieces of Falafel served with Hummus",
             "price": 5800,
-            "image": "/images/filippo/falafel-hummus.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -340,7 +340,7 @@ const filippo: RestaurantData = {
             "name": "Kibbe con Ensalada Tabule y Tahini",
             "description": "Kibbe with Tabule Salad and Tahini",
             "price": 6800,
-            "image": "/images/filippo/kibbe.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -348,7 +348,7 @@ const filippo: RestaurantData = {
             "name": "Plato Medio Oriente",
             "description": "Falafel, Kibbe, Hummus, Babaganush, Ensalada Israelí, Pita Bread",
             "price": 7600,
-            "image": "/images/filippo/medio-oriente.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -356,7 +356,7 @@ const filippo: RestaurantData = {
             "name": "Plato de Hummus, Pita & Crudites",
             "description": "Hummus Plate with Pita and Crudites",
             "price": 4600,
-            "image": "/images/filippo/hummus-plate.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           },
           {
@@ -364,7 +364,7 @@ const filippo: RestaurantData = {
             "name": "Plato de Babaganush, Pita & Crudites",
             "description": "Babaganush Plate with Pita and Crudites",
             "price": 5400,
-            "image": "/images/filippo/babaganush-plate.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "ENTRADAS | APPETIZERS"
           }
         ]
@@ -378,7 +378,7 @@ const filippo: RestaurantData = {
             "name": "Crema de Ayote",
             "description": "Pumpkin Cream",
             "price": 6100,
-            "image": "/images/filippo/crema-ayote.jpg",
+            "image": "https://images.unsplash.com/photo-1547592166-23acbe3a624b?auto=format&fit=crop&q=80&w=600",
             "category": "SOPAS | SOUPS"
           },
           {
@@ -386,7 +386,7 @@ const filippo: RestaurantData = {
             "name": "Sopa de Tomate con Parmesano",
             "description": "Tomato Soup with Parmesan",
             "price": 5500,
-            "image": "/images/filippo/sopa-tomate.jpg",
+            "image": "https://images.unsplash.com/photo-1547592166-23acbe3a624b?auto=format&fit=crop&q=80&w=600",
             "category": "SOPAS | SOUPS"
           },
           {
@@ -394,7 +394,7 @@ const filippo: RestaurantData = {
             "name": "Sopa de Cebolla Gratinada",
             "description": "French Onion Soup",
             "price": 6100,
-            "image": "/images/filippo/sopa-cebolla.jpg",
+            "image": "https://images.unsplash.com/photo-1547592166-23acbe3a624b?auto=format&fit=crop&q=80&w=600",
             "category": "SOPAS | SOUPS"
           }
         ]
@@ -408,7 +408,7 @@ const filippo: RestaurantData = {
             "name": "Verde Mixta",
             "description": "Mixed Greens, Mushrooms, Tomato, Carrots, Vinaigrette",
             "price": 5400,
-            "image": "/images/filippo/ensalada-mixta.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -416,7 +416,7 @@ const filippo: RestaurantData = {
             "name": "Quinoa Mediterránea",
             "description": "Cucumber, Avocado, Kalamata Olive, Fig, Tomato, Almond, Chutney, Goat Cheese",
             "price": 8900,
-            "image": "/images/filippo/ensalada-quinoa.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -424,7 +424,7 @@ const filippo: RestaurantData = {
             "name": "Caprese",
             "description": "Tomato, Fresh Mozzarella, Basil, Pesto, Balsamic Reduction",
             "price": 8300,
-            "image": "/images/filippo/ensalada-caprese.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -432,7 +432,7 @@ const filippo: RestaurantData = {
             "name": "Capellini de Palmitos",
             "description": "Hearts of Palm, Cheese, Dried Tomato, Ginger Vinaigrette",
             "price": 11300,
-            "image": "/images/filippo/ensalada-palmitos.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -440,7 +440,7 @@ const filippo: RestaurantData = {
             "name": "César",
             "description": "Lettuce, Anchovies, Parmesan, Egg, Croutons, Anchovies Dressing",
             "price": 7900,
-            "image": "/images/filippo/ensalada-cesar.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -448,7 +448,7 @@ const filippo: RestaurantData = {
             "name": "Atún Bronceado",
             "description": "Mixed Lettuce, Tomato, Fungi, Grilled Onion, Almonds, Onion Vinaigrette",
             "price": 10800,
-            "image": "/images/filippo/ensalada-atun.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -456,7 +456,7 @@ const filippo: RestaurantData = {
             "name": "Iceberg",
             "description": "Blue Cheese dressing, Crispy Bacon, Egg, Cherry Tomatoes",
             "price": 7600,
-            "image": "/images/filippo/ensalada-iceberg.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -464,7 +464,7 @@ const filippo: RestaurantData = {
             "name": "Israelí & Palmito Grillado",
             "description": "Tomato, Cucumber, Red Onion, Fresh heart of Palm, Avocado",
             "price": 5200,
-            "image": "/images/filippo/ensalada-israeli.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -472,7 +472,7 @@ const filippo: RestaurantData = {
             "name": "Salmón Nicoise",
             "description": "Grilled Salmon, Egg, Potato, Tomato, Alfalfa, Arugula, String Beans, Vinaigrette",
             "price": 13700,
-            "image": "/images/filippo/ensalada-nicoise.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           },
           {
@@ -480,7 +480,7 @@ const filippo: RestaurantData = {
             "name": "Prosciutto Crispy & Pera",
             "description": "Mixed Lettuce, Parmesan, Poppyseed Dressing",
             "price": 8900,
-            "image": "/images/filippo/ensalada-prosciutto.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "ENSALADAS | SALADS"
           }
         ]
@@ -494,7 +494,7 @@ const filippo: RestaurantData = {
             "name": "Salmón",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 11800,
-            "image": "/images/filippo/poke-salmon.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "POKE"
           },
           {
@@ -502,7 +502,7 @@ const filippo: RestaurantData = {
             "name": "Atún",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 8700,
-            "image": "/images/filippo/poke-atun.jpg",
+            "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600",
             "category": "POKE"
           },
           {
@@ -510,7 +510,7 @@ const filippo: RestaurantData = {
             "name": "Carne",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 12700,
-            "image": "/images/filippo/poke-carne.jpg",
+            "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=600",
             "category": "POKE"
           },
           {
@@ -518,7 +518,7 @@ const filippo: RestaurantData = {
             "name": "Pollo",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 9000,
-            "image": "/images/filippo/poke-pollo.jpg",
+            "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=600",
             "category": "POKE"
           },
           {
@@ -526,7 +526,7 @@ const filippo: RestaurantData = {
             "name": "Vegetales Salteados",
             "description": "Rice, Quinoa, Avocado, Sesame, Soy Sauce, Pickled Cabbage, Edamame, Radish",
             "price": 7100,
-            "image": "/images/filippo/poke-veg.jpg",
+            "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600",
             "category": "POKE"
           }
         ]
@@ -540,7 +540,7 @@ const filippo: RestaurantData = {
             "name": "Risotto al Ayote",
             "description": "Pumpkin Risotto",
             "price": 13400,
-            "image": "/images/filippo/risotto-ayote.jpg",
+            "image": "https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           },
           {
@@ -548,7 +548,7 @@ const filippo: RestaurantData = {
             "name": "Risotto a los Hongos Trufados",
             "description": "Risotto with Mushrooms and Truffle",
             "price": 15700,
-            "image": "/images/filippo/risotto-hongos.jpg",
+            "image": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           },
           {
@@ -556,7 +556,7 @@ const filippo: RestaurantData = {
             "name": "Risotto de Frutos del Mar",
             "description": "Risotto with Seafood and Napoli Sauce",
             "price": 19900,
-            "image": "/images/filippo/risotto-mar.jpg",
+            "image": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           },
           {
@@ -564,7 +564,7 @@ const filippo: RestaurantData = {
             "name": "Ravioli de Carne en Salsa Napoli",
             "description": "Meat Ravioli in Tomato Sauce",
             "price": 8900,
-            "image": "/images/filippo/ravioli.jpg",
+            "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           },
           {
@@ -572,7 +572,7 @@ const filippo: RestaurantData = {
             "name": "Tortellini de Ricotta en Salsa Aurora con Pesto",
             "description": "Ricotta Filled Tortellini in Aurora Sauce with Pesto",
             "price": 10300,
-            "image": "/images/filippo/tortellini-ricotta.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           },
           {
@@ -580,7 +580,7 @@ const filippo: RestaurantData = {
             "name": "Tortellini de Hongos en Salsa Blanca Trufada",
             "description": "Mushroom Tortellini in White Truffle Sauce",
             "price": 14900,
-            "image": "/images/filippo/tortellini-hongos.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           },
           {
@@ -588,7 +588,7 @@ const filippo: RestaurantData = {
             "name": "Lasagna de Carne",
             "description": "Meat Lasagna",
             "price": 9400,
-            "image": "/images/filippo/lasagna-carne.jpg",
+            "image": "https://images.unsplash.com/photo-1574868468132-87a32b9044b4?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           },
           {
@@ -596,7 +596,7 @@ const filippo: RestaurantData = {
             "name": "Lasagna de Pollo",
             "description": "Chicken Lasagna",
             "price": 8400,
-            "image": "/images/filippo/lasagna-pollo.jpg",
+            "image": "https://images.unsplash.com/photo-1574868468132-87a32b9044b4?auto=format&fit=crop&q=80&w=600",
             "category": "RISOTTOS & PASTAS"
           }
         ]
@@ -610,7 +610,7 @@ const filippo: RestaurantData = {
             "name": "Frutos del Mar | Fruti di Mare",
             "description": "Seafood sauce",
             "price": 18800,
-            "image": "/images/filippo/pasta-frutos-mar.jpg",
+            "image": "https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -618,7 +618,7 @@ const filippo: RestaurantData = {
             "name": "Salsa Funghi",
             "description": "Mushroom tapenade, Pecorino cheese, Padano cheese, truffled oil",
             "price": 14500,
-            "image": "/images/filippo/pasta-funghi.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -626,7 +626,7 @@ const filippo: RestaurantData = {
             "name": "Caccio e Peppe",
             "description": "Cheese and Pepper Sauce with Dried Tomato",
             "price": 12500,
-            "image": "/images/filippo/pasta-caccio.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -634,7 +634,7 @@ const filippo: RestaurantData = {
             "name": "Bolognesa | Meat Sauce",
             "description": "Classic meat sauce",
             "price": 8900,
-            "image": "/images/filippo/pasta-bolognesa.jpg",
+            "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -642,7 +642,7 @@ const filippo: RestaurantData = {
             "name": "Carbonara",
             "description": "Padano cheese, Bacon, Thyme",
             "price": 11400,
-            "image": "/images/filippo/pasta-carbonara.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -650,7 +650,7 @@ const filippo: RestaurantData = {
             "name": "Pesto",
             "description": "Classic basil pesto",
             "price": 5000,
-            "image": "/images/filippo/pasta-pesto.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -658,7 +658,7 @@ const filippo: RestaurantData = {
             "name": "Gratinada",
             "description": "Eggplant, Mushrooms, Tomato, Zucchini",
             "price": 10400,
-            "image": "/images/filippo/pasta-gratinada.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -666,7 +666,7 @@ const filippo: RestaurantData = {
             "name": "Aurora",
             "description": "Tomato & Cream",
             "price": 10700,
-            "image": "/images/filippo/pasta-aurora.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -674,7 +674,7 @@ const filippo: RestaurantData = {
             "name": "Pomodoro | Tomato",
             "description": "Simple tomato sauce",
             "price": 6700,
-            "image": "/images/filippo/pasta-pomodoro.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           },
           {
@@ -682,7 +682,7 @@ const filippo: RestaurantData = {
             "name": "Checca",
             "description": "Tomato, Fresh Mozzarella, Basil, Olive Oil",
             "price": 7800,
-            "image": "/images/filippo/pasta-checca.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "SPAGUETTI, TAGLIATELLE O PENNE CON SALSA A SU GUSTO"
           }
         ]
@@ -696,7 +696,7 @@ const filippo: RestaurantData = {
             "name": "Corvina",
             "description": "Sea Bass with Tomato, Asparagus and Butter Sauce",
             "price": 22400,
-            "image": "/images/filippo/corvina.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "PLATOS PRINCIPALES | MAIN DISHES"
           },
           {
@@ -704,7 +704,7 @@ const filippo: RestaurantData = {
             "name": "Salmón",
             "description": "Salmon in Pumpkin Sauce, Asparagus and Tomato",
             "price": 17600,
-            "image": "/images/filippo/salmon.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "PLATOS PRINCIPALES | MAIN DISHES"
           },
           {
@@ -712,7 +712,7 @@ const filippo: RestaurantData = {
             "name": "Tagliata de Lomito al Horno",
             "description": "Sliced Steak with Grilled Tomato and Mushrooms and Pepper Chimi Sauce",
             "price": 18600,
-            "image": "/images/filippo/tagliata.jpg",
+            "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=600",
             "category": "PLATOS PRINCIPALES | MAIN DISHES"
           },
           {
@@ -720,7 +720,7 @@ const filippo: RestaurantData = {
             "name": "Pechuga de Pollo al Limón y Hierbas",
             "description": "Roasted Chicken Breast with Lemon and Herbs",
             "price": 10400,
-            "image": "/images/filippo/pollo-limon.jpg",
+            "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=600",
             "category": "PLATOS PRINCIPALES | MAIN DISHES"
           },
           {
@@ -728,7 +728,7 @@ const filippo: RestaurantData = {
             "name": "Milanesa de Pollo",
             "description": "Milanese Chicken with Mini Salad",
             "price": 8500,
-            "image": "/images/filippo/milanesa.jpg",
+            "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=600",
             "category": "PLATOS PRINCIPALES | MAIN DISHES"
           },
           {
@@ -736,7 +736,7 @@ const filippo: RestaurantData = {
             "name": "Milanesa de Pollo a la Parmigiana",
             "description": "Milanese Chicken Parmigiana",
             "price": 10500,
-            "image": "/images/filippo/parmigiana.jpg",
+            "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=600",
             "category": "PLATOS PRINCIPALES | MAIN DISHES"
           }
         ]
@@ -750,7 +750,7 @@ const filippo: RestaurantData = {
             "name": "Portobello Horneado",
             "description": "Baked Portobello Burger with Provolone, Blue Cheese and Avocado Sauce",
             "price": 10700,
-            "image": "/images/filippo/burger-portobello.jpg",
+            "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=600",
             "category": "HAMBURGUESAS | BURGERS"
           },
           {
@@ -758,7 +758,7 @@ const filippo: RestaurantData = {
             "name": "Corvina",
             "description": "Sea Bass Burger with Jalapeños Sauce, Pickles and Crispy Onions",
             "price": 13400,
-            "image": "/images/filippo/burger-corvina.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "HAMBURGUESAS | BURGERS"
           },
           {
@@ -766,7 +766,7 @@ const filippo: RestaurantData = {
             "name": "Salmón",
             "description": "Salmon with Mayonnaise Salmon, Honey, Ginger",
             "price": 13400,
-            "image": "/images/filippo/burger-salmon.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "HAMBURGUESAS | BURGERS"
           },
           {
@@ -774,7 +774,7 @@ const filippo: RestaurantData = {
             "name": "Carne Angus",
             "description": "Angus Hamburguer (Lettuce, Tomato, Onion)",
             "price": 9900,
-            "image": "/images/filippo/burger-angus.jpg",
+            "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=600",
             "category": "HAMBURGUESAS | BURGERS"
           },
           {
@@ -782,7 +782,7 @@ const filippo: RestaurantData = {
             "name": "KETO",
             "description": "Angus Beef, Tomato, Sautéed Onion, Mozzarella, Bacon, Avocado",
             "price": 9100,
-            "image": "/images/filippo/burger-keto.jpg",
+            "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=600",
             "category": "HAMBURGUESAS | BURGERS"
           }
         ]
@@ -796,7 +796,7 @@ const filippo: RestaurantData = {
             "name": "BLT",
             "description": "Bacon, Lettuce and Tomato",
             "price": 6900,
-            "image": "/images/filippo/sandwich-blt.jpg",
+            "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -804,7 +804,7 @@ const filippo: RestaurantData = {
             "name": "Sandwich de Queso",
             "description": "The Cheese Sandwich",
             "price": 6600,
-            "image": "/images/filippo/sandwich-queso.jpg",
+            "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -812,7 +812,7 @@ const filippo: RestaurantData = {
             "name": "Ensalada de Atún",
             "description": "Avocado, Lettuce, Alfalfa, Potatoes",
             "price": 8600,
-            "image": "/images/filippo/sandwich-atun.jpg",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -820,7 +820,7 @@ const filippo: RestaurantData = {
             "name": "Jack-Fruit",
             "description": "Jack-fruit, Purple Cabbage, Carrot, Apple Cider Vinegar, Mayonnaise",
             "price": 6900,
-            "image": "/images/filippo/sandwich-jackfruit.jpg",
+            "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -828,7 +828,7 @@ const filippo: RestaurantData = {
             "name": "Caprese",
             "description": "Fresh Mozzarella, Tomato, Pesto, Olive Oil, Balsamic Reduction",
             "price": 7100,
-            "image": "/images/filippo/sandwich-caprese.jpg",
+            "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -836,7 +836,7 @@ const filippo: RestaurantData = {
             "name": "AL PASTOR",
             "description": "Beef, Chipotle Mayonnaise, Cilantro, Red Onion, Avocado",
             "price": 11800,
-            "image": "/images/filippo/sandwich-pastor.jpg",
+            "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -844,7 +844,7 @@ const filippo: RestaurantData = {
             "name": "PAVO",
             "description": "Turkey, Tomato, Alfalfa, Cranberries, Crispy Bacon, Provolone, Pesto Sauce",
             "price": 10900,
-            "image": "/images/filippo/sandwich-pavo.jpg",
+            "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -852,7 +852,7 @@ const filippo: RestaurantData = {
             "name": "Pechuga de Pollo",
             "description": "Chicken Breast, Brie Cheese, Caramelized Onion, Chutney, Arugula",
             "price": 11000,
-            "image": "/images/filippo/sandwich-pollo.jpg",
+            "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -860,7 +860,7 @@ const filippo: RestaurantData = {
             "name": "Prosciutto",
             "description": "Prosciutto, Fresh Mozzarella, Tomato, Olive Oil, Pepper",
             "price": 8900,
-            "image": "/images/filippo/sandwich-prosciutto.jpg",
+            "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           },
           {
@@ -868,7 +868,7 @@ const filippo: RestaurantData = {
             "name": "Salmón Grillado",
             "description": "Grilled Salmon, Hearts of Palm, Cheese, Dried Tomato, Wasabi and Jalapeno Mayo",
             "price": 12900,
-            "image": "/images/filippo/sandwich-salmon.jpg",
+            "image": "https://images.unsplash.com/photo-1519708227418-e8d31521f53e?auto=format&fit=crop&q=80&w=600",
             "category": "SANDWICH"
           }
         ]
@@ -882,7 +882,7 @@ const filippo: RestaurantData = {
             "name": "Dedos de Pollo Empanizados y Papas Fritas",
             "description": "Chicken Tenders with Fries",
             "price": 6100,
-            "image": "/images/filippo/kids-pollo.jpg",
+            "image": "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=600",
             "category": "PARA NIÑOS | FOR KIDS"
           },
           {
@@ -890,7 +890,7 @@ const filippo: RestaurantData = {
             "name": "Dedos de Mozzarella",
             "description": "Mozzarella Fingers",
             "price": 5700,
-            "image": "/images/filippo/kids-mozzarella.jpg",
+            "image": "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&q=80&w=600",
             "category": "PARA NIÑOS | FOR KIDS"
           },
           {
@@ -898,7 +898,7 @@ const filippo: RestaurantData = {
             "name": "Spaghetti en Mantequilla",
             "description": "Spaghetti with Butter",
             "price": 3300,
-            "image": "/images/filippo/kids-mantequilla.jpg",
+            "image": "https://images.unsplash.com/photo-1556761223-4c4282c73f77?auto=format&fit=crop&q=80&w=600",
             "category": "PARA NIÑOS | FOR KIDS"
           },
           {
@@ -906,7 +906,7 @@ const filippo: RestaurantData = {
             "name": "Spaghetti Pomodoro",
             "description": "Spaghetti with Pomodoro",
             "price": 3600,
-            "image": "/images/filippo/kids-pomodoro.jpg",
+            "image": "https://images.unsplash.com/photo-1556761223-4c4282c73f77?auto=format&fit=crop&q=80&w=600",
             "category": "PARA NIÑOS | FOR KIDS"
           },
           {
@@ -914,7 +914,7 @@ const filippo: RestaurantData = {
             "name": "Penne Bolognesa",
             "description": "Bolognese Pasta",
             "price": 5400,
-            "image": "/images/filippo/kids-bolognesa.jpg",
+            "image": "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&q=80&w=600",
             "category": "PARA NIÑOS | FOR KIDS"
           },
           {
@@ -922,7 +922,7 @@ const filippo: RestaurantData = {
             "name": "Pizzetta de Jamón y Queso",
             "description": "Ham and Cheese Pizzetta",
             "price": 5900,
-            "image": "/images/filippo/kids-pizzetta.jpg",
+            "image": "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&q=80&w=600",
             "category": "PARA NIÑOS | FOR KIDS"
           }
         ]
@@ -936,7 +936,7 @@ const filippo: RestaurantData = {
             "name": "Margherita",
             "description": "Mozzarella, Basil",
             "price": 8700,
-            "image": "/images/filippo/pizza-margherita.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -944,7 +944,7 @@ const filippo: RestaurantData = {
             "name": "Di Parma",
             "description": "Prosciutto, Mozzarella, Arugula",
             "price": 12000,
-            "image": "/images/filippo/pizza-parma.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -952,7 +952,7 @@ const filippo: RestaurantData = {
             "name": "Classica",
             "description": "Ham, Mushrooms, Mozzarella",
             "price": 10900,
-            "image": "/images/filippo/pizza-classica.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -960,7 +960,7 @@ const filippo: RestaurantData = {
             "name": "VEGETARIANA | VEGETARIAN",
             "description": "Mozzarella, Basil, Eggplant, Green Pepper, Onions, Mushrooms, Zucchini",
             "price": 9000,
-            "image": "/images/filippo/pizza-vegetariana.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -968,7 +968,7 @@ const filippo: RestaurantData = {
             "name": "Pepperoni",
             "description": "Pepperoni, Mozzarella",
             "price": 10500,
-            "image": "/images/filippo/pizza-pepperoni.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -976,7 +976,7 @@ const filippo: RestaurantData = {
             "name": "Gamberetti",
             "description": "Shrimps, Mozzarella, Roasted Tomatoes, Arugula",
             "price": 10900,
-            "image": "/images/filippo/pizza-gamberetti.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -984,7 +984,7 @@ const filippo: RestaurantData = {
             "name": "Maui",
             "description": "Ham, Pineapple, Mozzarella, Basil",
             "price": 9800,
-            "image": "/images/filippo/pizza-maui.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -992,7 +992,7 @@ const filippo: RestaurantData = {
             "name": "PESTO",
             "description": "Shredded Chicken, Mozzarella, Pesto",
             "price": 9800,
-            "image": "/images/filippo/pizza-pesto.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -1000,7 +1000,7 @@ const filippo: RestaurantData = {
             "name": "Puttanesca",
             "description": "Olives, Anchovies, Capers, Chile Flakes, Mozzarella",
             "price": 9800,
-            "image": "/images/filippo/pizza-puttanesca.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           },
           {
@@ -1008,7 +1008,7 @@ const filippo: RestaurantData = {
             "name": "AL PASTOR",
             "description": "Pastor Beef, Red Onion, Cilantro, Pineapple, Tomatillo Sauce, Mozzarella",
             "price": 11300,
-            "image": "/images/filippo/pizza-pastor.jpg",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
             "category": "PIZZAS & PIZZETAS TRADICIONALES TRADITIONAL"
           }
         ]
@@ -1022,7 +1022,7 @@ const filippo: RestaurantData = {
             "name": "Filippo",
             "description": "Smoked Salmon, Parmesan, Cherry Tomato, Mozzarella, Arugula",
             "price": 13900,
-            "image": "/images/filippo/bianca-filippo.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BIANCA (SIN SALSA DE TOMATE)"
           },
           {
@@ -1030,7 +1030,7 @@ const filippo: RestaurantData = {
             "name": "Funghi",
             "description": "Mushroom Tapenade, Mozzarella, Truffle Oil",
             "price": 9800,
-            "image": "/images/filippo/bianca-funghi.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BIANCA (SIN SALSA DE TOMATE)"
           },
           {
@@ -1038,7 +1038,7 @@ const filippo: RestaurantData = {
             "name": "Formaggi",
             "description": "Gorgonzola, Parmesan, Mozzarella, Gouda",
             "price": 10200,
-            "image": "/images/filippo/bianca-formaggi.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BIANCA (SIN SALSA DE TOMATE)"
           },
           {
@@ -1046,7 +1046,7 @@ const filippo: RestaurantData = {
             "name": "Caprino",
             "description": "Asparagus, Goat Cheese, Mozzarella",
             "price": 9900,
-            "image": "/images/filippo/bianca-caprino.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BIANCA (SIN SALSA DE TOMATE)"
           },
           {
@@ -1054,7 +1054,7 @@ const filippo: RestaurantData = {
             "name": "Dolce e Piccante",
             "description": "Figs, Gorgonzola, Honey, Mozzarella, Chile Flakes",
             "price": 8800,
-            "image": "/images/filippo/bianca-dolce.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BIANCA (SIN SALSA DE TOMATE)"
           },
           {
@@ -1062,7 +1062,7 @@ const filippo: RestaurantData = {
             "name": "Brie e Pera",
             "description": "Brie, Mozzarella, Caramelized Pear, Balsamic Reduction",
             "price": 9900,
-            "image": "/images/filippo/bianca-brie.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BIANCA (SIN SALSA DE TOMATE)"
           },
           {
@@ -1070,7 +1070,7 @@ const filippo: RestaurantData = {
             "name": "Prosciutto",
             "description": "Artichoke, Prosciutto, Mozzarella, Pesto",
             "price": 11500,
-            "image": "/images/filippo/bianca-prosciutto.jpg",
+            "image": "https://images.unsplash.com/photo-1616299915952-04c803388e5f?auto=format&fit=crop&q=80&w=600",
             "category": "BIANCA (SIN SALSA DE TOMATE)"
           }
         ]
